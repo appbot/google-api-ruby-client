@@ -155,7 +155,7 @@ module Google
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
         def list_translations(q, target, cid: nil, format: nil, source: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
-          command =  make_simple_command(:get, 'v2', options)
+          command =  make_simple_command(:post, 'v2', options)
           command.response_representation = Google::Apis::TranslateV2::ListTranslationsResponse::Representation
           command.response_class = Google::Apis::TranslateV2::ListTranslationsResponse
           command.query['cid'] = cid unless cid.nil?
