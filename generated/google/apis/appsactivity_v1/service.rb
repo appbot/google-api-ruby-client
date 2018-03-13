@@ -20,7 +20,7 @@ require 'google/apis/errors'
 module Google
   module Apis
     module AppsactivityV1
-      # Google Apps Activity API
+      # G Suite Activity API
       #
       # Provides a historical view of activity.
       #
@@ -50,6 +50,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'appsactivity/v1/')
+          @batch_path = 'batch/appsactivity/v1'
         end
         
         # Returns a list of activities visible to the current logged in user. Visible

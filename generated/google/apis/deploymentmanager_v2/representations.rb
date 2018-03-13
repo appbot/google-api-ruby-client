@@ -28,6 +28,18 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class AuditLogConfig
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class AuthorizationLoggingOptions
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class Binding
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -88,6 +100,12 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class Expr
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class ImportFile
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -100,7 +118,19 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class LogConfigCloudAuditOptions
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class LogConfigCounterOptions
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class LogConfigDataAccessOptions
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
         include Google::Apis::Core::JsonObjectSupport
@@ -259,14 +289,33 @@ module Google
       class AuditConfig
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          collection :audit_log_configs, as: 'auditLogConfigs', class: Google::Apis::DeploymentmanagerV2::AuditLogConfig, decorator: Google::Apis::DeploymentmanagerV2::AuditLogConfig::Representation
+      
           collection :exempted_members, as: 'exemptedMembers'
           property :service, as: 'service'
+        end
+      end
+      
+      class AuditLogConfig
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :exempted_members, as: 'exemptedMembers'
+          property :log_type, as: 'logType'
+        end
+      end
+      
+      class AuthorizationLoggingOptions
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :permission_type, as: 'permissionType'
         end
       end
       
       class Binding
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          property :condition, as: 'condition', class: Google::Apis::DeploymentmanagerV2::Expr, decorator: Google::Apis::DeploymentmanagerV2::Expr::Representation
+      
           collection :members, as: 'members'
           property :role, as: 'role'
         end
@@ -296,7 +345,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           property :description, as: 'description'
           property :fingerprint, :base64 => true, as: 'fingerprint'
-          property :id, as: 'id'
+          property :id, :numeric_string => true, as: 'id'
           property :insert_time, as: 'insertTime'
           collection :labels, as: 'labels', class: Google::Apis::DeploymentmanagerV2::DeploymentLabelEntry, decorator: Google::Apis::DeploymentmanagerV2::DeploymentLabelEntry::Representation
       
@@ -323,6 +372,7 @@ module Google
       class DeploymentUpdate
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          property :description, as: 'description'
           collection :labels, as: 'labels', class: Google::Apis::DeploymentmanagerV2::DeploymentUpdateLabelEntry, decorator: Google::Apis::DeploymentmanagerV2::DeploymentUpdateLabelEntry::Representation
       
           property :manifest, as: 'manifest'
@@ -360,6 +410,16 @@ module Google
         end
       end
       
+      class Expr
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :description, as: 'description'
+          property :expression, as: 'expression'
+          property :location, as: 'location'
+          property :title, as: 'title'
+        end
+      end
+      
       class ImportFile
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -371,8 +431,21 @@ module Google
       class LogConfig
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          property :cloud_audit, as: 'cloudAudit', class: Google::Apis::DeploymentmanagerV2::LogConfigCloudAuditOptions, decorator: Google::Apis::DeploymentmanagerV2::LogConfigCloudAuditOptions::Representation
+      
           property :counter, as: 'counter', class: Google::Apis::DeploymentmanagerV2::LogConfigCounterOptions, decorator: Google::Apis::DeploymentmanagerV2::LogConfigCounterOptions::Representation
       
+          property :data_access, as: 'dataAccess', class: Google::Apis::DeploymentmanagerV2::LogConfigDataAccessOptions, decorator: Google::Apis::DeploymentmanagerV2::LogConfigDataAccessOptions::Representation
+      
+        end
+      end
+      
+      class LogConfigCloudAuditOptions
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :authorization_logging_options, as: 'authorizationLoggingOptions', class: Google::Apis::DeploymentmanagerV2::AuthorizationLoggingOptions, decorator: Google::Apis::DeploymentmanagerV2::AuthorizationLoggingOptions::Representation
+      
+          property :log_name, as: 'logName'
         end
       end
       
@@ -384,13 +457,20 @@ module Google
         end
       end
       
+      class LogConfigDataAccessOptions
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :log_mode, as: 'logMode'
+        end
+      end
+      
       class Manifest
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :config, as: 'config', class: Google::Apis::DeploymentmanagerV2::ConfigFile, decorator: Google::Apis::DeploymentmanagerV2::ConfigFile::Representation
       
           property :expanded_config, as: 'expandedConfig'
-          property :id, as: 'id'
+          property :id, :numeric_string => true, as: 'id'
           collection :imports, as: 'imports', class: Google::Apis::DeploymentmanagerV2::ImportFile, decorator: Google::Apis::DeploymentmanagerV2::ImportFile::Representation
       
           property :insert_time, as: 'insertTime'
@@ -420,7 +500,7 @@ module Google
       
           property :http_error_message, as: 'httpErrorMessage'
           property :http_error_status_code, as: 'httpErrorStatusCode'
-          property :id, as: 'id'
+          property :id, :numeric_string => true, as: 'id'
           property :insert_time, as: 'insertTime'
           property :kind, as: 'kind'
           property :name, as: 'name'
@@ -431,7 +511,7 @@ module Google
           property :start_time, as: 'startTime'
           property :status, as: 'status'
           property :status_message, as: 'statusMessage'
-          property :target_id, as: 'targetId'
+          property :target_id, :numeric_string => true, as: 'targetId'
           property :target_link, as: 'targetLink'
           property :user, as: 'user'
           collection :warnings, as: 'warnings', class: Google::Apis::DeploymentmanagerV2::Operation::Warning, decorator: Google::Apis::DeploymentmanagerV2::Operation::Warning::Representation
@@ -505,7 +585,7 @@ module Google
           property :access_control, as: 'accessControl', class: Google::Apis::DeploymentmanagerV2::ResourceAccessControl, decorator: Google::Apis::DeploymentmanagerV2::ResourceAccessControl::Representation
       
           property :final_properties, as: 'finalProperties'
-          property :id, as: 'id'
+          property :id, :numeric_string => true, as: 'id'
           property :insert_time, as: 'insertTime'
           property :manifest, as: 'manifest'
           property :name, as: 'name'
@@ -648,7 +728,7 @@ module Google
       class Type
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :id, as: 'id'
+          property :id, :numeric_string => true, as: 'id'
           property :insert_time, as: 'insertTime'
           property :name, as: 'name'
           property :operation, as: 'operation', class: Google::Apis::DeploymentmanagerV2::Operation, decorator: Google::Apis::DeploymentmanagerV2::Operation::Representation

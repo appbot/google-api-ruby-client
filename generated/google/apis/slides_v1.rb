@@ -25,13 +25,16 @@ module Google
     # @see https://developers.google.com/slides/
     module SlidesV1
       VERSION = 'V1'
-      REVISION = '20161102'
+      REVISION = '20180307'
 
       # View and manage the files in your Google Drive
       AUTH_DRIVE = 'https://www.googleapis.com/auth/drive'
 
-      # View your Google Spreadsheets
-      AUTH_SPREADSHEETS_READONLY = 'https://www.googleapis.com/auth/spreadsheets.readonly'
+      # View and manage Google Drive files and folders that you have opened or created with this app
+      AUTH_DRIVE_FILE = 'https://www.googleapis.com/auth/drive.file'
+
+      # View the files in your Google Drive
+      AUTH_DRIVE_READONLY = 'https://www.googleapis.com/auth/drive.readonly'
 
       # View and manage your Google Slides presentations
       AUTH_PRESENTATIONS = 'https://www.googleapis.com/auth/presentations'
@@ -39,11 +42,11 @@ module Google
       # View your Google Slides presentations
       AUTH_PRESENTATIONS_READONLY = 'https://www.googleapis.com/auth/presentations.readonly'
 
-      # View the files in your Google Drive
-      AUTH_DRIVE_READONLY = 'https://www.googleapis.com/auth/drive.readonly'
-
       # View and manage your spreadsheets in Google Drive
       AUTH_SPREADSHEETS = 'https://www.googleapis.com/auth/spreadsheets'
+
+      # View your Google Spreadsheets
+      AUTH_SPREADSHEETS_READONLY = 'https://www.googleapis.com/auth/spreadsheets.readonly'
     end
   end
 end

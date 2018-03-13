@@ -50,9 +50,10 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'doubleclickbidmanager/v1/')
+          @batch_path = 'batch/doubleclickbidmanager/v1'
         end
         
-        # Retrieves line items in CSV format.
+        # Retrieves line items in CSV format. TrueView line items are not supported.
         # @param [Google::Apis::DoubleclickbidmanagerV1::DownloadLineItemsRequest] download_line_items_request_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -87,7 +88,7 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Uploads line items in CSV format.
+        # Uploads line items in CSV format. TrueView line items are not supported.
         # @param [Google::Apis::DoubleclickbidmanagerV1::UploadLineItemsRequest] upload_line_items_request_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -158,7 +159,7 @@ module Google
         end
         
         # Deletes a stored query as well as the associated stored reports.
-        # @param [String] query_id
+        # @param [Fixnum] query_id
         #   Query ID to delete.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -191,7 +192,7 @@ module Google
         end
         
         # Retrieves a stored query.
-        # @param [String] query_id
+        # @param [Fixnum] query_id
         #   Query ID to retrieve.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -258,7 +259,7 @@ module Google
         end
         
         # Runs a stored query to generate a report.
-        # @param [String] query_id
+        # @param [Fixnum] query_id
         #   Query ID to run.
         # @param [Google::Apis::DoubleclickbidmanagerV1::RunQueryRequest] run_query_request_object
         # @param [String] fields
@@ -294,7 +295,7 @@ module Google
         end
         
         # Retrieves stored reports.
-        # @param [String] query_id
+        # @param [Fixnum] query_id
         #   Query ID with which the reports are associated.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.

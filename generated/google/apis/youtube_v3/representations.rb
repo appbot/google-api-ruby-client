@@ -484,24 +484,6 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
-      class LiveBroadcastTopic
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class LiveBroadcastTopicDetails
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class LiveBroadcastTopicSnippet
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
       class LiveChatBan
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -604,6 +586,12 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class LiveChatSuperChatDetails
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class LiveChatTextMessageDetails
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -671,6 +659,18 @@ module Google
       end
       
       class MonitorStreamInfo
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class Nonprofit
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class NonprofitId
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
         include Google::Apis::Core::JsonObjectSupport
@@ -839,6 +839,24 @@ module Google
       end
       
       class SubscriptionSubscriberSnippet
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class SuperChatEvent
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class SuperChatEventListResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class SuperChatEventSnippet
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
         include Google::Apis::Core::JsonObjectSupport
@@ -1559,11 +1577,11 @@ module Google
       class ChannelStatistics
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :comment_count, as: 'commentCount'
+          property :comment_count, :numeric_string => true, as: 'commentCount'
           property :hidden_subscriber_count, as: 'hiddenSubscriberCount'
-          property :subscriber_count, as: 'subscriberCount'
-          property :video_count, as: 'videoCount'
-          property :view_count, as: 'viewCount'
+          property :subscriber_count, :numeric_string => true, as: 'subscriberCount'
+          property :video_count, :numeric_string => true, as: 'videoCount'
+          property :view_count, :numeric_string => true, as: 'viewCount'
         end
       end
       
@@ -1579,6 +1597,7 @@ module Google
       class ChannelTopicDetails
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          collection :topic_categories, as: 'topicCategories'
           collection :topic_ids, as: 'topicIds'
         end
       end
@@ -1730,13 +1749,16 @@ module Google
           property :lsf_rating, as: 'lsfRating'
           property :mccaa_rating, as: 'mccaaRating'
           property :mccyp_rating, as: 'mccypRating'
+          property :mcst_rating, as: 'mcstRating'
           property :mda_rating, as: 'mdaRating'
           property :medietilsynet_rating, as: 'medietilsynetRating'
           property :meku_rating, as: 'mekuRating'
+          property :mena_mpaa_rating, as: 'menaMpaaRating'
           property :mibac_rating, as: 'mibacRating'
           property :moc_rating, as: 'mocRating'
           property :moctw_rating, as: 'moctwRating'
           property :mpaa_rating, as: 'mpaaRating'
+          property :mpaat_rating, as: 'mpaatRating'
           property :mtrcb_rating, as: 'mtrcbRating'
           property :nbc_rating, as: 'nbcRating'
           property :nbcpl_rating, as: 'nbcplRating'
@@ -1789,7 +1811,7 @@ module Google
       class FanFundingEventSnippet
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :amount_micros, as: 'amountMicros'
+          property :amount_micros, :numeric_string => true, as: 'amountMicros'
           property :channel_id, as: 'channelId'
           property :comment_text, as: 'commentText'
           property :created_at, as: 'createdAt', type: DateTime
@@ -1988,8 +2010,8 @@ module Google
       class InvideoTiming
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :duration_ms, as: 'durationMs'
-          property :offset_ms, as: 'offsetMs'
+          property :duration_ms, :numeric_string => true, as: 'durationMs'
+          property :offset_ms, :numeric_string => true, as: 'offsetMs'
           property :type, as: 'type'
         end
       end
@@ -2015,8 +2037,6 @@ module Google
       
           property :status, as: 'status', class: Google::Apis::YoutubeV3::LiveBroadcastStatus, decorator: Google::Apis::YoutubeV3::LiveBroadcastStatus::Representation
       
-          property :topic_details, as: 'topicDetails', class: Google::Apis::YoutubeV3::LiveBroadcastTopicDetails, decorator: Google::Apis::YoutubeV3::LiveBroadcastTopicDetails::Representation
-      
         end
       end
       
@@ -2027,11 +2047,14 @@ module Google
           property :bound_stream_last_update_time_ms, as: 'boundStreamLastUpdateTimeMs', type: DateTime
       
           property :closed_captions_type, as: 'closedCaptionsType'
+          property :enable_auto_start, as: 'enableAutoStart'
           property :enable_closed_captions, as: 'enableClosedCaptions'
           property :enable_content_encryption, as: 'enableContentEncryption'
           property :enable_dvr, as: 'enableDvr'
           property :enable_embed, as: 'enableEmbed'
           property :enable_low_latency, as: 'enableLowLatency'
+          property :latency_preference, as: 'latencyPreference'
+          property :mesh, :base64 => true, as: 'mesh'
           property :monitor_stream, as: 'monitorStream', class: Google::Apis::YoutubeV3::MonitorStreamInfo, decorator: Google::Apis::YoutubeV3::MonitorStreamInfo::Representation
       
           property :projection, as: 'projection'
@@ -2084,8 +2107,8 @@ module Google
       class LiveBroadcastStatistics
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :concurrent_viewers, as: 'concurrentViewers'
-          property :total_chat_count, as: 'totalChatCount'
+          property :concurrent_viewers, :numeric_string => true, as: 'concurrentViewers'
+          property :total_chat_count, :numeric_string => true, as: 'totalChatCount'
         end
       end
       
@@ -2096,32 +2119,6 @@ module Google
           property :live_broadcast_priority, as: 'liveBroadcastPriority'
           property :privacy_status, as: 'privacyStatus'
           property :recording_status, as: 'recordingStatus'
-        end
-      end
-      
-      class LiveBroadcastTopic
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          property :snippet, as: 'snippet', class: Google::Apis::YoutubeV3::LiveBroadcastTopicSnippet, decorator: Google::Apis::YoutubeV3::LiveBroadcastTopicSnippet::Representation
-      
-          property :type, as: 'type'
-          property :unmatched, as: 'unmatched'
-        end
-      end
-      
-      class LiveBroadcastTopicDetails
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          collection :topics, as: 'topics', class: Google::Apis::YoutubeV3::LiveBroadcastTopic, decorator: Google::Apis::YoutubeV3::LiveBroadcastTopic::Representation
-      
-        end
-      end
-      
-      class LiveBroadcastTopicSnippet
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          property :name, as: 'name'
-          property :release_date, as: 'releaseDate'
         end
       end
       
@@ -2139,7 +2136,7 @@ module Google
       class LiveChatBanSnippet
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :ban_duration_seconds, as: 'banDurationSeconds'
+          property :ban_duration_seconds, :numeric_string => true, as: 'banDurationSeconds'
           property :banned_user_details, as: 'bannedUserDetails', class: Google::Apis::YoutubeV3::ChannelProfileDetails, decorator: Google::Apis::YoutubeV3::ChannelProfileDetails::Representation
       
           property :live_chat_id, as: 'liveChatId'
@@ -2151,7 +2148,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :amount_display_string, as: 'amountDisplayString'
-          property :amount_micros, as: 'amountMicros'
+          property :amount_micros, :numeric_string => true, as: 'amountMicros'
           property :currency, as: 'currency'
           property :user_comment, as: 'userComment'
         end
@@ -2240,6 +2237,8 @@ module Google
           property :poll_voted_details, as: 'pollVotedDetails', class: Google::Apis::YoutubeV3::LiveChatPollVotedDetails, decorator: Google::Apis::YoutubeV3::LiveChatPollVotedDetails::Representation
       
           property :published_at, as: 'publishedAt', type: DateTime
+      
+          property :super_chat_details, as: 'superChatDetails', class: Google::Apis::YoutubeV3::LiveChatSuperChatDetails, decorator: Google::Apis::YoutubeV3::LiveChatSuperChatDetails::Representation
       
           property :text_message_details, as: 'textMessageDetails', class: Google::Apis::YoutubeV3::LiveChatTextMessageDetails, decorator: Google::Apis::YoutubeV3::LiveChatTextMessageDetails::Representation
       
@@ -2330,6 +2329,17 @@ module Google
         end
       end
       
+      class LiveChatSuperChatDetails
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :amount_display_string, as: 'amountDisplayString'
+          property :amount_micros, :numeric_string => true, as: 'amountMicros'
+          property :currency, as: 'currency'
+          property :tier, as: 'tier'
+          property :user_comment, as: 'userComment'
+        end
+      end
+      
       class LiveChatTextMessageDetails
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -2340,7 +2350,7 @@ module Google
       class LiveChatUserBannedMessageDetails
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :ban_duration_seconds, as: 'banDurationSeconds'
+          property :ban_duration_seconds, :numeric_string => true, as: 'banDurationSeconds'
           property :ban_type, as: 'banType'
           property :banned_user_details, as: 'bannedUserDetails', class: Google::Apis::YoutubeV3::ChannelProfileDetails, decorator: Google::Apis::YoutubeV3::ChannelProfileDetails::Representation
       
@@ -2387,7 +2397,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :configuration_issues, as: 'configurationIssues', class: Google::Apis::YoutubeV3::LiveStreamConfigurationIssue, decorator: Google::Apis::YoutubeV3::LiveStreamConfigurationIssue::Representation
       
-          property :last_update_time_seconds, as: 'lastUpdateTimeSeconds'
+          property :last_update_time_seconds, :numeric_string => true, as: 'lastUpdateTimeSeconds'
           property :status, as: 'status'
         end
       end
@@ -2459,6 +2469,22 @@ module Google
         end
       end
       
+      class Nonprofit
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :nonprofit_id, as: 'nonprofitId', class: Google::Apis::YoutubeV3::NonprofitId, decorator: Google::Apis::YoutubeV3::NonprofitId::Representation
+      
+          property :nonprofit_legal_name, as: 'nonprofitLegalName'
+        end
+      end
+      
+      class NonprofitId
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :value, as: 'value'
+        end
+      end
+      
       class PageInfo
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -2515,6 +2541,8 @@ module Google
           property :note, as: 'note'
           property :start_at, as: 'startAt'
           property :video_id, as: 'videoId'
+          property :video_published_at, as: 'videoPublishedAt', type: DateTime
+      
         end
       end
       
@@ -2813,6 +2841,53 @@ module Google
         end
       end
       
+      class SuperChatEvent
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :etag, as: 'etag'
+          property :id, as: 'id'
+          property :kind, as: 'kind'
+          property :snippet, as: 'snippet', class: Google::Apis::YoutubeV3::SuperChatEventSnippet, decorator: Google::Apis::YoutubeV3::SuperChatEventSnippet::Representation
+      
+        end
+      end
+      
+      class SuperChatEventListResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :etag, as: 'etag'
+          property :event_id, as: 'eventId'
+          collection :items, as: 'items', class: Google::Apis::YoutubeV3::SuperChatEvent, decorator: Google::Apis::YoutubeV3::SuperChatEvent::Representation
+      
+          property :kind, as: 'kind'
+          property :next_page_token, as: 'nextPageToken'
+          property :page_info, as: 'pageInfo', class: Google::Apis::YoutubeV3::PageInfo, decorator: Google::Apis::YoutubeV3::PageInfo::Representation
+      
+          property :token_pagination, as: 'tokenPagination', class: Google::Apis::YoutubeV3::TokenPagination, decorator: Google::Apis::YoutubeV3::TokenPagination::Representation
+      
+          property :visitor_id, as: 'visitorId'
+        end
+      end
+      
+      class SuperChatEventSnippet
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :amount_micros, :numeric_string => true, as: 'amountMicros'
+          property :channel_id, as: 'channelId'
+          property :comment_text, as: 'commentText'
+          property :created_at, as: 'createdAt', type: DateTime
+      
+          property :currency, as: 'currency'
+          property :display_string, as: 'displayString'
+          property :is_super_chat_for_good, as: 'isSuperChatForGood'
+          property :message_type, as: 'messageType'
+          property :nonprofit, as: 'nonprofit', class: Google::Apis::YoutubeV3::Nonprofit, decorator: Google::Apis::YoutubeV3::Nonprofit::Representation
+      
+          property :supporter_details, as: 'supporterDetails', class: Google::Apis::YoutubeV3::ChannelProfileDetails, decorator: Google::Apis::YoutubeV3::ChannelProfileDetails::Representation
+      
+        end
+      end
+      
       class Thumbnail
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -3025,12 +3100,12 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :audio_streams, as: 'audioStreams', class: Google::Apis::YoutubeV3::VideoFileDetailsAudioStream, decorator: Google::Apis::YoutubeV3::VideoFileDetailsAudioStream::Representation
       
-          property :bitrate_bps, as: 'bitrateBps'
+          property :bitrate_bps, :numeric_string => true, as: 'bitrateBps'
           property :container, as: 'container'
           property :creation_time, as: 'creationTime'
-          property :duration_ms, as: 'durationMs'
+          property :duration_ms, :numeric_string => true, as: 'durationMs'
           property :file_name, as: 'fileName'
-          property :file_size, as: 'fileSize'
+          property :file_size, :numeric_string => true, as: 'fileSize'
           property :file_type, as: 'fileType'
           collection :video_streams, as: 'videoStreams', class: Google::Apis::YoutubeV3::VideoFileDetailsVideoStream, decorator: Google::Apis::YoutubeV3::VideoFileDetailsVideoStream::Representation
       
@@ -3040,7 +3115,7 @@ module Google
       class VideoFileDetailsAudioStream
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :bitrate_bps, as: 'bitrateBps'
+          property :bitrate_bps, :numeric_string => true, as: 'bitrateBps'
           property :channel_count, as: 'channelCount'
           property :codec, as: 'codec'
           property :vendor, as: 'vendor'
@@ -3051,7 +3126,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :aspect_ratio, as: 'aspectRatio'
-          property :bitrate_bps, as: 'bitrateBps'
+          property :bitrate_bps, :numeric_string => true, as: 'bitrateBps'
           property :codec, as: 'codec'
           property :frame_rate_fps, as: 'frameRateFps'
           property :height_pixels, as: 'heightPixels'
@@ -3099,7 +3174,7 @@ module Google
       
           property :actual_start_time, as: 'actualStartTime', type: DateTime
       
-          property :concurrent_viewers, as: 'concurrentViewers'
+          property :concurrent_viewers, :numeric_string => true, as: 'concurrentViewers'
           property :scheduled_end_time, as: 'scheduledEndTime', type: DateTime
       
           property :scheduled_start_time, as: 'scheduledStartTime', type: DateTime
@@ -3126,9 +3201,9 @@ module Google
       class VideoPlayer
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :embed_height, as: 'embedHeight'
+          property :embed_height, :numeric_string => true, as: 'embedHeight'
           property :embed_html, as: 'embedHtml'
-          property :embed_width, as: 'embedWidth'
+          property :embed_width, :numeric_string => true, as: 'embedWidth'
         end
       end
       
@@ -3150,9 +3225,9 @@ module Google
       class VideoProcessingDetailsProcessingProgress
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :parts_processed, as: 'partsProcessed'
-          property :parts_total, as: 'partsTotal'
-          property :time_left_ms, as: 'timeLeftMs'
+          property :parts_processed, :numeric_string => true, as: 'partsProcessed'
+          property :parts_total, :numeric_string => true, as: 'partsTotal'
+          property :time_left_ms, :numeric_string => true, as: 'timeLeftMs'
         end
       end
       
@@ -3206,11 +3281,11 @@ module Google
       class VideoStatistics
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :comment_count, as: 'commentCount'
-          property :dislike_count, as: 'dislikeCount'
-          property :favorite_count, as: 'favoriteCount'
-          property :like_count, as: 'likeCount'
-          property :view_count, as: 'viewCount'
+          property :comment_count, :numeric_string => true, as: 'commentCount'
+          property :dislike_count, :numeric_string => true, as: 'dislikeCount'
+          property :favorite_count, :numeric_string => true, as: 'favoriteCount'
+          property :like_count, :numeric_string => true, as: 'likeCount'
+          property :view_count, :numeric_string => true, as: 'viewCount'
         end
       end
       
@@ -3253,6 +3328,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :relevant_topic_ids, as: 'relevantTopicIds'
+          collection :topic_categories, as: 'topicCategories'
           collection :topic_ids, as: 'topicIds'
         end
       end

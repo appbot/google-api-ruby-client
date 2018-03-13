@@ -50,6 +50,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'identitytoolkit/v3/relyingparty/')
+          @batch_path = 'batch/identitytoolkit/v3'
         end
         
         # Creates the URI used by the IdP to authenticate the user.
@@ -151,6 +152,41 @@ module Google
           command.request_object = download_account_request_object
           command.response_representation = Google::Apis::IdentitytoolkitV3::DownloadAccountResponse::Representation
           command.response_class = Google::Apis::IdentitytoolkitV3::DownloadAccountResponse
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Reset password for a user.
+        # @param [Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartyEmailLinkSigninRequest] identitytoolkit_relyingparty_email_link_signin_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::IdentitytoolkitV3::EmailLinkSigninResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::IdentitytoolkitV3::EmailLinkSigninResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def email_relyingparty_link_signin(identitytoolkit_relyingparty_email_link_signin_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'emailLinkSignin', options)
+          command.request_representation = Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartyEmailLinkSigninRequest::Representation
+          command.request_object = identitytoolkit_relyingparty_email_link_signin_request_object
+          command.response_representation = Google::Apis::IdentitytoolkitV3::EmailLinkSigninResponse::Representation
+          command.response_class = Google::Apis::IdentitytoolkitV3::EmailLinkSigninResponse
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -358,6 +394,41 @@ module Google
           command.request_object = reset_password_request_object
           command.response_representation = Google::Apis::IdentitytoolkitV3::ResetPasswordResponse::Representation
           command.response_class = Google::Apis::IdentitytoolkitV3::ResetPasswordResponse
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Send SMS verification code.
+        # @param [Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartySendVerificationCodeRequest] identitytoolkit_relyingparty_send_verification_code_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartySendVerificationCodeResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartySendVerificationCodeResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def send_relyingparty_verification_code(identitytoolkit_relyingparty_send_verification_code_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'sendVerificationCode', options)
+          command.request_representation = Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartySendVerificationCodeRequest::Representation
+          command.request_object = identitytoolkit_relyingparty_send_verification_code_request_object
+          command.response_representation = Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartySendVerificationCodeResponse::Representation
+          command.response_class = Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartySendVerificationCodeResponse
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -638,6 +709,42 @@ module Google
           command.request_object = verify_password_request_object
           command.response_representation = Google::Apis::IdentitytoolkitV3::VerifyPasswordResponse::Representation
           command.response_class = Google::Apis::IdentitytoolkitV3::VerifyPasswordResponse
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Verifies ownership of a phone number and creates/updates the user account
+        # accordingly.
+        # @param [Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest] identitytoolkit_relyingparty_verify_phone_number_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def verify_relyingparty_phone_number(identitytoolkit_relyingparty_verify_phone_number_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'verifyPhoneNumber', options)
+          command.request_representation = Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest::Representation
+          command.request_object = identitytoolkit_relyingparty_verify_phone_number_request_object
+          command.response_representation = Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse::Representation
+          command.response_class = Google::Apis::IdentitytoolkitV3::IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?

@@ -46,6 +46,18 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class ResellernotifyGetwatchdetailsResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ResellernotifyResource
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class Seats
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -139,6 +151,21 @@ module Google
         end
       end
       
+      class ResellernotifyGetwatchdetailsResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :service_account_email_addresses, as: 'serviceAccountEmailAddresses'
+          property :topic_name, as: 'topicName'
+        end
+      end
+      
+      class ResellernotifyResource
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :topic_name, as: 'topicName'
+        end
+      end
+      
       class Seats
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -153,7 +180,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :billing_method, as: 'billingMethod'
-          property :creation_time, as: 'creationTime'
+          property :creation_time, :numeric_string => true, as: 'creationTime'
           property :customer_domain, as: 'customerDomain'
           property :customer_id, as: 'customerId'
           property :deal_code, as: 'dealCode'
@@ -167,6 +194,7 @@ module Google
           property :seats, as: 'seats', class: Google::Apis::ResellerV1::Seats, decorator: Google::Apis::ResellerV1::Seats::Representation
       
           property :sku_id, as: 'skuId'
+          property :sku_name, as: 'skuName'
           property :status, as: 'status'
           property :subscription_id, as: 'subscriptionId'
           collection :suspension_reasons, as: 'suspensionReasons'
@@ -188,8 +216,8 @@ module Google
           class CommitmentInterval
             # @private
             class Representation < Google::Apis::Core::JsonRepresentation
-              property :end_time, as: 'endTime'
-              property :start_time, as: 'startTime'
+              property :end_time, :numeric_string => true, as: 'endTime'
+              property :start_time, :numeric_string => true, as: 'startTime'
             end
           end
         end
@@ -198,7 +226,7 @@ module Google
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
             property :minimum_transferable_seats, as: 'minimumTransferableSeats'
-            property :transferability_expiration_time, as: 'transferabilityExpirationTime'
+            property :transferability_expiration_time, :numeric_string => true, as: 'transferabilityExpirationTime'
           end
         end
         
@@ -206,7 +234,7 @@ module Google
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
             property :is_in_trial, as: 'isInTrial'
-            property :trial_end_time, as: 'trialEndTime'
+            property :trial_end_time, :numeric_string => true, as: 'trialEndTime'
           end
         end
       end

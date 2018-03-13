@@ -34,6 +34,12 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class BatchModifyMessagesRequest
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class Draft
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -106,6 +112,12 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class LabelColor
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class ListDraftsResponse
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -143,6 +155,12 @@ module Google
       end
       
       class ListSendAsResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ListSmimeInfoResponse
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
         include Google::Apis::Core::JsonObjectSupport
@@ -208,6 +226,12 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class SmimeInfo
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class SmtpMsa
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -251,6 +275,15 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :ids, as: 'ids'
+        end
+      end
+      
+      class BatchModifyMessagesRequest
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :add_label_ids, as: 'addLabelIds'
+          collection :ids, as: 'ids'
+          collection :remove_label_ids, as: 'removeLabelIds'
         end
       end
       
@@ -309,7 +342,7 @@ module Google
       class History
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :id, as: 'id'
+          property :id, :numeric_string => true, as: 'id'
           collection :labels_added, as: 'labelsAdded', class: Google::Apis::GmailV1::HistoryLabelAdded, decorator: Google::Apis::GmailV1::HistoryLabelAdded::Representation
       
           collection :labels_removed, as: 'labelsRemoved', class: Google::Apis::GmailV1::HistoryLabelRemoved, decorator: Google::Apis::GmailV1::HistoryLabelRemoved::Representation
@@ -370,6 +403,8 @@ module Google
       class Label
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          property :color, as: 'color', class: Google::Apis::GmailV1::LabelColor, decorator: Google::Apis::GmailV1::LabelColor::Representation
+      
           property :id, as: 'id'
           property :label_list_visibility, as: 'labelListVisibility'
           property :message_list_visibility, as: 'messageListVisibility'
@@ -379,6 +414,14 @@ module Google
           property :threads_total, as: 'threadsTotal'
           property :threads_unread, as: 'threadsUnread'
           property :type, as: 'type'
+        end
+      end
+      
+      class LabelColor
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :background_color, as: 'backgroundColor'
+          property :text_color, as: 'textColor'
         end
       end
       
@@ -413,7 +456,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :history, as: 'history', class: Google::Apis::GmailV1::History, decorator: Google::Apis::GmailV1::History::Representation
       
-          property :history_id, as: 'historyId'
+          property :history_id, :numeric_string => true, as: 'historyId'
           property :next_page_token, as: 'nextPageToken'
         end
       end
@@ -444,6 +487,14 @@ module Google
         end
       end
       
+      class ListSmimeInfoResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :smime_info, as: 'smimeInfo', class: Google::Apis::GmailV1::SmimeInfo, decorator: Google::Apis::GmailV1::SmimeInfo::Representation
+      
+        end
+      end
+      
       class ListThreadsResponse
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -457,9 +508,9 @@ module Google
       class Message
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :history_id, as: 'historyId'
+          property :history_id, :numeric_string => true, as: 'historyId'
           property :id, as: 'id'
-          property :internal_date, as: 'internalDate'
+          property :internal_date, :numeric_string => true, as: 'internalDate'
           collection :label_ids, as: 'labelIds'
           property :payload, as: 'payload', class: Google::Apis::GmailV1::MessagePart, decorator: Google::Apis::GmailV1::MessagePart::Representation
       
@@ -530,7 +581,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :email_address, as: 'emailAddress'
-          property :history_id, as: 'historyId'
+          property :history_id, :numeric_string => true, as: 'historyId'
           property :messages_total, as: 'messagesTotal'
           property :threads_total, as: 'threadsTotal'
         end
@@ -552,6 +603,19 @@ module Google
         end
       end
       
+      class SmimeInfo
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :encrypted_key_password, as: 'encryptedKeyPassword'
+          property :expiration, :numeric_string => true, as: 'expiration'
+          property :id, as: 'id'
+          property :is_default, as: 'isDefault'
+          property :issuer_cn, as: 'issuerCn'
+          property :pem, as: 'pem'
+          property :pkcs12, :base64 => true, as: 'pkcs12'
+        end
+      end
+      
       class SmtpMsa
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -566,7 +630,7 @@ module Google
       class Thread
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :history_id, as: 'historyId'
+          property :history_id, :numeric_string => true, as: 'historyId'
           property :id, as: 'id'
           collection :messages, as: 'messages', class: Google::Apis::GmailV1::Message, decorator: Google::Apis::GmailV1::Message::Representation
       
@@ -578,13 +642,13 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :enable_auto_reply, as: 'enableAutoReply'
-          property :end_time, as: 'endTime'
+          property :end_time, :numeric_string => true, as: 'endTime'
           property :response_body_html, as: 'responseBodyHtml'
           property :response_body_plain_text, as: 'responseBodyPlainText'
           property :response_subject, as: 'responseSubject'
           property :restrict_to_contacts, as: 'restrictToContacts'
           property :restrict_to_domain, as: 'restrictToDomain'
-          property :start_time, as: 'startTime'
+          property :start_time, :numeric_string => true, as: 'startTime'
         end
       end
       
@@ -600,8 +664,8 @@ module Google
       class WatchResponse
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :expiration, as: 'expiration'
-          property :history_id, as: 'historyId'
+          property :expiration, :numeric_string => true, as: 'expiration'
+          property :history_id, :numeric_string => true, as: 'historyId'
         end
       end
     end

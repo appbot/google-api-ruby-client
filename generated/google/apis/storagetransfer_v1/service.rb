@@ -20,7 +20,7 @@ require 'google/apis/errors'
 module Google
   module Apis
     module StoragetransferV1
-      # Google Storage Transfer API
+      # Storage Transfer API
       #
       # Transfers data from external data sources to a Google Cloud Storage bucket or
       #  between Google Cloud Storage buckets.
@@ -44,19 +44,22 @@ module Google
         attr_accessor :quota_user
 
         def initialize
-          super('https://storagetransfer.googleapis.com/', '')
+          super('https://content-storagetransfer.googleapis.com/', '')
+          @batch_path = 'batch'
         end
         
-        # Returns the Google service account that is used by Storage Transfer Service to
-        # access buckets in the project where transfers run or in other projects. Each
-        # Google service account is associated with one Google Developers Console
-        # project. Users should add this service account to the Google Cloud Storage
-        # bucket ACLs to grant access to Storage Transfer Service. This service account
-        # is created and owned by Storage Transfer Service and can only be used by
-        # Storage Transfer Service.
+        # Returns the Google service account that is used by Storage Transfer
+        # Service to access buckets in the project where transfers
+        # run or in other projects. Each Google service account is associated
+        # with one Google Cloud Platform Console project. Users
+        # should add this service account to the Google Cloud Storage bucket
+        # ACLs to grant access to Storage Transfer Service. This service
+        # account is created and owned by Storage Transfer Service and can
+        # only be used by Storage Transfer Service.
         # @param [String] project_id
-        #   The ID of the Google Developers Console project that the Google service
-        #   account is associated with. Required.
+        #   The ID of the Google Cloud Platform Console project that the Google service
+        #   account is associated with.
+        #   Required.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -79,43 +82,6 @@ module Google
           command.response_representation = Google::Apis::StoragetransferV1::GoogleServiceAccount::Representation
           command.response_class = Google::Apis::StoragetransferV1::GoogleServiceAccount
           command.params['projectId'] = project_id unless project_id.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Returns the Google service account that is used by Storage Transfer Service to
-        # access buckets in the project where transfers run or in other projects. Each
-        # Google service account is associated with one Google Developers Console
-        # project. Users should add this service account to the Google Cloud Storage
-        # bucket ACLs to grant access to Storage Transfer Service. This service account
-        # is created and owned by Storage Transfer Service and can only be used by
-        # Storage Transfer Service.
-        # @param [String] project_id
-        #   The ID of the Google Developers Console project that the Google service
-        #   account is associated with. Required.
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::StoragetransferV1::GoogleServiceAccount] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::StoragetransferV1::GoogleServiceAccount]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_google_service_account_v1(project_id: nil, fields: nil, quota_user: nil, options: nil, &block)
-          command =  make_simple_command(:get, 'v1:getGoogleServiceAccount', options)
-          command.response_representation = Google::Apis::StoragetransferV1::GoogleServiceAccount::Representation
-          command.response_class = Google::Apis::StoragetransferV1::GoogleServiceAccount
-          command.query['projectId'] = project_id unless project_id.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           execute_or_queue_command(command, &block)
@@ -151,46 +117,13 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Updates a transfer job. Updating a job's transfer spec does not affect
-        # transfer operations that are running already. Updating the scheduling of a job
-        # is not allowed.
-        # @param [String] job_name
-        #   The name of job to update. Required.
-        # @param [Google::Apis::StoragetransferV1::UpdateTransferJobRequest] update_transfer_job_request_object
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::StoragetransferV1::TransferJob] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::StoragetransferV1::TransferJob]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def patch_transfer_job(job_name, update_transfer_job_request_object = nil, fields: nil, quota_user: nil, options: nil, &block)
-          command =  make_simple_command(:patch, 'v1/{+jobName}', options)
-          command.request_representation = Google::Apis::StoragetransferV1::UpdateTransferJobRequest::Representation
-          command.request_object = update_transfer_job_request_object
-          command.response_representation = Google::Apis::StoragetransferV1::TransferJob::Representation
-          command.response_class = Google::Apis::StoragetransferV1::TransferJob
-          command.params['jobName'] = job_name unless job_name.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
         # Gets a transfer job.
         # @param [String] job_name
-        #   The job to get. Required.
+        #   The job to get.
+        #   Required.
         # @param [String] project_id
-        #   The ID of the Google Developers Console project that owns the job. Required.
+        #   The ID of the Google Cloud Platform Console project that owns the job.
+        #   Required.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -221,13 +154,14 @@ module Google
         
         # Lists transfer jobs.
         # @param [String] filter
-        #   A list of query parameters specified as JSON text in the form of `"`project_id`
-        #   ":"my_project_id", "`job_names`":["jobid1","jobid2",...], "`job_statuses`":["
-        #   status1","status2",...]`. Since `job_names` and `job_statuses` support
-        #   multiple values, their values must be specified with array notation. `
-        #   project_id` is required. `job_names` and `job_statuses` are optional. The
-        #   valid values for `job_statuses` are case-insensitive: `ENABLED`, `DISABLED`,
-        #   and `DELETED`.
+        #   A list of query parameters specified as JSON text in the form of
+        #   `"project_id":"my_project_id",
+        #   "job_names":["jobid1","jobid2",...],
+        #   "job_statuses":["status1","status2",...]`.
+        #   Since `job_names` and `job_statuses` support multiple values, their values
+        #   must be specified with array notation. `project_id` is required. `job_names`
+        #   and `job_statuses` are optional.  The valid values for `job_statuses` are
+        #   case-insensitive: `ENABLED`, `DISABLED`, and `DELETED`.
         # @param [Fixnum] page_size
         #   The list page size. The max allowed value is 256.
         # @param [String] page_token
@@ -261,10 +195,13 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Pauses a transfer operation.
-        # @param [String] name
-        #   The name of the transfer operation. Required.
-        # @param [Google::Apis::StoragetransferV1::PauseTransferOperationRequest] pause_transfer_operation_request_object
+        # Updates a transfer job. Updating a job's transfer spec does not affect
+        # transfer operations that are running already. Updating the scheduling
+        # of a job is not allowed.
+        # @param [String] job_name
+        #   The name of job to update.
+        #   Required.
+        # @param [Google::Apis::StoragetransferV1::UpdateTransferJobRequest] update_transfer_job_request_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -274,127 +211,21 @@ module Google
         #   Request-specific options
         #
         # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::StoragetransferV1::Empty] parsed result object
+        # @yieldparam result [Google::Apis::StoragetransferV1::TransferJob] parsed result object
         # @yieldparam err [StandardError] error object if request failed
         #
-        # @return [Google::Apis::StoragetransferV1::Empty]
+        # @return [Google::Apis::StoragetransferV1::TransferJob]
         #
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def pause_transfer_operation(name, pause_transfer_operation_request_object = nil, fields: nil, quota_user: nil, options: nil, &block)
-          command =  make_simple_command(:post, 'v1/{+name}:pause', options)
-          command.request_representation = Google::Apis::StoragetransferV1::PauseTransferOperationRequest::Representation
-          command.request_object = pause_transfer_operation_request_object
-          command.response_representation = Google::Apis::StoragetransferV1::Empty::Representation
-          command.response_class = Google::Apis::StoragetransferV1::Empty
-          command.params['name'] = name unless name.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Resumes a transfer operation that is paused.
-        # @param [String] name
-        #   The name of the transfer operation. Required.
-        # @param [Google::Apis::StoragetransferV1::ResumeTransferOperationRequest] resume_transfer_operation_request_object
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::StoragetransferV1::Empty] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::StoragetransferV1::Empty]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def resume_transfer_operation(name, resume_transfer_operation_request_object = nil, fields: nil, quota_user: nil, options: nil, &block)
-          command =  make_simple_command(:post, 'v1/{+name}:resume', options)
-          command.request_representation = Google::Apis::StoragetransferV1::ResumeTransferOperationRequest::Representation
-          command.request_object = resume_transfer_operation_request_object
-          command.response_representation = Google::Apis::StoragetransferV1::Empty::Representation
-          command.response_class = Google::Apis::StoragetransferV1::Empty
-          command.params['name'] = name unless name.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Gets the latest state of a long-running operation. Clients can use this method
-        # to poll the operation result at intervals as recommended by the API service.
-        # @param [String] name
-        #   The name of the operation resource.
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::StoragetransferV1::Operation] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::StoragetransferV1::Operation]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_transfer_operation(name, fields: nil, quota_user: nil, options: nil, &block)
-          command =  make_simple_command(:get, 'v1/{+name}', options)
-          command.response_representation = Google::Apis::StoragetransferV1::Operation::Representation
-          command.response_class = Google::Apis::StoragetransferV1::Operation
-          command.params['name'] = name unless name.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Lists operations that match the specified filter in the request. If the server
-        # doesn't support this method, it returns `UNIMPLEMENTED`. NOTE: the `name`
-        # binding below allows API services to override the binding to use different
-        # resource name schemes, such as `users/*/operations`.
-        # @param [String] name
-        #   The value `transferOperations`.
-        # @param [String] filter
-        #   The standard list filter.
-        # @param [Fixnum] page_size
-        #   The standard list page size.
-        # @param [String] page_token
-        #   The standard list page token.
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::StoragetransferV1::ListOperationsResponse] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::StoragetransferV1::ListOperationsResponse]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_transfer_operations(name, filter: nil, page_size: nil, page_token: nil, fields: nil, quota_user: nil, options: nil, &block)
-          command =  make_simple_command(:get, 'v1/{+name}', options)
-          command.response_representation = Google::Apis::StoragetransferV1::ListOperationsResponse::Representation
-          command.response_class = Google::Apis::StoragetransferV1::ListOperationsResponse
-          command.params['name'] = name unless name.nil?
-          command.query['filter'] = filter unless filter.nil?
-          command.query['pageSize'] = page_size unless page_size.nil?
-          command.query['pageToken'] = page_token unless page_token.nil?
+        def patch_transfer_job(job_name, update_transfer_job_request_object = nil, fields: nil, quota_user: nil, options: nil, &block)
+          command =  make_simple_command(:patch, 'v1/{+jobName}', options)
+          command.request_representation = Google::Apis::StoragetransferV1::UpdateTransferJobRequest::Representation
+          command.request_object = update_transfer_job_request_object
+          command.response_representation = Google::Apis::StoragetransferV1::TransferJob::Representation
+          command.response_class = Google::Apis::StoragetransferV1::TransferJob
+          command.params['jobName'] = job_name unless job_name.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           execute_or_queue_command(command, &block)
@@ -453,6 +284,158 @@ module Google
         # @raise [Google::Apis::AuthorizationError] Authorization is required
         def delete_transfer_operation(name, fields: nil, quota_user: nil, options: nil, &block)
           command =  make_simple_command(:delete, 'v1/{+name}', options)
+          command.response_representation = Google::Apis::StoragetransferV1::Empty::Representation
+          command.response_class = Google::Apis::StoragetransferV1::Empty
+          command.params['name'] = name unless name.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Gets the latest state of a long-running operation.  Clients can use this
+        # method to poll the operation result at intervals as recommended by the API
+        # service.
+        # @param [String] name
+        #   The name of the operation resource.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::StoragetransferV1::Operation] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::StoragetransferV1::Operation]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def get_transfer_operation(name, fields: nil, quota_user: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'v1/{+name}', options)
+          command.response_representation = Google::Apis::StoragetransferV1::Operation::Representation
+          command.response_class = Google::Apis::StoragetransferV1::Operation
+          command.params['name'] = name unless name.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Lists operations that match the specified filter in the request. If the
+        # server doesn't support this method, it returns `UNIMPLEMENTED`.
+        # NOTE: the `name` binding allows API services to override the binding
+        # to use different resource name schemes, such as `users/*/operations`. To
+        # override the binding, API services can add a binding such as
+        # `"/v1/`name=users/*`/operations"` to their service configuration.
+        # For backwards compatibility, the default name includes the operations
+        # collection id, however overriding users must ensure the name binding
+        # is the parent resource, without the operations collection id.
+        # @param [String] name
+        #   The value `transferOperations`.
+        # @param [String] filter
+        #   A list of query parameters specified as JSON text in the form of `\"project_id\
+        #   " : \"my_project_id\", \"job_names\" : [\"jobid1\", \"jobid2\",...], \"
+        #   operation_names\" : [\"opid1\", \"opid2\",...], \"transfer_statuses\":[\"
+        #   status1\", \"status2\",...]`. Since `job_names`, `operation_names`, and `
+        #   transfer_statuses` support multiple values, they must be specified with array
+        #   notation. `job_names`, `operation_names`, and `transfer_statuses` are optional.
+        # @param [Fixnum] page_size
+        #   The list page size. The max allowed value is 256.
+        # @param [String] page_token
+        #   The list page token.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::StoragetransferV1::ListOperationsResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::StoragetransferV1::ListOperationsResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def list_transfer_operations(name, filter: nil, page_size: nil, page_token: nil, fields: nil, quota_user: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'v1/{+name}', options)
+          command.response_representation = Google::Apis::StoragetransferV1::ListOperationsResponse::Representation
+          command.response_class = Google::Apis::StoragetransferV1::ListOperationsResponse
+          command.params['name'] = name unless name.nil?
+          command.query['filter'] = filter unless filter.nil?
+          command.query['pageSize'] = page_size unless page_size.nil?
+          command.query['pageToken'] = page_token unless page_token.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Pauses a transfer operation.
+        # @param [String] name
+        #   The name of the transfer operation.
+        #   Required.
+        # @param [Google::Apis::StoragetransferV1::PauseTransferOperationRequest] pause_transfer_operation_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::StoragetransferV1::Empty] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::StoragetransferV1::Empty]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def pause_transfer_operation(name, pause_transfer_operation_request_object = nil, fields: nil, quota_user: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'v1/{+name}:pause', options)
+          command.request_representation = Google::Apis::StoragetransferV1::PauseTransferOperationRequest::Representation
+          command.request_object = pause_transfer_operation_request_object
+          command.response_representation = Google::Apis::StoragetransferV1::Empty::Representation
+          command.response_class = Google::Apis::StoragetransferV1::Empty
+          command.params['name'] = name unless name.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Resumes a transfer operation that is paused.
+        # @param [String] name
+        #   The name of the transfer operation.
+        #   Required.
+        # @param [Google::Apis::StoragetransferV1::ResumeTransferOperationRequest] resume_transfer_operation_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::StoragetransferV1::Empty] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::StoragetransferV1::Empty]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def resume_transfer_operation(name, resume_transfer_operation_request_object = nil, fields: nil, quota_user: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'v1/{+name}:resume', options)
+          command.request_representation = Google::Apis::StoragetransferV1::ResumeTransferOperationRequest::Representation
+          command.request_object = resume_transfer_operation_request_object
           command.response_representation = Google::Apis::StoragetransferV1::Empty::Representation
           command.response_class = Google::Apis::StoragetransferV1::Empty
           command.params['name'] = name unless name.nil?

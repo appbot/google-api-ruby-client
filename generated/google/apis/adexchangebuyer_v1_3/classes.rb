@@ -222,19 +222,19 @@ module Google
       
         # The id of the account. This is required for get and update requests.
         # Corresponds to the JSON property `accountId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :account_id
       
         # The billing id to determine which adgroup to provide budget information for.
         # This is required for get and update requests.
         # Corresponds to the JSON property `billingId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :billing_id
       
         # The daily budget amount in unit amount of the account currency to apply for
         # the billingId provided. This is required for update requests.
         # Corresponds to the JSON property `budgetAmount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :budget_amount
       
         # The currency code for the buyer. This cannot be altered here.
@@ -285,7 +285,7 @@ module Google
         # Detected advertiser id, if any. Read-only. This field should not be set in
         # requests.
         # Corresponds to the JSON property `advertiserId`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :advertiser_id
       
         # The name of the company being advertised in the creative.
@@ -295,7 +295,7 @@ module Google
       
         # The agency id for this creative.
         # Corresponds to the JSON property `agencyId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :agency_id
       
         # The last upload timestamp of this creative if it was uploaded via API. Read-
@@ -394,7 +394,8 @@ module Google
         # @return [Fixnum]
         attr_accessor :version
       
-        # The url to fetch a video ad. If set, HTMLSnippet should not be set.
+        # The URL to fetch a video ad. If set, HTMLSnippet and the nativeAd should not
+        # be set.
         # Corresponds to the JSON property `videoURL`
         # @return [String]
         attr_accessor :video_url
@@ -519,7 +520,7 @@ module Google
             # The number of times the creative was filtered for the status. The count is
             # aggregated across all publishers on the exchange.
             # Corresponds to the JSON property `filteringCount`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :filtering_count
           
             # The filtering status code. Please refer to the creative-status-codes.txt file
@@ -767,6 +768,18 @@ module Google
         # @return [String]
         attr_accessor :advertiser
       
+        # Whether the publisher for this deal is eligible for alcohol ads.
+        # Corresponds to the JSON property `allowsAlcohol`
+        # @return [Boolean]
+        attr_accessor :allows_alcohol
+        alias_method :allows_alcohol?, :allows_alcohol
+      
+        # The account id that this deal was negotiated for. It is either the buyer or
+        # the client that this deal was negotiated on behalf of.
+        # Corresponds to the JSON property `buyerAccountId`
+        # @return [Fixnum]
+        attr_accessor :buyer_account_id
+      
         # The currency code that applies to the fixed_cpm value. If not set then assumed
         # to be USD.
         # Corresponds to the JSON property `currencyCode`
@@ -781,19 +794,19 @@ module Google
         # End time for when this deal stops being active. If not set then this deal is
         # valid until manually disabled by the publisher. In seconds since the epoch.
         # Corresponds to the JSON property `endTime`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :end_time
       
         # The fixed price for this direct deal. In cpm micros of currency according to
         # currency_code. If set, then this deal is eligible for the fixed price tier of
         # buying (highest priority, pay exactly the configured fixed price).
         # Corresponds to the JSON property `fixedCpm`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :fixed_cpm
       
         # Deal id.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
         # Resource type.
@@ -810,7 +823,7 @@ module Google
         # currency_code. If set, then this deal is eligible for the private exchange
         # tier of buying (below fixed price priority, run as a second price auction).
         # Corresponds to the JSON property `privateExchangeMinCpm`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :private_exchange_min_cpm
       
         # If true, the publisher has opted to have their blocks ignored when a creative
@@ -828,7 +841,7 @@ module Google
         # Start time for when this deal becomes active. If not set then this deal is
         # active immediately upon creation. In seconds since the epoch.
         # Corresponds to the JSON property `startTime`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :start_time
       
         def initialize(**args)
@@ -839,6 +852,8 @@ module Google
         def update!(**args)
           @account_id = args[:account_id] if args.key?(:account_id)
           @advertiser = args[:advertiser] if args.key?(:advertiser)
+          @allows_alcohol = args[:allows_alcohol] if args.key?(:allows_alcohol)
+          @buyer_account_id = args[:buyer_account_id] if args.key?(:buyer_account_id)
           @currency_code = args[:currency_code] if args.key?(:currency_code)
           @deal_tier = args[:deal_tier] if args.key?(:deal_tier)
           @end_time = args[:end_time] if args.key?(:end_time)
@@ -993,7 +1008,7 @@ module Google
       
         # The unix timestamp of the starting time of this performance data.
         # Corresponds to the JSON property `timestamp`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :timestamp
       
         # The number of bid responses that were unsuccessful due to timeouts, incorrect
@@ -1033,10 +1048,7 @@ module Google
         end
       end
       
-      # The configuration data for an Ad Exchange performance report list. https://
-      # sites.google.com/a/google.com/adx-integration/Home/engineering/binary-releases/
-      # rtb-api-release https://cs.corp.google.com/#piper///depot/google3/contentads/
-      # adx/tools/rtb_api/adxrtb.py
+      # The configuration data for an Ad Exchange performance report list.
       class PerformanceReportList
         include Google::Apis::Core::Hashable
       
@@ -1068,13 +1080,13 @@ module Google
         # The id for billing purposes, provided for reference. Leave this field blank
         # for insert requests; the id will be generated automatically.
         # Corresponds to the JSON property `billingId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :billing_id
       
         # The config id; generated automatically. Leave this field blank for insert
         # requests.
         # Corresponds to the JSON property `configId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :config_id
       
         # The name of the config. Must be unique. Required for all requests.
@@ -1097,12 +1109,12 @@ module Google
         # Requests with any of these content labels will not match. Values are from
         # content-labels.txt in the downloadable files section.
         # Corresponds to the JSON property `excludedContentLabels`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :excluded_content_labels
       
         # Requests containing any of these geo criteria ids will not match.
         # Corresponds to the JSON property `excludedGeoCriteriaIds`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :excluded_geo_criteria_ids
       
         # Requests containing any of these placements will not match.
@@ -1112,18 +1124,18 @@ module Google
       
         # Requests containing any of these users list ids will not match.
         # Corresponds to the JSON property `excludedUserLists`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :excluded_user_lists
       
         # Requests containing any of these vertical ids will not match. Values are from
         # the publisher-verticals.txt file in the downloadable files section.
         # Corresponds to the JSON property `excludedVerticals`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :excluded_verticals
       
         # Requests containing any of these geo criteria ids will match.
         # Corresponds to the JSON property `geoCriteriaIds`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :geo_criteria_ids
       
         # Whether this config is active. Required for all requests.
@@ -1145,19 +1157,19 @@ module Google
         # Requests containing any of these mobile carrier ids will match. Values are
         # from mobile-carriers.csv in the downloadable files section.
         # Corresponds to the JSON property `mobileCarriers`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :mobile_carriers
       
         # Requests containing any of these mobile device ids will match. Values are from
         # mobile-devices.csv in the downloadable files section.
         # Corresponds to the JSON property `mobileDevices`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :mobile_devices
       
         # Requests containing any of these mobile operating system version ids will
         # match. Values are from mobile-os.csv in the downloadable files section.
         # Corresponds to the JSON property `mobileOperatingSystemVersions`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :mobile_operating_system_versions
       
         # Requests containing any of these placements will match.
@@ -1176,23 +1188,23 @@ module Google
         # this pretargeting configuration have that creative attribute. Values are from
         # pretargetable-creative-attributes.txt in the downloadable files section.
         # Corresponds to the JSON property `supportedCreativeAttributes`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :supported_creative_attributes
       
         # Requests containing any of these user list ids will match.
         # Corresponds to the JSON property `userLists`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :user_lists
       
         # Requests that allow any of these vendor ids will match. Values are from
         # vendors.txt in the downloadable files section.
         # Corresponds to the JSON property `vendorTypes`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :vendor_types
       
         # Requests containing any of these vertical ids will match.
         # Corresponds to the JSON property `verticals`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :verticals
       
         def initialize(**args)
@@ -1232,12 +1244,12 @@ module Google
         
           # Height in pixels.
           # Corresponds to the JSON property `height`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :height
         
           # Width in pixels.
           # Corresponds to the JSON property `width`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :width
         
           def initialize(**args)

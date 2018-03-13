@@ -31,22 +31,48 @@ module Google
         # @return [Array<Google::Apis::StorageV1::BucketAccessControl>]
         attr_accessor :acl
       
+        # The bucket's billing configuration.
+        # Corresponds to the JSON property `billing`
+        # @return [Google::Apis::StorageV1::Bucket::Billing]
+        attr_accessor :billing
+      
         # The bucket's Cross-Origin Resource Sharing (CORS) configuration.
         # Corresponds to the JSON property `cors`
         # @return [Array<Google::Apis::StorageV1::Bucket::CorsConfiguration>]
         attr_accessor :cors_configurations
+      
+        # Defines the default value for Event-Based hold on newly created objects in
+        # this bucket. Event-Based hold is a way to retain objects indefinitely until an
+        # event occurs, signified by the hold's release. After being released, such
+        # objects will be subject to bucket-level retention (if any). One sample use
+        # case of this flag is for banks to hold loan documents for at least 3 years
+        # after loan is paid in full. Here bucket-level retention is 3 years and the
+        # event is loan being paid in full. In this example these objects will be held
+        # intact for any number of years until the event has occurred (hold is released)
+        # and then 3 more years after that. Objects under Event-Based hold cannot be
+        # deleted, overwritten or archived until the hold is removed.
+        # Corresponds to the JSON property `defaultEventBasedHold`
+        # @return [Boolean]
+        attr_accessor :default_event_based_hold
+        alias_method :default_event_based_hold?, :default_event_based_hold
       
         # Default access controls to apply to new objects when no ACL is provided.
         # Corresponds to the JSON property `defaultObjectAcl`
         # @return [Array<Google::Apis::StorageV1::ObjectAccessControl>]
         attr_accessor :default_object_acl
       
+        # Encryption configuration used by default for newly inserted objects, when no
+        # encryption config is specified.
+        # Corresponds to the JSON property `encryption`
+        # @return [Google::Apis::StorageV1::Bucket::Encryption]
+        attr_accessor :encryption
+      
         # HTTP 1.1 Entity tag for the bucket.
         # Corresponds to the JSON property `etag`
         # @return [String]
         attr_accessor :etag
       
-        # The ID of the bucket.
+        # The ID of the bucket. For buckets, the id and name properties are the same.
         # Corresponds to the JSON property `id`
         # @return [String]
         attr_accessor :id
@@ -55,6 +81,11 @@ module Google
         # Corresponds to the JSON property `kind`
         # @return [String]
         attr_accessor :kind
+      
+        # User-provided labels, in key/value pairs.
+        # Corresponds to the JSON property `labels`
+        # @return [Hash<String,String>]
+        attr_accessor :labels
       
         # The bucket's lifecycle configuration. See lifecycle management for more
         # information.
@@ -77,7 +108,7 @@ module Google
       
         # The metadata generation of this bucket.
         # Corresponds to the JSON property `metageneration`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :metageneration
       
         # The name of the bucket.
@@ -92,8 +123,21 @@ module Google
       
         # The project number of the project the bucket belongs to.
         # Corresponds to the JSON property `projectNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :project_number
+      
+        # Defines the retention policy for a bucket. The Retention policy enforces a
+        # minimum retention time for all objects contained in the bucket, based on their
+        # creation time. Any attempt to overwrite or delete objects younger than the
+        # retention period will result in a PERMISSION_DENIED error. An unlocked
+        # retention policy can be modified or removed from the bucket via the
+        # UpdateBucketMetadata RPC. A locked retention policy cannot be removed or
+        # shortened in duration for the lifetime of the bucket. Attempting to remove or
+        # decrease period of a locked retention policy will result in a
+        # PERMISSION_DENIED error.
+        # Corresponds to the JSON property `retentionPolicy`
+        # @return [Google::Apis::StorageV1::Bucket::RetentionPolicy]
+        attr_accessor :retention_policy
       
         # The URI of this bucket.
         # Corresponds to the JSON property `selfLink`
@@ -139,11 +183,15 @@ module Google
         # Update properties of this object
         def update!(**args)
           @acl = args[:acl] if args.key?(:acl)
+          @billing = args[:billing] if args.key?(:billing)
           @cors_configurations = args[:cors_configurations] if args.key?(:cors_configurations)
+          @default_event_based_hold = args[:default_event_based_hold] if args.key?(:default_event_based_hold)
           @default_object_acl = args[:default_object_acl] if args.key?(:default_object_acl)
+          @encryption = args[:encryption] if args.key?(:encryption)
           @etag = args[:etag] if args.key?(:etag)
           @id = args[:id] if args.key?(:id)
           @kind = args[:kind] if args.key?(:kind)
+          @labels = args[:labels] if args.key?(:labels)
           @lifecycle = args[:lifecycle] if args.key?(:lifecycle)
           @location = args[:location] if args.key?(:location)
           @logging = args[:logging] if args.key?(:logging)
@@ -151,12 +199,33 @@ module Google
           @name = args[:name] if args.key?(:name)
           @owner = args[:owner] if args.key?(:owner)
           @project_number = args[:project_number] if args.key?(:project_number)
+          @retention_policy = args[:retention_policy] if args.key?(:retention_policy)
           @self_link = args[:self_link] if args.key?(:self_link)
           @storage_class = args[:storage_class] if args.key?(:storage_class)
           @time_created = args[:time_created] if args.key?(:time_created)
           @updated = args[:updated] if args.key?(:updated)
           @versioning = args[:versioning] if args.key?(:versioning)
           @website = args[:website] if args.key?(:website)
+        end
+        
+        # The bucket's billing configuration.
+        class Billing
+          include Google::Apis::Core::Hashable
+        
+          # When set to true, Requester Pays is enabled for this bucket.
+          # Corresponds to the JSON property `requesterPays`
+          # @return [Boolean]
+          attr_accessor :requester_pays
+          alias_method :requester_pays?, :requester_pays
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @requester_pays = args[:requester_pays] if args.key?(:requester_pays)
+          end
         end
         
         # 
@@ -198,6 +267,28 @@ module Google
             @http_method = args[:http_method] if args.key?(:http_method)
             @origin = args[:origin] if args.key?(:origin)
             @response_header = args[:response_header] if args.key?(:response_header)
+          end
+        end
+        
+        # Encryption configuration used by default for newly inserted objects, when no
+        # encryption config is specified.
+        class Encryption
+          include Google::Apis::Core::Hashable
+        
+          # A Cloud KMS key that will be used to encrypt objects inserted into this bucket,
+          # if no encryption method is specified. Limited availability; usable only by
+          # enabled projects.
+          # Corresponds to the JSON property `defaultKmsKeyName`
+          # @return [String]
+          attr_accessor :default_kms_key_name
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @default_kms_key_name = args[:default_kms_key_name] if args.key?(:default_kms_key_name)
           end
         end
         
@@ -372,6 +463,49 @@ module Google
           def update!(**args)
             @entity = args[:entity] if args.key?(:entity)
             @entity_id = args[:entity_id] if args.key?(:entity_id)
+          end
+        end
+        
+        # Defines the retention policy for a bucket. The Retention policy enforces a
+        # minimum retention time for all objects contained in the bucket, based on their
+        # creation time. Any attempt to overwrite or delete objects younger than the
+        # retention period will result in a PERMISSION_DENIED error. An unlocked
+        # retention policy can be modified or removed from the bucket via the
+        # UpdateBucketMetadata RPC. A locked retention policy cannot be removed or
+        # shortened in duration for the lifetime of the bucket. Attempting to remove or
+        # decrease period of a locked retention policy will result in a
+        # PERMISSION_DENIED error.
+        class RetentionPolicy
+          include Google::Apis::Core::Hashable
+        
+          # The time from which policy was enforced and effective. RFC 3339 format.
+          # Corresponds to the JSON property `effectiveTime`
+          # @return [DateTime]
+          attr_accessor :effective_time
+        
+          # Once locked, an object retention policy cannot be modified.
+          # Corresponds to the JSON property `isLocked`
+          # @return [Boolean]
+          attr_accessor :is_locked
+          alias_method :is_locked?, :is_locked
+        
+          # Specifies the duration that objects need to be retained. Retention duration
+          # must be greater than zero and less than 100 years. Note that enforcement of
+          # retention periods less than a day is not guaranteed. Such periods should only
+          # be used for testing purposes.
+          # Corresponds to the JSON property `retentionPeriod`
+          # @return [Fixnum]
+          attr_accessor :retention_period
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @effective_time = args[:effective_time] if args.key?(:effective_time)
+            @is_locked = args[:is_locked] if args.key?(:is_locked)
+            @retention_period = args[:retention_period] if args.key?(:retention_period)
           end
         end
         
@@ -615,7 +749,7 @@ module Google
         # Date and time of notification channel expiration, expressed as a Unix
         # timestamp, in milliseconds. Optional.
         # Corresponds to the JSON property `expiration`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :expiration
       
         # A UUID or similar unique string that identifies this channel.
@@ -717,7 +851,7 @@ module Google
         
           # The generation of this object to use as the source.
           # Corresponds to the JSON property `generation`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :generation
         
           # The source object's name. The source object's bucket is implicitly the
@@ -750,7 +884,7 @@ module Google
             # be used matches this value. If this value and a generation are both specified,
             # they must be the same value or the call will fail.
             # Corresponds to the JSON property `ifGenerationMatch`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :if_generation_match
           
             def initialize(**args)
@@ -762,6 +896,104 @@ module Google
               @if_generation_match = args[:if_generation_match] if args.key?(:if_generation_match)
             end
           end
+        end
+      end
+      
+      # A subscription to receive Google PubSub notifications.
+      class Notification
+        include Google::Apis::Core::Hashable
+      
+        # An optional list of additional attributes to attach to each Cloud PubSub
+        # message published for this notification subscription.
+        # Corresponds to the JSON property `custom_attributes`
+        # @return [Hash<String,String>]
+        attr_accessor :custom_attributes
+      
+        # HTTP 1.1 Entity tag for this subscription notification.
+        # Corresponds to the JSON property `etag`
+        # @return [String]
+        attr_accessor :etag
+      
+        # If present, only send notifications about listed event types. If empty, sent
+        # notifications for all event types.
+        # Corresponds to the JSON property `event_types`
+        # @return [Array<String>]
+        attr_accessor :event_types
+      
+        # The ID of the notification.
+        # Corresponds to the JSON property `id`
+        # @return [String]
+        attr_accessor :id
+      
+        # The kind of item this is. For notifications, this is always storage#
+        # notification.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # If present, only apply this notification configuration to object names that
+        # begin with this prefix.
+        # Corresponds to the JSON property `object_name_prefix`
+        # @return [String]
+        attr_accessor :object_name_prefix
+      
+        # The desired content of the Payload.
+        # Corresponds to the JSON property `payload_format`
+        # @return [String]
+        attr_accessor :payload_format
+      
+        # The canonical URL of this notification.
+        # Corresponds to the JSON property `selfLink`
+        # @return [String]
+        attr_accessor :self_link
+      
+        # The Cloud PubSub topic to which this subscription publishes. Formatted as: '//
+        # pubsub.googleapis.com/projects/`project-identifier`/topics/`my-topic`'
+        # Corresponds to the JSON property `topic`
+        # @return [String]
+        attr_accessor :topic
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @custom_attributes = args[:custom_attributes] if args.key?(:custom_attributes)
+          @etag = args[:etag] if args.key?(:etag)
+          @event_types = args[:event_types] if args.key?(:event_types)
+          @id = args[:id] if args.key?(:id)
+          @kind = args[:kind] if args.key?(:kind)
+          @object_name_prefix = args[:object_name_prefix] if args.key?(:object_name_prefix)
+          @payload_format = args[:payload_format] if args.key?(:payload_format)
+          @self_link = args[:self_link] if args.key?(:self_link)
+          @topic = args[:topic] if args.key?(:topic)
+        end
+      end
+      
+      # A list of notification subscriptions.
+      class Notifications
+        include Google::Apis::Core::Hashable
+      
+        # The list of items.
+        # Corresponds to the JSON property `items`
+        # @return [Array<Google::Apis::StorageV1::Notification>]
+        attr_accessor :items
+      
+        # The kind of item this is. For lists of notifications, this is always storage#
+        # notifications.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @items = args[:items] if args.key?(:items)
+          @kind = args[:kind] if args.key?(:kind)
         end
       end
       
@@ -806,8 +1038,8 @@ module Google
         # @return [String]
         attr_accessor :content_language
       
-        # Content-Type of the object data. If contentType is not specified, object
-        # downloads will be served as application/octet-stream.
+        # Content-Type of the object data. If an object is stored without a Content-Type,
+        # it is served as application/octet-stream.
         # Corresponds to the JSON property `contentType`
         # @return [String]
         attr_accessor :content_type
@@ -830,12 +1062,26 @@ module Google
         # @return [String]
         attr_accessor :etag
       
+        # Defines the Event-Based hold for an object. Event-Based hold is a way to
+        # retain objects indefinitely until an event occurs, signified by the hold's
+        # release. After being released, such objects will be subject to bucket-level
+        # retention (if any). One sample use case of this flag is for banks to hold loan
+        # documents for at least 3 years after loan is paid in full. Here bucket-level
+        # retention is 3 years and the event is loan being paid in full. In this example
+        # these objects will be held intact for any number of years until the event has
+        # occurred (hold is released) and then 3 more years after that.
+        # Corresponds to the JSON property `eventBasedHold`
+        # @return [Boolean]
+        attr_accessor :event_based_hold
+        alias_method :event_based_hold?, :event_based_hold
+      
         # The content generation of this object. Used for object versioning.
         # Corresponds to the JSON property `generation`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :generation
       
-        # The ID of the object.
+        # The ID of the object, including the bucket name, object name, and generation
+        # number.
         # Corresponds to the JSON property `id`
         # @return [String]
         attr_accessor :id
@@ -844,6 +1090,12 @@ module Google
         # Corresponds to the JSON property `kind`
         # @return [String]
         attr_accessor :kind
+      
+        # Cloud KMS Key used to encrypt this object, if the object is encrypted by such
+        # a key. Limited availability; usable only by enabled projects.
+        # Corresponds to the JSON property `kmsKeyName`
+        # @return [String]
+        attr_accessor :kms_key_name
       
         # MD5 hash of the data; encoded using base64. For more information about using
         # the MD5 hash, see Hashes and ETags: Best Practices.
@@ -866,10 +1118,10 @@ module Google
         # is only meaningful in the context of a particular generation of a particular
         # object.
         # Corresponds to the JSON property `metageneration`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :metageneration
       
-        # The name of this object. Required if not specified by URL parameter.
+        # The name of the object. Required if not specified by URL parameter.
         # Corresponds to the JSON property `name`
         # @return [String]
         attr_accessor :name
@@ -879,6 +1131,16 @@ module Google
         # @return [Google::Apis::StorageV1::Object::Owner]
         attr_accessor :owner
       
+        # Specifies the earliest time that the object's retention period expires. This
+        # value is server-determined and is in RFC 3339 format. Note 1: This field is
+        # not provided for objects with an active Event-Based hold, since retention
+        # expiration is unknown until the hold is removed. Note 2: This value can be
+        # provided even when TemporaryHold is set (so that the user can reason about
+        # policy without having to first unset the TemporaryHold).
+        # Corresponds to the JSON property `retentionExpirationTime`
+        # @return [DateTime]
+        attr_accessor :retention_expiration_time
+      
         # The link to this object.
         # Corresponds to the JSON property `selfLink`
         # @return [String]
@@ -886,13 +1148,23 @@ module Google
       
         # Content-Length of the data in bytes.
         # Corresponds to the JSON property `size`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :size
       
         # Storage class of the object.
         # Corresponds to the JSON property `storageClass`
         # @return [String]
         attr_accessor :storage_class
+      
+        # Defines the temporary hold for an object. This flag is used to enforce a
+        # temporary hold on an object. While it is set to true, the object is protected
+        # against deletion and overwrites. A common use case of this flag is regulatory
+        # investigations where objects need to be retained while the investigation is
+        # ongoing.
+        # Corresponds to the JSON property `temporaryHold`
+        # @return [Boolean]
+        attr_accessor :temporary_hold
+        alias_method :temporary_hold?, :temporary_hold
       
         # The creation time of the object in RFC 3339 format.
         # Corresponds to the JSON property `timeCreated`
@@ -904,6 +1176,12 @@ module Google
         # Corresponds to the JSON property `timeDeleted`
         # @return [DateTime]
         attr_accessor :time_deleted
+      
+        # The time at which the object's storage class was last changed. When the object
+        # is initially created, it will be set to timeCreated.
+        # Corresponds to the JSON property `timeStorageClassUpdated`
+        # @return [DateTime]
+        attr_accessor :time_storage_class_updated
       
         # The modification time of the object metadata in RFC 3339 format.
         # Corresponds to the JSON property `updated`
@@ -927,20 +1205,25 @@ module Google
           @crc32c = args[:crc32c] if args.key?(:crc32c)
           @customer_encryption = args[:customer_encryption] if args.key?(:customer_encryption)
           @etag = args[:etag] if args.key?(:etag)
+          @event_based_hold = args[:event_based_hold] if args.key?(:event_based_hold)
           @generation = args[:generation] if args.key?(:generation)
           @id = args[:id] if args.key?(:id)
           @kind = args[:kind] if args.key?(:kind)
+          @kms_key_name = args[:kms_key_name] if args.key?(:kms_key_name)
           @md5_hash = args[:md5_hash] if args.key?(:md5_hash)
           @media_link = args[:media_link] if args.key?(:media_link)
           @metadata = args[:metadata] if args.key?(:metadata)
           @metageneration = args[:metageneration] if args.key?(:metageneration)
           @name = args[:name] if args.key?(:name)
           @owner = args[:owner] if args.key?(:owner)
+          @retention_expiration_time = args[:retention_expiration_time] if args.key?(:retention_expiration_time)
           @self_link = args[:self_link] if args.key?(:self_link)
           @size = args[:size] if args.key?(:size)
           @storage_class = args[:storage_class] if args.key?(:storage_class)
+          @temporary_hold = args[:temporary_hold] if args.key?(:temporary_hold)
           @time_created = args[:time_created] if args.key?(:time_created)
           @time_deleted = args[:time_deleted] if args.key?(:time_deleted)
+          @time_storage_class_updated = args[:time_storage_class_updated] if args.key?(:time_storage_class_updated)
           @updated = args[:updated] if args.key?(:updated)
         end
         
@@ -1044,7 +1327,7 @@ module Google
       
         # The content generation of the object, if applied to an object.
         # Corresponds to the JSON property `generation`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :generation
       
         # The ID of the access-control entry.
@@ -1190,6 +1473,124 @@ module Google
         end
       end
       
+      # A bucket/object IAM policy.
+      class Policy
+        include Google::Apis::Core::Hashable
+      
+        # An association between a role, which comes with a set of permissions, and
+        # members who may assume that role.
+        # Corresponds to the JSON property `bindings`
+        # @return [Array<Google::Apis::StorageV1::Policy::Binding>]
+        attr_accessor :bindings
+      
+        # HTTP 1.1  Entity tag for the policy.
+        # Corresponds to the JSON property `etag`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
+        # @return [String]
+        attr_accessor :etag
+      
+        # The kind of item this is. For policies, this is always storage#policy. This
+        # field is ignored on input.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The ID of the resource to which this policy belongs. Will be of the form
+        # projects/_/buckets/bucket for buckets, and projects/_/buckets/bucket/objects/
+        # object for objects. A specific generation may be specified by appending #
+        # generationNumber to the end of the object name, e.g. projects/_/buckets/my-
+        # bucket/objects/data.txt#17. The current generation can be denoted with #0.
+        # This field is ignored on input.
+        # Corresponds to the JSON property `resourceId`
+        # @return [String]
+        attr_accessor :resource_id
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @bindings = args[:bindings] if args.key?(:bindings)
+          @etag = args[:etag] if args.key?(:etag)
+          @kind = args[:kind] if args.key?(:kind)
+          @resource_id = args[:resource_id] if args.key?(:resource_id)
+        end
+        
+        # 
+        class Binding
+          include Google::Apis::Core::Hashable
+        
+          # 
+          # Corresponds to the JSON property `condition`
+          # @return [Object]
+          attr_accessor :condition
+        
+          # A collection of identifiers for members who may assume the provided role.
+          # Recognized identifiers are as follows:
+          # - allUsers — A special identifier that represents anyone on the internet; with
+          # or without a Google account.
+          # - allAuthenticatedUsers — A special identifier that represents anyone who is
+          # authenticated with a Google account or a service account.
+          # - user:emailid — An email address that represents a specific account. For
+          # example, user:alice@gmail.com or user:joe@example.com.
+          # - serviceAccount:emailid — An email address that represents a service account.
+          # For example,  serviceAccount:my-other-app@appspot.gserviceaccount.com .
+          # - group:emailid — An email address that represents a Google group. For example,
+          # group:admins@example.com.
+          # - domain:domain — A Google Apps domain name that represents all the users of
+          # that domain. For example, domain:google.com or domain:example.com.
+          # - projectOwner:projectid — Owners of the given project. For example,
+          # projectOwner:my-example-project
+          # - projectEditor:projectid — Editors of the given project. For example,
+          # projectEditor:my-example-project
+          # - projectViewer:projectid — Viewers of the given project. For example,
+          # projectViewer:my-example-project
+          # Corresponds to the JSON property `members`
+          # @return [Array<String>]
+          attr_accessor :members
+        
+          # The role to which members belong. Two types of roles are supported: new IAM
+          # roles, which grant permissions that do not map directly to those provided by
+          # ACLs, and legacy IAM roles, which do map directly to ACL permissions. All
+          # roles are of the format roles/storage.specificRole.
+          # The new IAM roles are:
+          # - roles/storage.admin — Full control of Google Cloud Storage resources.
+          # - roles/storage.objectViewer — Read-Only access to Google Cloud Storage
+          # objects.
+          # - roles/storage.objectCreator — Access to create objects in Google Cloud
+          # Storage.
+          # - roles/storage.objectAdmin — Full control of Google Cloud Storage objects.
+          # The legacy IAM roles are:
+          # - roles/storage.legacyObjectReader — Read-only access to objects without
+          # listing. Equivalent to an ACL entry on an object with the READER role.
+          # - roles/storage.legacyObjectOwner — Read/write access to existing objects
+          # without listing. Equivalent to an ACL entry on an object with the OWNER role.
+          # - roles/storage.legacyBucketReader — Read access to buckets with object
+          # listing. Equivalent to an ACL entry on a bucket with the READER role.
+          # - roles/storage.legacyBucketWriter — Read access to buckets with object
+          # listing/creation/deletion. Equivalent to an ACL entry on a bucket with the
+          # WRITER role.
+          # - roles/storage.legacyBucketOwner — Read and write access to existing buckets
+          # with object listing/creation/deletion. Equivalent to an ACL entry on a bucket
+          # with the OWNER role.
+          # Corresponds to the JSON property `role`
+          # @return [String]
+          attr_accessor :role
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @condition = args[:condition] if args.key?(:condition)
+            @members = args[:members] if args.key?(:members)
+            @role = args[:role] if args.key?(:role)
+          end
+        end
+      end
+      
       # A rewrite response.
       class RewriteResponse
         include Google::Apis::Core::Hashable
@@ -1209,7 +1610,7 @@ module Google
         # The total size of the object being copied in bytes. This property is always
         # present in the response.
         # Corresponds to the JSON property `objectSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :object_size
       
         # An object.
@@ -1226,7 +1627,7 @@ module Google
         # The total bytes written so far, which can be used to provide a waiting user
         # with a progress indicator. This property is always present in the response.
         # Corresponds to the JSON property `totalBytesRewritten`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :total_bytes_rewritten
       
         def initialize(**args)
@@ -1241,6 +1642,73 @@ module Google
           @resource = args[:resource] if args.key?(:resource)
           @rewrite_token = args[:rewrite_token] if args.key?(:rewrite_token)
           @total_bytes_rewritten = args[:total_bytes_rewritten] if args.key?(:total_bytes_rewritten)
+        end
+      end
+      
+      # A subscription to receive Google PubSub notifications.
+      class ServiceAccount
+        include Google::Apis::Core::Hashable
+      
+        # The ID of the notification.
+        # Corresponds to the JSON property `email_address`
+        # @return [String]
+        attr_accessor :email_address
+      
+        # The kind of item this is. For notifications, this is always storage#
+        # notification.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @email_address = args[:email_address] if args.key?(:email_address)
+          @kind = args[:kind] if args.key?(:kind)
+        end
+      end
+      
+      # A storage.(buckets|objects).testIamPermissions response.
+      class TestIamPermissionsResponse
+        include Google::Apis::Core::Hashable
+      
+        # The kind of item this is.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The permissions held by the caller. Permissions are always of the format
+        # storage.resource.capability, where resource is one of buckets or objects. The
+        # supported permissions are as follows:
+        # - storage.buckets.delete — Delete bucket.
+        # - storage.buckets.get — Read bucket metadata.
+        # - storage.buckets.getIamPolicy — Read bucket IAM policy.
+        # - storage.buckets.create — Create bucket.
+        # - storage.buckets.list — List buckets.
+        # - storage.buckets.setIamPolicy — Update bucket IAM policy.
+        # - storage.buckets.update — Update bucket metadata.
+        # - storage.objects.delete — Delete object.
+        # - storage.objects.get — Read object data and metadata.
+        # - storage.objects.getIamPolicy — Read object IAM policy.
+        # - storage.objects.create — Create object.
+        # - storage.objects.list — List objects.
+        # - storage.objects.setIamPolicy — Update object IAM policy.
+        # - storage.objects.update — Update object metadata.
+        # Corresponds to the JSON property `permissions`
+        # @return [Array<String>]
+        attr_accessor :permissions
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @permissions = args[:permissions] if args.key?(:permissions)
         end
       end
     end

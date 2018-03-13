@@ -15,7 +15,6 @@
 require 'spec_helper'
 require 'google/apis/core/api_command'
 require 'google/apis/core/json_representation'
-require 'hurley/test'
 
 RSpec.describe Google::Apis::Core::ApiCommand do
   include TestHelpers
@@ -64,6 +63,29 @@ RSpec.describe Google::Apis::Core::ApiCommand do
     end
   end
 
+  context('with a raw request body') do
+    let(:command) do
+      request = model_class.new
+      command = Google::Apis::Core::ApiCommand.new(:post, 'https://www.googleapis.com/zoo/animals')
+      command.request_representation = representer_class
+      command.request_object = %({"value": "hello"})
+      command.options.skip_serialization = true
+      command
+    end
+
+    before(:example) do
+      stub_request(:post, 'https://www.googleapis.com/zoo/animals')
+          .to_return(headers: { 'Content-Type' => 'application/json' }, body: %({}))
+    end
+
+    it 'should allow raw JSON if skip_serialization = true' do
+      command.execute(client)
+      expect(a_request(:post, 'https://www.googleapis.com/zoo/animals').with do |req|
+        be_json_eql(%({"value":"hello"})).matches?(req.body)
+      end).to have_been_made
+    end
+  end
+
   context('with a JSON response') do
     let(:command) do
       command = Google::Apis::Core::ApiCommand.new(:get, 'https://www.googleapis.com/zoo/animals')
@@ -85,6 +107,12 @@ RSpec.describe Google::Apis::Core::ApiCommand do
     it 'should return a populated object' do
       result = command.execute(client)
       expect(result.value).to eql 'hello'
+    end
+
+    it 'should return a raw JSON if skip_deserialization true' do
+      command.options.skip_deserialization = true
+      result = command.execute(client)
+      expect(result).to eql %({"value" : "hello"})
     end
   end
 
@@ -159,6 +187,44 @@ EOF
     end
   end
 
+  context('with a project not linked response') do
+    let(:command) do
+      Google::Apis::Core::ApiCommand.new(:get, 'https://www.googleapis.com/zoo/animals')
+    end
+
+    before(:example) do
+      json = <<EOF
+{
+ "error": {
+  "errors": [
+   {
+    "domain": "global",
+    "reason": "projectNotLinked",
+    "message": "The project id used to call the Google Play Developer API has not been linked in the Google Play Developer Console."
+   }
+  ],
+  "code": 403,
+  "message": "The project id used to call the Google Play Developer API has not been linked in the Google Play Developer Console."
+ }
+}
+EOF
+      stub_request(:get, 'https://www.googleapis.com/zoo/animals')
+        .to_return(status: [403, 'The project id used to call the Google Play Developer API has not been linked in the Google Play Developer Console.'], headers: {
+          'Content-Type' => 'application/json'
+        }, body: json)
+        .to_return(headers: { 'Content-Type' => 'application/json' }, body: %({}))
+    end
+
+    it 'should raise project not linked error' do
+      expect { command.execute(client) }.to raise_error(Google::Apis::ProjectNotLinkedError)
+    end
+
+    it 'should raise an error with the reason and message' do
+      expect { command.execute(client) }.to raise_error(
+        /projectNotLinked: The project id used to call the Google Play Developer API has not been linked in the Google Play Developer Console./)
+    end
+  end
+
   context('with a client error response') do
     let(:command) do
       Google::Apis::Core::ApiCommand.new(:get, 'https://www.googleapis.com/zoo/animals')
@@ -212,6 +278,54 @@ EOF
 
     it 'should use the default error message' do
       expect { command.execute(client) }.to raise_error(/Invalid request/)
+    end
+  end
+
+  context('with v2 error messages') do
+    let(:command) do
+      cmd = Google::Apis::Core::ApiCommand.new(:get, 'https://www.googleapis.com/zoo/animals')
+      cmd.options.api_format_version = 2
+      cmd
+    end
+
+    before(:example) do
+      json = <<EOF
+{
+  "error": {
+    "code": 400,
+    "message": "Illegal character ':' in log name",
+    "status": "INVALID_ARGUMENT",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.logging.v2.WriteLogEntriesPartialErrors",
+        "logEntryErrors": {
+          "0": {
+            "code": 3,
+            "message": "Illegal character ':' in log name"
+          },
+          "1": {
+            "code": 7,
+            "message": "User not authorized."
+          }
+        }
+      }
+    ]
+  }
+}
+EOF
+
+      stub_request(:get, 'https://www.googleapis.com/zoo/animals')
+        .with(headers: {'X-Goog-Api-Format-Version' => '2'})
+        .to_return(status: [400, 'Invalid Argument'], headers: { 'Content-Type' => 'application/json' }, body: json)
+    end
+
+    it 'should raise client error' do
+      expect { command.execute(client) }.to raise_error(Google::Apis::ClientError)
+    end
+
+    it 'should raise an error with the reason and message' do
+      expect { command.execute(client) }.to raise_error(
+        /INVALID_ARGUMENT: Illegal character ':' in log name/)
     end
   end
 end

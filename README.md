@@ -1,21 +1,30 @@
 # Google API Client
 
+## Library maintenance
+
+This client library is supported but in maintenance mode only.  We are fixing necessary bugs and adding essential features to ensure this library continues to meet your needs for accessing Google APIs.  Non-critical issues will be closed.  Any issue may be reopened if it is causing ongoing problems.
+
 ## Alpha
 
 This library is in Alpha. We will make an effort to support the library, but we reserve the right to make incompatible
 changes when necessary.
 
+## Working with Google Cloud Platform APIs?
+
+If you're working with Google Cloud Platform APIs such as Datastore, Cloud Storage or Pub/Sub, consider using [google-cloud](https://github.com/GoogleCloudPlatform/google-cloud-ruby), an idiomatic Ruby client for Google Cloud Platform services.
+
+You can find the list of Google Cloud Platform APIs supported by google-cloud in the [google-cloud docs](https://googlecloudplatform.github.io/google-cloud-ruby/#/docs/google-cloud).
+
 ## Migrating from 0.8.x
 
-Version 0.9 is not compatible with previous versions. See [MIGRATING](MIGRATING.md) for additional details on how to
-migrate to the latest version.
+See [MIGRATING](MIGRATING.md) for additional details on how to migrate to the latest version.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'google-api-client', '~> 0.9'
+gem 'google-api-client', '~> 0.11'
 
 ```
 
@@ -60,7 +69,7 @@ Object properties in the ruby client use the standard ruby convention for naming
 * For properties that are defined as hashes with user-defined keys, no translation is performed on the key.
 * For embedded field masks in requests (for example, the Sheets API), specify the camelCase form when referencing fields.
 
-Outisde those exceptions, if a property is specified using camelCase in a request, it will be ignored during serialization and omitted from the request.
+Outside those exceptions, if a property is specified using camelCase in a request, it will be ignored during serialization and omitted from the request.
 
 ### Media
 
@@ -192,6 +201,14 @@ file = drive.create_file(file) # Raises ArgumentError: unknown keywords: id, tit
 file = drive.create_file(file, {}) # Returns a Drive::File instance
 ```
 
+### Using raw JSON
+
+To handle JSON serialization or deserialization in the application, set `skip_serialization` or
+or `skip_deserializaton` options respectively. When setting `skip_serialization` in a request,
+the body object must be a string representing the serialized JSON.
+
+When setting `skip_deserialization` to true, the response from the API will likewise
+be a string containing the raw JSON from the server.
 
 ## Authorization
 
@@ -284,13 +301,10 @@ The second is to set the environment variable `GOOGLE_API_USE_RAILS_LOGGER` to a
 
 ## Samples
 
-Samples for versions 0.9 and onward can be found in the `samples` directory.
+See the [samples](https://github.com/google/google-api-ruby-client/tree/master/samples) for examples on how to use the client library for various
+services.
+
 Contributions for additional samples are welcome. See [CONTRIBUTING](CONTRIBUTING.md).
-
-Samples for previous versions can be found in the
-[samples](samples)
-folder.
-
 
 ## Generating APIs
 

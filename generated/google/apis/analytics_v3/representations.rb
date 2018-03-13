@@ -64,6 +64,30 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class AccountTreeRequest
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+        class AccountSettings
+          class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
+        end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class AccountTreeResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+        class AccountSettings
+          class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
+        end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class Accounts
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -714,6 +738,59 @@ module Google
         end
       end
       
+      class AccountTreeRequest
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :account_name, as: 'accountName'
+          property :account_settings, as: 'accountSettings', class: Google::Apis::AnalyticsV3::AccountTreeRequest::AccountSettings, decorator: Google::Apis::AnalyticsV3::AccountTreeRequest::AccountSettings::Representation
+      
+          property :kind, as: 'kind'
+          property :profile_name, as: 'profileName'
+          property :timezone, as: 'timezone'
+          property :webproperty_name, as: 'webpropertyName'
+          property :website_url, as: 'websiteUrl'
+        end
+        
+        class AccountSettings
+          # @private
+          class Representation < Google::Apis::Core::JsonRepresentation
+            property :admob_reporting, as: 'admobReporting'
+            property :sharing_with_google_any_sales, as: 'sharingWithGoogleAnySales'
+            property :sharing_with_google_products, as: 'sharingWithGoogleProducts'
+            property :sharing_with_google_sales, as: 'sharingWithGoogleSales'
+            property :sharing_with_google_support, as: 'sharingWithGoogleSupport'
+            property :sharing_with_others, as: 'sharingWithOthers'
+          end
+        end
+      end
+      
+      class AccountTreeResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :account, as: 'account', class: Google::Apis::AnalyticsV3::Account, decorator: Google::Apis::AnalyticsV3::Account::Representation
+      
+          property :account_settings, as: 'accountSettings', class: Google::Apis::AnalyticsV3::AccountTreeResponse::AccountSettings, decorator: Google::Apis::AnalyticsV3::AccountTreeResponse::AccountSettings::Representation
+      
+          property :kind, as: 'kind'
+          property :profile, as: 'profile', class: Google::Apis::AnalyticsV3::Profile, decorator: Google::Apis::AnalyticsV3::Profile::Representation
+      
+          property :webproperty, as: 'webproperty', class: Google::Apis::AnalyticsV3::Webproperty, decorator: Google::Apis::AnalyticsV3::Webproperty::Representation
+      
+        end
+        
+        class AccountSettings
+          # @private
+          class Representation < Google::Apis::Core::JsonRepresentation
+            property :admob_reporting, as: 'admobReporting'
+            property :sharing_with_google_any_sales, as: 'sharingWithGoogleAnySales'
+            property :sharing_with_google_products, as: 'sharingWithGoogleProducts'
+            property :sharing_with_google_sales, as: 'sharingWithGoogleSales'
+            property :sharing_with_google_support, as: 'sharingWithGoogleSupport'
+            property :sharing_with_others, as: 'sharingWithOthers'
+          end
+        end
+      end
+      
       class Accounts
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -782,6 +859,7 @@ module Google
           property :parent_link, as: 'parentLink', class: Google::Apis::AnalyticsV3::CustomDataSource::ParentLink, decorator: Google::Apis::AnalyticsV3::CustomDataSource::ParentLink::Representation
       
           collection :profiles_linked, as: 'profilesLinked'
+          collection :schema, as: 'schema'
           property :self_link, as: 'selfLink'
           property :type, as: 'type'
           property :updated, as: 'updated', type: DateTime
@@ -1201,7 +1279,7 @@ module Google
           collection :column_headers, as: 'columnHeaders', class: Google::Apis::AnalyticsV3::GaData::ColumnHeader, decorator: Google::Apis::AnalyticsV3::GaData::ColumnHeader::Representation
       
           property :contains_sampled_data, as: 'containsSampledData'
-          property :data_last_refreshed, as: 'dataLastRefreshed'
+          property :data_last_refreshed, :numeric_string => true, as: 'dataLastRefreshed'
           property :data_table, as: 'dataTable', class: Google::Apis::AnalyticsV3::GaData::DataTable, decorator: Google::Apis::AnalyticsV3::GaData::DataTable::Representation
       
           property :id, as: 'id'
@@ -1218,8 +1296,8 @@ module Google
         items
       end
       
-          property :sample_size, as: 'sampleSize'
-          property :sample_space, as: 'sampleSpace'
+          property :sample_size, :numeric_string => true, as: 'sampleSize'
+          property :sample_space, :numeric_string => true, as: 'sampleSpace'
           property :self_link, as: 'selfLink'
           property :total_results, as: 'totalResults'
           hash :totals_for_all_results, as: 'totalsForAllResults'
@@ -1340,7 +1418,7 @@ module Google
             # @private
             class Representation < Google::Apis::Core::JsonRepresentation
               property :comparison_type, as: 'comparisonType'
-              property :comparison_value, as: 'comparisonValue'
+              property :comparison_value, :numeric_string => true, as: 'comparisonValue'
               property :expression, as: 'expression'
               property :match_type, as: 'matchType'
               property :type, as: 'type'
@@ -1381,7 +1459,7 @@ module Google
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
             property :comparison_type, as: 'comparisonType'
-            property :comparison_value, as: 'comparisonValue'
+            property :comparison_value, :numeric_string => true, as: 'comparisonValue'
           end
         end
         
@@ -1389,7 +1467,7 @@ module Google
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
             property :comparison_type, as: 'comparisonType'
-            property :comparison_value, as: 'comparisonValue'
+            property :comparison_value, :numeric_string => true, as: 'comparisonValue'
           end
         end
       end
@@ -1457,8 +1535,8 @@ module Google
       
       end
       
-          property :sample_size, as: 'sampleSize'
-          property :sample_space, as: 'sampleSpace'
+          property :sample_size, :numeric_string => true, as: 'sampleSize'
+          property :sample_space, :numeric_string => true, as: 'sampleSpace'
           property :self_link, as: 'selfLink'
           property :total_results, as: 'totalResults'
           hash :totals_for_all_results, as: 'totalsForAllResults'
@@ -1863,12 +1941,14 @@ module Google
       class Upload
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :account_id, as: 'accountId'
+          property :account_id, :numeric_string => true, as: 'accountId'
           property :custom_data_source_id, as: 'customDataSourceId'
           collection :errors, as: 'errors'
           property :id, as: 'id'
           property :kind, as: 'kind'
           property :status, as: 'status'
+          property :upload_time, as: 'uploadTime', type: DateTime
+      
         end
       end
       
@@ -1945,7 +2025,7 @@ module Google
       
           property :created, as: 'created', type: DateTime
       
-          property :default_profile_id, as: 'defaultProfileId'
+          property :default_profile_id, :numeric_string => true, as: 'defaultProfileId'
           property :id, as: 'id'
           property :industry_vertical, as: 'industryVertical'
           property :internal_web_property_id, as: 'internalWebPropertyId'

@@ -26,7 +26,11 @@ module Google
       class ApiCommand < HttpCommand
         JSON_CONTENT_TYPE = 'application/json'
         FIELDS_PARAM = 'fields'
-        RATE_LIMIT_ERRORS = %w(rateLimitExceeded userRateLimitExceeded)
+        ERROR_REASON_MAPPING = {
+          'rateLimitExceeded' => Google::Apis::RateLimitError,
+          'userRateLimitExceeded' => Google::Apis::RateLimitError,
+          'projectNotLinked' => Google::Apis::ProjectNotLinkedError
+        }
 
         # JSON serializer for request objects
         # @return [Google::Apis::Core::JsonRepresentation]
@@ -48,10 +52,17 @@ module Google
         #
         # @return [void]
         def prepare!
+          if options && options.api_format_version
+            header['X-Goog-Api-Format-Version'] = options.api_format_version.to_s
+          end
           query[FIELDS_PARAM] = normalize_fields_param(query[FIELDS_PARAM]) if query.key?(FIELDS_PARAM)
           if request_representation && request_object
-            header[:content_type] ||= JSON_CONTENT_TYPE
-            self.body = request_representation.new(request_object).to_json(skip_undefined: true)
+            header['Content-Type'] ||= JSON_CONTENT_TYPE
+            if options && options.skip_serialization
+              self.body = request_object
+            else
+              self.body = request_representation.new(request_object).to_json(user_options: { skip_undefined: true })
+            end
           end
           super
         end
@@ -67,6 +78,7 @@ module Google
         # noinspection RubyUnusedLocalVariable
         def decode_response_body(content_type, body)
           return super unless response_representation
+          return super if options && options.skip_deserialization
           return super if content_type.nil?
           return nil unless content_type.start_with?(JSON_CONTENT_TYPE)
           instance = response_class.new
@@ -78,7 +90,7 @@ module Google
         #
         # @param [Fixnum] status
         #   HTTP status code of response
-        # @param [Hurley::Header] header
+        # @param [Hash] header
         #   HTTP response headers
         # @param [String] body
         #   HTTP response body
@@ -91,13 +103,15 @@ module Google
         def check_status(status, header = nil, body = nil, message = nil)
           case status
           when 400, 402...500
-            error = parse_error(body)
-            if error
-              message = sprintf('%s: %s', error['reason'], error['message'])
-              raise Google::Apis::RateLimitError.new(message,
-                                                     status_code: status,
-                                                     header: header,
-                                                     body: body) if RATE_LIMIT_ERRORS.include?(error['reason'])
+            reason, message = parse_error(body)
+            if reason
+              message = sprintf('%s: %s', reason, message)
+              raise ERROR_REASON_MAPPING[reason].new(
+                message,
+                status_code: status,
+                header: header,
+                body: body
+              ) if ERROR_REASON_MAPPING.key?(reason)
             end
             super(status, header, body, message)
           else
@@ -111,15 +125,45 @@ module Google
 
         private
 
-        # Attempt to parse a JSON error message, returning the first found error
+        # Attempt to parse a JSON error message
         # @param [String] body
         #  HTTP response body
-        # @return [Hash]
+        # @return [Array<(String, String)>]
+        #   Error reason and message
         def parse_error(body)
-          hash = JSON.load(body)
-          hash['error']['errors'].first
+          obj = JSON.load(body)
+          error = obj['error']
+          if error['details']
+            return extract_v2_error_details(error)
+          elsif error['errors']
+            return extract_v1_error_details(error)
+          else
+            fail 'Can not parse error message. No "details" or "errors" detected'
+          end
         rescue
-          nil
+          return [nil, nil]
+        end
+
+        # Extracts details from a v1 error message
+        # @param [Hash] error
+        #  Parsed JSON
+        # @return [Array<(String, String)>]
+        #   Error reason and message
+        def extract_v1_error_details(error)
+          reason = error['errors'].first['reason']
+          message = error['message']
+          return [reason, message]
+        end
+
+        # Extracts details from a v2error message
+        # @param [Hash] error
+        #  Parsed JSON
+        # @return [Array<(String, String)>]
+        #   Error reason and message
+        def extract_v2_error_details(error)
+          reason = error['status']
+          message = error['message']
+          return [reason, message]
         end
 
         # Convert field names from ruby conventions to original names in JSON

@@ -50,6 +50,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'calendar/v3/')
+          @batch_path = 'batch/calendar/v3'
         end
         
         # Deletes an access control rule.
@@ -136,6 +137,9 @@ module Google
         #   method. If you want to access the primary calendar of the currently logged in
         #   user, use the "primary" keyword.
         # @param [Google::Apis::CalendarV3::AclRule] acl_rule_object
+        # @param [Boolean] send_notifications
+        #   Whether to send notifications about the calendar sharing change. Optional. The
+        #   default is True.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -157,13 +161,14 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def insert_acl(calendar_id, acl_rule_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def insert_acl(calendar_id, acl_rule_object = nil, send_notifications: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:post, 'calendars/{calendarId}/acl', options)
           command.request_representation = Google::Apis::CalendarV3::AclRule::Representation
           command.request_object = acl_rule_object
           command.response_representation = Google::Apis::CalendarV3::AclRule::Representation
           command.response_class = Google::Apis::CalendarV3::AclRule
           command.params['calendarId'] = calendar_id unless calendar_id.nil?
+          command.query['sendNotifications'] = send_notifications unless send_notifications.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -239,6 +244,9 @@ module Google
         # @param [String] rule_id
         #   ACL rule identifier.
         # @param [Google::Apis::CalendarV3::AclRule] acl_rule_object
+        # @param [Boolean] send_notifications
+        #   Whether to send notifications about the calendar sharing change. Note that
+        #   there are no notifications on access removal. Optional. The default is True.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -260,7 +268,7 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def patch_acl(calendar_id, rule_id, acl_rule_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def patch_acl(calendar_id, rule_id, acl_rule_object = nil, send_notifications: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:patch, 'calendars/{calendarId}/acl/{ruleId}', options)
           command.request_representation = Google::Apis::CalendarV3::AclRule::Representation
           command.request_object = acl_rule_object
@@ -268,6 +276,7 @@ module Google
           command.response_class = Google::Apis::CalendarV3::AclRule
           command.params['calendarId'] = calendar_id unless calendar_id.nil?
           command.params['ruleId'] = rule_id unless rule_id.nil?
+          command.query['sendNotifications'] = send_notifications unless send_notifications.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -282,6 +291,9 @@ module Google
         # @param [String] rule_id
         #   ACL rule identifier.
         # @param [Google::Apis::CalendarV3::AclRule] acl_rule_object
+        # @param [Boolean] send_notifications
+        #   Whether to send notifications about the calendar sharing change. Note that
+        #   there are no notifications on access removal. Optional. The default is True.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -303,7 +315,7 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def update_acl(calendar_id, rule_id, acl_rule_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def update_acl(calendar_id, rule_id, acl_rule_object = nil, send_notifications: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:put, 'calendars/{calendarId}/acl/{ruleId}', options)
           command.request_representation = Google::Apis::CalendarV3::AclRule::Representation
           command.request_object = acl_rule_object
@@ -311,6 +323,7 @@ module Google
           command.response_class = Google::Apis::CalendarV3::AclRule
           command.params['calendarId'] = calendar_id unless calendar_id.nil?
           command.params['ruleId'] = rule_id unless rule_id.nil?
+          command.query['sendNotifications'] = send_notifications unless send_notifications.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -1116,6 +1129,12 @@ module Google
         #   method. If you want to access the primary calendar of the currently logged in
         #   user, use the "primary" keyword.
         # @param [Google::Apis::CalendarV3::Event] event_object
+        # @param [Fixnum] conference_data_version
+        #   Version number of conference data supported by the API client. Version 0
+        #   assumes no conference data support and ignores conference data in the event's
+        #   body. Version 1 enables support for copying of ConferenceData as well as for
+        #   creating new conferences using the createRequest field of conferenceData. The
+        #   default is 0.
         # @param [Boolean] supports_attachments
         #   Whether API client performing operation supports event attachments. Optional.
         #   The default is False.
@@ -1140,13 +1159,14 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def import_event(calendar_id, event_object = nil, supports_attachments: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def import_event(calendar_id, event_object = nil, conference_data_version: nil, supports_attachments: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:post, 'calendars/{calendarId}/events/import', options)
           command.request_representation = Google::Apis::CalendarV3::Event::Representation
           command.request_object = event_object
           command.response_representation = Google::Apis::CalendarV3::Event::Representation
           command.response_class = Google::Apis::CalendarV3::Event
           command.params['calendarId'] = calendar_id unless calendar_id.nil?
+          command.query['conferenceDataVersion'] = conference_data_version unless conference_data_version.nil?
           command.query['supportsAttachments'] = supports_attachments unless supports_attachments.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
@@ -1160,6 +1180,12 @@ module Google
         #   method. If you want to access the primary calendar of the currently logged in
         #   user, use the "primary" keyword.
         # @param [Google::Apis::CalendarV3::Event] event_object
+        # @param [Fixnum] conference_data_version
+        #   Version number of conference data supported by the API client. Version 0
+        #   assumes no conference data support and ignores conference data in the event's
+        #   body. Version 1 enables support for copying of ConferenceData as well as for
+        #   creating new conferences using the createRequest field of conferenceData. The
+        #   default is 0.
         # @param [Fixnum] max_attendees
         #   The maximum number of attendees to include in the response. If there are more
         #   than the specified number of attendees, only the participant is returned.
@@ -1191,13 +1217,14 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def insert_event(calendar_id, event_object = nil, max_attendees: nil, send_notifications: nil, supports_attachments: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def insert_event(calendar_id, event_object = nil, conference_data_version: nil, max_attendees: nil, send_notifications: nil, supports_attachments: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:post, 'calendars/{calendarId}/events', options)
           command.request_representation = Google::Apis::CalendarV3::Event::Representation
           command.request_object = event_object
           command.response_representation = Google::Apis::CalendarV3::Event::Representation
           command.response_class = Google::Apis::CalendarV3::Event
           command.params['calendarId'] = calendar_id unless calendar_id.nil?
+          command.query['conferenceDataVersion'] = conference_data_version unless conference_data_version.nil?
           command.query['maxAttendees'] = max_attendees unless max_attendees.nil?
           command.query['sendNotifications'] = send_notifications unless send_notifications.nil?
           command.query['supportsAttachments'] = supports_attachments unless supports_attachments.nil?
@@ -1307,8 +1334,11 @@ module Google
         #   than the specified number of attendees, only the participant is returned.
         #   Optional.
         # @param [Fixnum] max_results
-        #   Maximum number of events returned on one result page. By default the value is
-        #   250 events. The page size can never be larger than 2500 events. Optional.
+        #   Maximum number of events returned on one result page. The number of events in
+        #   the resulting page may be less than this value, or none at all, even if there
+        #   are more events matching the query. Incomplete pages can be detected by a non-
+        #   empty nextPageToken field in the response. By default the value is 250 events.
+        #   The page size can never be larger than 2500 events. Optional.
         # @param [String] order_by
         #   The order of the events returned in the result. Optional. The default is an
         #   unspecified, stable order.
@@ -1364,12 +1394,14 @@ module Google
         #   Upper bound (exclusive) for an event's start time to filter by. Optional. The
         #   default is not to filter by start time. Must be an RFC3339 timestamp with
         #   mandatory time zone offset, e.g., 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:
-        #   00Z. Milliseconds may be provided but will be ignored.
+        #   00Z. Milliseconds may be provided but will be ignored. If timeMin is set,
+        #   timeMax must be greater than timeMin.
         # @param [DateTime] time_min
         #   Lower bound (inclusive) for an event's end time to filter by. Optional. The
         #   default is not to filter by end time. Must be an RFC3339 timestamp with
         #   mandatory time zone offset, e.g., 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:
-        #   00Z. Milliseconds may be provided but will be ignored.
+        #   00Z. Milliseconds may be provided but will be ignored. If timeMax is set,
+        #   timeMin must be smaller than timeMax.
         # @param [String] time_zone
         #   Time zone used in the response. Optional. The default is the time zone of the
         #   calendar.
@@ -1486,6 +1518,12 @@ module Google
         #   non-working value will be provided). The use of this option is discouraged and
         #   should only be used by clients which cannot handle the absence of an email
         #   address value in the mentioned places. Optional. The default is False.
+        # @param [Fixnum] conference_data_version
+        #   Version number of conference data supported by the API client. Version 0
+        #   assumes no conference data support and ignores conference data in the event's
+        #   body. Version 1 enables support for copying of ConferenceData as well as for
+        #   creating new conferences using the createRequest field of conferenceData. The
+        #   default is 0.
         # @param [Fixnum] max_attendees
         #   The maximum number of attendees to include in the response. If there are more
         #   than the specified number of attendees, only the participant is returned.
@@ -1517,7 +1555,7 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def patch_event(calendar_id, event_id, event_object = nil, always_include_email: nil, max_attendees: nil, send_notifications: nil, supports_attachments: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def patch_event(calendar_id, event_id, event_object = nil, always_include_email: nil, conference_data_version: nil, max_attendees: nil, send_notifications: nil, supports_attachments: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:patch, 'calendars/{calendarId}/events/{eventId}', options)
           command.request_representation = Google::Apis::CalendarV3::Event::Representation
           command.request_object = event_object
@@ -1526,6 +1564,7 @@ module Google
           command.params['calendarId'] = calendar_id unless calendar_id.nil?
           command.params['eventId'] = event_id unless event_id.nil?
           command.query['alwaysIncludeEmail'] = always_include_email unless always_include_email.nil?
+          command.query['conferenceDataVersion'] = conference_data_version unless conference_data_version.nil?
           command.query['maxAttendees'] = max_attendees unless max_attendees.nil?
           command.query['sendNotifications'] = send_notifications unless send_notifications.nil?
           command.query['supportsAttachments'] = supports_attachments unless supports_attachments.nil?
@@ -1593,6 +1632,12 @@ module Google
         #   non-working value will be provided). The use of this option is discouraged and
         #   should only be used by clients which cannot handle the absence of an email
         #   address value in the mentioned places. Optional. The default is False.
+        # @param [Fixnum] conference_data_version
+        #   Version number of conference data supported by the API client. Version 0
+        #   assumes no conference data support and ignores conference data in the event's
+        #   body. Version 1 enables support for copying of ConferenceData as well as for
+        #   creating new conferences using the createRequest field of conferenceData. The
+        #   default is 0.
         # @param [Fixnum] max_attendees
         #   The maximum number of attendees to include in the response. If there are more
         #   than the specified number of attendees, only the participant is returned.
@@ -1624,7 +1669,7 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def update_event(calendar_id, event_id, event_object = nil, always_include_email: nil, max_attendees: nil, send_notifications: nil, supports_attachments: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def update_event(calendar_id, event_id, event_object = nil, always_include_email: nil, conference_data_version: nil, max_attendees: nil, send_notifications: nil, supports_attachments: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:put, 'calendars/{calendarId}/events/{eventId}', options)
           command.request_representation = Google::Apis::CalendarV3::Event::Representation
           command.request_object = event_object
@@ -1633,6 +1678,7 @@ module Google
           command.params['calendarId'] = calendar_id unless calendar_id.nil?
           command.params['eventId'] = event_id unless event_id.nil?
           command.query['alwaysIncludeEmail'] = always_include_email unless always_include_email.nil?
+          command.query['conferenceDataVersion'] = conference_data_version unless conference_data_version.nil?
           command.query['maxAttendees'] = max_attendees unless max_attendees.nil?
           command.query['sendNotifications'] = send_notifications unless send_notifications.nil?
           command.query['supportsAttachments'] = supports_attachments unless supports_attachments.nil?
@@ -1662,8 +1708,11 @@ module Google
         #   than the specified number of attendees, only the participant is returned.
         #   Optional.
         # @param [Fixnum] max_results
-        #   Maximum number of events returned on one result page. By default the value is
-        #   250 events. The page size can never be larger than 2500 events. Optional.
+        #   Maximum number of events returned on one result page. The number of events in
+        #   the resulting page may be less than this value, or none at all, even if there
+        #   are more events matching the query. Incomplete pages can be detected by a non-
+        #   empty nextPageToken field in the response. By default the value is 250 events.
+        #   The page size can never be larger than 2500 events. Optional.
         # @param [String] order_by
         #   The order of the events returned in the result. Optional. The default is an
         #   unspecified, stable order.
@@ -1719,12 +1768,14 @@ module Google
         #   Upper bound (exclusive) for an event's start time to filter by. Optional. The
         #   default is not to filter by start time. Must be an RFC3339 timestamp with
         #   mandatory time zone offset, e.g., 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:
-        #   00Z. Milliseconds may be provided but will be ignored.
+        #   00Z. Milliseconds may be provided but will be ignored. If timeMin is set,
+        #   timeMax must be greater than timeMin.
         # @param [DateTime] time_min
         #   Lower bound (inclusive) for an event's end time to filter by. Optional. The
         #   default is not to filter by end time. Must be an RFC3339 timestamp with
         #   mandatory time zone offset, e.g., 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:
-        #   00Z. Milliseconds may be provided but will be ignored.
+        #   00Z. Milliseconds may be provided but will be ignored. If timeMax is set,
+        #   timeMin must be smaller than timeMax.
         # @param [String] time_zone
         #   Time zone used in the response. Optional. The default is the time zone of the
         #   calendar.

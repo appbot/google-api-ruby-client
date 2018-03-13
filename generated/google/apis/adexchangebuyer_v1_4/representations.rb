@@ -472,6 +472,18 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class TargetingValueDemogAgeCriteria
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class TargetingValueDemogGenderCriteria
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class TargetingValueSize
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -487,6 +499,7 @@ module Google
       class Account
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          property :apply_pretargeting_to_non_guaranteed_deals, as: 'applyPretargetingToNonGuaranteedDeals'
           collection :bidder_location, as: 'bidderLocation', class: Google::Apis::AdexchangebuyerV1_4::Account::BidderLocation, decorator: Google::Apis::AdexchangebuyerV1_4::Account::BidderLocation::Representation
       
           property :cookie_matching_nid, as: 'cookieMatchingNid'
@@ -523,7 +536,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :deals, as: 'deals', class: Google::Apis::AdexchangebuyerV1_4::MarketplaceDeal, decorator: Google::Apis::AdexchangebuyerV1_4::MarketplaceDeal::Representation
       
-          property :proposal_revision_number, as: 'proposalRevisionNumber'
+          property :proposal_revision_number, :numeric_string => true, as: 'proposalRevisionNumber'
           property :update_action, as: 'updateAction'
         end
       end
@@ -533,7 +546,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :deals, as: 'deals', class: Google::Apis::AdexchangebuyerV1_4::MarketplaceDeal, decorator: Google::Apis::AdexchangebuyerV1_4::MarketplaceDeal::Representation
       
-          property :proposal_revision_number, as: 'proposalRevisionNumber'
+          property :proposal_revision_number, :numeric_string => true, as: 'proposalRevisionNumber'
         end
       end
       
@@ -575,9 +588,9 @@ module Google
       class Budget
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :account_id, as: 'accountId'
-          property :billing_id, as: 'billingId'
-          property :budget_amount, as: 'budgetAmount'
+          property :account_id, :numeric_string => true, as: 'accountId'
+          property :billing_id, :numeric_string => true, as: 'billingId'
+          property :budget_amount, :numeric_string => true, as: 'budgetAmount'
           property :currency_code, as: 'currencyCode'
           property :id, as: 'id'
           property :kind, as: 'kind'
@@ -624,7 +637,7 @@ module Google
           property :ad_choices_destination_url, as: 'adChoicesDestinationUrl'
           collection :advertiser_id, as: 'advertiserId'
           property :advertiser_name, as: 'advertiserName'
-          property :agency_id, as: 'agencyId'
+          property :agency_id, :numeric_string => true, as: 'agencyId'
           property :api_upload_timestamp, as: 'apiUploadTimestamp', type: DateTime
       
           collection :attribute, as: 'attribute'
@@ -651,6 +664,7 @@ module Google
           collection :vendor_type, as: 'vendorType'
           property :version, as: 'version'
           property :video_url, as: 'videoURL'
+          property :video_vast_xml, as: 'videoVastXML'
           property :width, as: 'width'
         end
         
@@ -685,7 +699,7 @@ module Google
           class Reason
             # @private
             class Representation < Google::Apis::Core::JsonRepresentation
-              property :filtering_count, as: 'filteringCount'
+              property :filtering_count, :numeric_string => true, as: 'filteringCount'
               property :filtering_status, as: 'filteringStatus'
             end
           end
@@ -783,7 +797,7 @@ module Google
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
             property :arc_status, as: 'arcStatus'
-            property :deal_id, as: 'dealId'
+            property :deal_id, :numeric_string => true, as: 'dealId'
             property :web_property_id, as: 'webPropertyId'
           end
         end
@@ -802,6 +816,7 @@ module Google
       class DealServingMetadata
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          property :alcohol_ads_allowed, as: 'alcoholAdsAllowed'
           property :deal_pause_status, as: 'dealPauseStatus', class: Google::Apis::AdexchangebuyerV1_4::DealServingMetadataDealPauseStatus, decorator: Google::Apis::AdexchangebuyerV1_4::DealServingMetadataDealPauseStatus::Representation
       
         end
@@ -826,7 +841,7 @@ module Google
           property :description, as: 'description'
           property :estimated_gross_spend, as: 'estimatedGrossSpend', class: Google::Apis::AdexchangebuyerV1_4::Price, decorator: Google::Apis::AdexchangebuyerV1_4::Price::Representation
       
-          property :estimated_impressions_per_day, as: 'estimatedImpressionsPerDay'
+          property :estimated_impressions_per_day, :numeric_string => true, as: 'estimatedImpressionsPerDay'
           property :guaranteed_fixed_price_terms, as: 'guaranteedFixedPriceTerms', class: Google::Apis::AdexchangebuyerV1_4::DealTermsGuaranteedFixedPriceTerms, decorator: Google::Apis::AdexchangebuyerV1_4::DealTermsGuaranteedFixedPriceTerms::Representation
       
           property :non_guaranteed_auction_terms, as: 'nonGuaranteedAuctionTerms', class: Google::Apis::AdexchangebuyerV1_4::DealTermsNonGuaranteedAuctionTerms, decorator: Google::Apis::AdexchangebuyerV1_4::DealTermsNonGuaranteedAuctionTerms::Representation
@@ -846,18 +861,18 @@ module Google
       
           collection :fixed_prices, as: 'fixedPrices', class: Google::Apis::AdexchangebuyerV1_4::PricePerBuyer, decorator: Google::Apis::AdexchangebuyerV1_4::PricePerBuyer::Representation
       
-          property :guaranteed_impressions, as: 'guaranteedImpressions'
-          property :guaranteed_looks, as: 'guaranteedLooks'
-          property :minimum_daily_looks, as: 'minimumDailyLooks'
+          property :guaranteed_impressions, :numeric_string => true, as: 'guaranteedImpressions'
+          property :guaranteed_looks, :numeric_string => true, as: 'guaranteedLooks'
+          property :minimum_daily_looks, :numeric_string => true, as: 'minimumDailyLooks'
         end
       end
       
       class DealTermsGuaranteedFixedPriceTermsBillingInfo
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :currency_conversion_time_ms, as: 'currencyConversionTimeMs'
-          property :dfp_line_item_id, as: 'dfpLineItemId'
-          property :original_contracted_quantity, as: 'originalContractedQuantity'
+          property :currency_conversion_time_ms, :numeric_string => true, as: 'currencyConversionTimeMs'
+          property :dfp_line_item_id, :numeric_string => true, as: 'dfpLineItemId'
+          property :original_contracted_quantity, :numeric_string => true, as: 'originalContractedQuantity'
           property :price, as: 'price', class: Google::Apis::AdexchangebuyerV1_4::Price, decorator: Google::Apis::AdexchangebuyerV1_4::Price::Representation
       
         end
@@ -894,7 +909,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :deal_ids, as: 'dealIds'
-          property :proposal_revision_number, as: 'proposalRevisionNumber'
+          property :proposal_revision_number, :numeric_string => true, as: 'proposalRevisionNumber'
           property :update_action, as: 'updateAction'
         end
       end
@@ -904,7 +919,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :deals, as: 'deals', class: Google::Apis::AdexchangebuyerV1_4::MarketplaceDeal, decorator: Google::Apis::AdexchangebuyerV1_4::MarketplaceDeal::Representation
       
-          property :proposal_revision_number, as: 'proposalRevisionNumber'
+          property :proposal_revision_number, :numeric_string => true, as: 'proposalRevisionNumber'
         end
       end
       
@@ -952,7 +967,7 @@ module Google
       
           property :proposal, as: 'proposal', class: Google::Apis::AdexchangebuyerV1_4::Proposal, decorator: Google::Apis::AdexchangebuyerV1_4::Proposal::Representation
       
-          property :proposal_revision_number, as: 'proposalRevisionNumber'
+          property :proposal_revision_number, :numeric_string => true, as: 'proposalRevisionNumber'
           property :update_action, as: 'updateAction'
         end
       end
@@ -962,7 +977,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :deals, as: 'deals', class: Google::Apis::AdexchangebuyerV1_4::MarketplaceDeal, decorator: Google::Apis::AdexchangebuyerV1_4::MarketplaceDeal::Representation
       
-          property :order_revision_number, as: 'orderRevisionNumber'
+          property :order_revision_number, :numeric_string => true, as: 'orderRevisionNumber'
         end
       end
       
@@ -1011,7 +1026,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           property :buyer_private_data, as: 'buyerPrivateData', class: Google::Apis::AdexchangebuyerV1_4::PrivateData, decorator: Google::Apis::AdexchangebuyerV1_4::PrivateData::Representation
       
-          property :creation_time_ms, as: 'creationTimeMs'
+          property :creation_time_ms, :numeric_string => true, as: 'creationTimeMs'
           property :creative_pre_approval_policy, as: 'creativePreApprovalPolicy'
           property :creative_safe_frame_compatibility, as: 'creativeSafeFrameCompatibility'
           property :deal_id, as: 'dealId'
@@ -1020,15 +1035,16 @@ module Google
           property :delivery_control, as: 'deliveryControl', class: Google::Apis::AdexchangebuyerV1_4::DeliveryControl, decorator: Google::Apis::AdexchangebuyerV1_4::DeliveryControl::Representation
       
           property :external_deal_id, as: 'externalDealId'
-          property :flight_end_time_ms, as: 'flightEndTimeMs'
-          property :flight_start_time_ms, as: 'flightStartTimeMs'
+          property :flight_end_time_ms, :numeric_string => true, as: 'flightEndTimeMs'
+          property :flight_start_time_ms, :numeric_string => true, as: 'flightStartTimeMs'
           property :inventory_description, as: 'inventoryDescription'
           property :is_rfp_template, as: 'isRfpTemplate'
+          property :is_setup_complete, as: 'isSetupComplete'
           property :kind, as: 'kind'
-          property :last_update_time_ms, as: 'lastUpdateTimeMs'
+          property :last_update_time_ms, :numeric_string => true, as: 'lastUpdateTimeMs'
           property :name, as: 'name'
           property :product_id, as: 'productId'
-          property :product_revision_number, as: 'productRevisionNumber'
+          property :product_revision_number, :numeric_string => true, as: 'productRevisionNumber'
           property :programmatic_creative_source, as: 'programmaticCreativeSource'
           property :proposal_id, as: 'proposalId'
           collection :seller_contacts, as: 'sellerContacts', class: Google::Apis::AdexchangebuyerV1_4::ContactInformation, decorator: Google::Apis::AdexchangebuyerV1_4::ContactInformation::Representation
@@ -1056,7 +1072,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :account_id, as: 'accountId'
-          property :create_time_ms, as: 'createTimeMs'
+          property :create_time_ms, :numeric_string => true, as: 'createTimeMs'
           property :deprecated_marketplace_deal_party, as: 'deprecatedMarketplaceDealParty', class: Google::Apis::AdexchangebuyerV1_4::MarketplaceDealParty, decorator: Google::Apis::AdexchangebuyerV1_4::MarketplaceDealParty::Representation
       
           property :label, as: 'label'
@@ -1072,8 +1088,8 @@ module Google
           property :note, as: 'note'
           property :note_id, as: 'noteId'
           property :proposal_id, as: 'proposalId'
-          property :proposal_revision_number, as: 'proposalRevisionNumber'
-          property :timestamp_ms, as: 'timestampMs'
+          property :proposal_revision_number, :numeric_string => true, as: 'proposalRevisionNumber'
+          property :timestamp_ms, :numeric_string => true, as: 'timestampMs'
         end
       end
       
@@ -1100,7 +1116,7 @@ module Google
           property :quota_throttled_limit, as: 'quotaThrottledLimit'
           property :region, as: 'region'
           property :successful_request_rate, as: 'successfulRequestRate'
-          property :timestamp, as: 'timestamp'
+          property :timestamp, :numeric_string => true, as: 'timestamp'
           property :unsuccessful_request_rate, as: 'unsuccessfulRequestRate'
         end
       end
@@ -1117,8 +1133,8 @@ module Google
       class PretargetingConfig
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :billing_id, as: 'billingId'
-          property :config_id, as: 'configId'
+          property :billing_id, :numeric_string => true, as: 'billingId'
+          property :config_id, :numeric_string => true, as: 'configId'
           property :config_name, as: 'configName'
           collection :creative_type, as: 'creativeType'
           collection :dimensions, as: 'dimensions', class: Google::Apis::AdexchangebuyerV1_4::PretargetingConfig::Dimension, decorator: Google::Apis::AdexchangebuyerV1_4::PretargetingConfig::Dimension::Representation
@@ -1133,6 +1149,7 @@ module Google
           property :is_active, as: 'isActive'
           property :kind, as: 'kind'
           collection :languages, as: 'languages'
+          property :minimum_viewability_decile, as: 'minimumViewabilityDecile'
           collection :mobile_carriers, as: 'mobileCarriers'
           collection :mobile_devices, as: 'mobileDevices'
           collection :mobile_operating_system_versions, as: 'mobileOperatingSystemVersions'
@@ -1151,8 +1168,8 @@ module Google
         class Dimension
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
-            property :height, as: 'height'
-            property :width, as: 'width'
+            property :height, :numeric_string => true, as: 'height'
+            property :width, :numeric_string => true, as: 'width'
           end
         end
         
@@ -1176,8 +1193,8 @@ module Google
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
             property :aspect_ratio, as: 'aspectRatio'
-            property :min_height, as: 'minHeight'
-            property :min_width, as: 'minWidth'
+            property :min_height, :numeric_string => true, as: 'minHeight'
+            property :min_width, :numeric_string => true, as: 'minWidth'
           end
         end
       end
@@ -1205,6 +1222,8 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :auction_tier, as: 'auctionTier'
+          property :billed_buyer, as: 'billedBuyer', class: Google::Apis::AdexchangebuyerV1_4::Buyer, decorator: Google::Apis::AdexchangebuyerV1_4::Buyer::Representation
+      
           property :buyer, as: 'buyer', class: Google::Apis::AdexchangebuyerV1_4::Buyer, decorator: Google::Apis::AdexchangebuyerV1_4::Buyer::Representation
       
           property :price, as: 'price', class: Google::Apis::AdexchangebuyerV1_4::Price, decorator: Google::Apis::AdexchangebuyerV1_4::Price::Representation
@@ -1223,27 +1242,33 @@ module Google
       class Product
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :creation_time_ms, as: 'creationTimeMs'
+          property :billed_buyer, as: 'billedBuyer', class: Google::Apis::AdexchangebuyerV1_4::Buyer, decorator: Google::Apis::AdexchangebuyerV1_4::Buyer::Representation
+      
+          property :buyer, as: 'buyer', class: Google::Apis::AdexchangebuyerV1_4::Buyer, decorator: Google::Apis::AdexchangebuyerV1_4::Buyer::Representation
+      
+          property :creation_time_ms, :numeric_string => true, as: 'creationTimeMs'
           collection :creator_contacts, as: 'creatorContacts', class: Google::Apis::AdexchangebuyerV1_4::ContactInformation, decorator: Google::Apis::AdexchangebuyerV1_4::ContactInformation::Representation
       
+          property :creator_role, as: 'creatorRole'
           property :delivery_control, as: 'deliveryControl', class: Google::Apis::AdexchangebuyerV1_4::DeliveryControl, decorator: Google::Apis::AdexchangebuyerV1_4::DeliveryControl::Representation
       
-          property :flight_end_time_ms, as: 'flightEndTimeMs'
-          property :flight_start_time_ms, as: 'flightStartTimeMs'
+          property :flight_end_time_ms, :numeric_string => true, as: 'flightEndTimeMs'
+          property :flight_start_time_ms, :numeric_string => true, as: 'flightStartTimeMs'
           property :has_creator_signed_off, as: 'hasCreatorSignedOff'
           property :inventory_source, as: 'inventorySource'
           property :kind, as: 'kind'
           collection :labels, as: 'labels', class: Google::Apis::AdexchangebuyerV1_4::MarketplaceLabel, decorator: Google::Apis::AdexchangebuyerV1_4::MarketplaceLabel::Representation
       
-          property :last_update_time_ms, as: 'lastUpdateTimeMs'
+          property :last_update_time_ms, :numeric_string => true, as: 'lastUpdateTimeMs'
           property :legacy_offer_id, as: 'legacyOfferId'
+          property :marketplace_publisher_profile_id, as: 'marketplacePublisherProfileId'
           property :name, as: 'name'
           property :private_auction_id, as: 'privateAuctionId'
           property :product_id, as: 'productId'
           property :publisher_profile_id, as: 'publisherProfileId'
           property :publisher_provided_forecast, as: 'publisherProvidedForecast', class: Google::Apis::AdexchangebuyerV1_4::PublisherProvidedForecast, decorator: Google::Apis::AdexchangebuyerV1_4::PublisherProvidedForecast::Representation
       
-          property :revision_number, as: 'revisionNumber'
+          property :revision_number, :numeric_string => true, as: 'revisionNumber'
           property :seller, as: 'seller', class: Google::Apis::AdexchangebuyerV1_4::Seller, decorator: Google::Apis::AdexchangebuyerV1_4::Seller::Representation
       
           collection :shared_targetings, as: 'sharedTargetings', class: Google::Apis::AdexchangebuyerV1_4::SharedTargeting, decorator: Google::Apis::AdexchangebuyerV1_4::SharedTargeting::Representation
@@ -1283,8 +1308,8 @@ module Google
           property :private_auction_id, as: 'privateAuctionId'
           property :proposal_id, as: 'proposalId'
           property :proposal_state, as: 'proposalState'
-          property :revision_number, as: 'revisionNumber'
-          property :revision_time_ms, as: 'revisionTimeMs'
+          property :revision_number, :numeric_string => true, as: 'revisionNumber'
+          property :revision_time_ms, :numeric_string => true, as: 'revisionTimeMs'
           property :seller, as: 'seller', class: Google::Apis::AdexchangebuyerV1_4::Seller, decorator: Google::Apis::AdexchangebuyerV1_4::Seller::Representation
       
           collection :seller_contacts, as: 'sellerContacts', class: Google::Apis::AdexchangebuyerV1_4::ContactInformation, decorator: Google::Apis::AdexchangebuyerV1_4::ContactInformation::Representation
@@ -1328,8 +1353,8 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :dimensions, as: 'dimensions', class: Google::Apis::AdexchangebuyerV1_4::Dimension, decorator: Google::Apis::AdexchangebuyerV1_4::Dimension::Representation
       
-          property :weekly_impressions, as: 'weeklyImpressions'
-          property :weekly_uniques, as: 'weeklyUniques'
+          property :weekly_impressions, :numeric_string => true, as: 'weeklyImpressions'
+          property :weekly_uniques, :numeric_string => true, as: 'weeklyUniques'
         end
       end
       
@@ -1359,7 +1384,11 @@ module Google
       
           property :day_part_targeting_value, as: 'dayPartTargetingValue', class: Google::Apis::AdexchangebuyerV1_4::TargetingValueDayPartTargeting, decorator: Google::Apis::AdexchangebuyerV1_4::TargetingValueDayPartTargeting::Representation
       
-          property :long_value, as: 'longValue'
+          property :demog_age_criteria_value, as: 'demogAgeCriteriaValue', class: Google::Apis::AdexchangebuyerV1_4::TargetingValueDemogAgeCriteria, decorator: Google::Apis::AdexchangebuyerV1_4::TargetingValueDemogAgeCriteria::Representation
+      
+          property :demog_gender_criteria_value, as: 'demogGenderCriteriaValue', class: Google::Apis::AdexchangebuyerV1_4::TargetingValueDemogGenderCriteria, decorator: Google::Apis::AdexchangebuyerV1_4::TargetingValueDemogGenderCriteria::Representation
+      
+          property :long_value, :numeric_string => true, as: 'longValue'
           property :string_value, as: 'stringValue'
         end
       end
@@ -1367,9 +1396,11 @@ module Google
       class TargetingValueCreativeSize
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          collection :allowed_formats, as: 'allowedFormats'
           collection :companion_sizes, as: 'companionSizes', class: Google::Apis::AdexchangebuyerV1_4::TargetingValueSize, decorator: Google::Apis::AdexchangebuyerV1_4::TargetingValueSize::Representation
       
           property :creative_size_type, as: 'creativeSizeType'
+          property :native_template, as: 'nativeTemplate'
           property :size, as: 'size', class: Google::Apis::AdexchangebuyerV1_4::TargetingValueSize, decorator: Google::Apis::AdexchangebuyerV1_4::TargetingValueSize::Representation
       
           property :skippable_ad_type, as: 'skippableAdType'
@@ -1396,6 +1427,20 @@ module Google
         end
       end
       
+      class TargetingValueDemogAgeCriteria
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :demog_age_criteria_ids, as: 'demogAgeCriteriaIds'
+        end
+      end
+      
+      class TargetingValueDemogGenderCriteria
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :demog_gender_criteria_ids, as: 'demogGenderCriteriaIds'
+        end
+      end
+      
       class TargetingValueSize
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -1410,7 +1455,7 @@ module Google
           property :external_deal_id, as: 'externalDealId'
           property :note, as: 'note', class: Google::Apis::AdexchangebuyerV1_4::MarketplaceNote, decorator: Google::Apis::AdexchangebuyerV1_4::MarketplaceNote::Representation
       
-          property :proposal_revision_number, as: 'proposalRevisionNumber'
+          property :proposal_revision_number, :numeric_string => true, as: 'proposalRevisionNumber'
           property :update_action, as: 'updateAction'
         end
       end

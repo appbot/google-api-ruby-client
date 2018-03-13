@@ -14,11 +14,48 @@
 
 require 'spec_helper'
 require 'google/apis/core/http_command'
-require 'hurley/test'
 
 RSpec.describe Google::Apis::Core::HttpCommand do
   include TestHelpers
   include_context 'HTTP client'
+
+  context('with credentials') do
+    let(:command) do
+      command = Google::Apis::Core::HttpCommand.new(:get, 'https://www.googleapis.com/zoo/animals')
+      command.options.authorization = Signet::OAuth2::Client.new({
+        :token_credential_uri => 'https://accounts.google.com/o/oauth2/token'
+      })
+      command
+    end
+
+    context('with one token error') do
+      before(:example) do
+        stub_request(:post, 'https://accounts.google.com/o/oauth2/token').to_return(
+          { status: [500, 'Server error'] },
+          { status: [200, ''], headers: { 'Content-Type' => 'application/json' }, body: '{"access_token": "foo"}' })
+        stub_request(:get, 'https://www.googleapis.com/zoo/animals').to_return(body: %(Hello world))
+      end
+
+      it 'should send credentials' do
+        result = command.execute(client)
+        expect(a_request(:get, 'https://www.googleapis.com/zoo/animals')
+          .with { |req| req.headers['Authorization'] == 'Bearer foo' }).to have_been_made
+        expect(result).to eql 'Hello world'
+      end
+    end
+
+    context('with two token errors') do
+      before(:example) do
+        stub_request(:post, 'https://accounts.google.com/o/oauth2/token').to_return(
+          { status: [500, 'Server error'] },
+          { status: [401, 'Unauthorized'] })
+      end
+
+      it 'should raise error' do
+        expect { command.execute(client) }.to raise_error(Signet::AuthorizationError)
+      end
+    end
+  end
 
   context('with credentials') do
     let(:command) do
@@ -30,7 +67,7 @@ RSpec.describe Google::Apis::Core::HttpCommand do
     context('that are refreshable') do
       let(:authorization) do
         calls = 0
-        auth =  object_double(Signet::OAuth2::Client.new)
+        auth = object_double(Signet::OAuth2::Client.new)
         allow(auth).to receive(:apply!) do |header|
           header['Authorization'] = sprintf('Bearer a_token_value_%d', calls)
           calls += 1
@@ -300,4 +337,31 @@ RSpec.describe Google::Apis::Core::HttpCommand do
     command.options.retries = 0
     expect { command.execute(client) }.to raise_error(Google::Apis::TransmissionError)
   end
+
+  it 'should raise rate limit error for 429 status codes' do
+    stub_request(:get, 'https://www.googleapis.com/zoo/animals').to_return(status: [429, ''])
+    command = Google::Apis::Core::HttpCommand.new(:get, 'https://www.googleapis.com/zoo/animals')
+    command.options.retries = 0
+    expect { command.execute(client) }.to raise_error(Google::Apis::RateLimitError)
+  end
+
+  it 'should not normalize unicode values by default' do
+    stub_request(:get, 'https://www.googleapis.com/Cafe%CC%81').to_return(status: [200, ''])
+    template = Addressable::Template.new('https://www.googleapis.com/{path}')
+    command = Google::Apis::Core::HttpCommand.new(:get, template)
+    command.params[:path] = "Cafe\u0301"
+    command.options.retries = 0
+    command.execute(client)
+  end
+
+  it 'should normalize unicode values when requested' do
+    stub_request(:get, 'https://www.googleapis.com/Caf%C3%A9').to_return(status: [200, ''])
+    template = Addressable::Template.new('https://www.googleapis.com/{path}')
+    command = Google::Apis::Core::HttpCommand.new(:get, template)
+    command.params[:path] = "Cafe\u0301"
+    command.options.retries = 0
+    command.options.normalize_unicode = true
+    command.execute(client)
+  end
+
 end

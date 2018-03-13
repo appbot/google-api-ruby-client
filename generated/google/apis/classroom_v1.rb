@@ -25,10 +25,13 @@ module Google
     # @see https://developers.google.com/classroom/
     module ClassroomV1
       VERSION = 'V1'
-      REVISION = '20161006'
+      REVISION = '20171229'
 
-      # View instructions for teacher-assigned work in your Google Classroom classes
-      AUTH_CLASSROOM_COURSE_WORK_READONLY = 'https://www.googleapis.com/auth/classroom.course-work.readonly'
+      # View and manage announcements in Google Classroom
+      AUTH_CLASSROOM_ANNOUNCEMENTS = 'https://www.googleapis.com/auth/classroom.announcements'
+
+      # View announcements in Google Classroom
+      AUTH_CLASSROOM_ANNOUNCEMENTS_READONLY = 'https://www.googleapis.com/auth/classroom.announcements.readonly'
 
       # Manage your Google Classroom classes
       AUTH_CLASSROOM_COURSES = 'https://www.googleapis.com/auth/classroom.courses'
@@ -48,11 +51,23 @@ module Google
       # View course work and grades for students in the Google Classroom classes you teach or administer
       AUTH_CLASSROOM_COURSEWORK_STUDENTS_READONLY = 'https://www.googleapis.com/auth/classroom.coursework.students.readonly'
 
+      # View your Google Classroom guardians
+      AUTH_CLASSROOM_GUARDIANLINKS_ME_READONLY = 'https://www.googleapis.com/auth/classroom.guardianlinks.me.readonly'
+
+      # View and manage guardians for students in your Google Classroom classes
+      AUTH_CLASSROOM_GUARDIANLINKS_STUDENTS = 'https://www.googleapis.com/auth/classroom.guardianlinks.students'
+
+      # View guardians for students in your Google Classroom classes
+      AUTH_CLASSROOM_GUARDIANLINKS_STUDENTS_READONLY = 'https://www.googleapis.com/auth/classroom.guardianlinks.students.readonly'
+
       # View the email addresses of people in your classes
       AUTH_CLASSROOM_PROFILE_EMAILS = 'https://www.googleapis.com/auth/classroom.profile.emails'
 
       # View the profile photos of people in your classes
       AUTH_CLASSROOM_PROFILE_PHOTOS = 'https://www.googleapis.com/auth/classroom.profile.photos'
+
+      # Receive notifications about your Google Classroom data
+      AUTH_CLASSROOM_PUSH_NOTIFICATIONS = 'https://www.googleapis.com/auth/classroom.push-notifications'
 
       # Manage your Google Classroom class rosters
       AUTH_CLASSROOM_ROSTERS = 'https://www.googleapis.com/auth/classroom.rosters'

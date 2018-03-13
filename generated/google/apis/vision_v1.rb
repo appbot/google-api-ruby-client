@@ -27,10 +27,13 @@ module Google
     # @see https://cloud.google.com/vision/
     module VisionV1
       VERSION = 'V1'
-      REVISION = '20161031'
+      REVISION = '20180221'
 
       # View and manage your data across Google Cloud Platform services
       AUTH_CLOUD_PLATFORM = 'https://www.googleapis.com/auth/cloud-platform'
+
+      # Apply machine learning models to understand and label images
+      AUTH_CLOUD_VISION = 'https://www.googleapis.com/auth/cloud-vision'
     end
   end
 end

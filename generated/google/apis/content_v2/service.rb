@@ -51,6 +51,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'content/v2/')
+          @batch_path = 'batch/content/v2'
         end
         
         # Returns information about the authenticated user.
@@ -79,6 +80,51 @@ module Google
           command =  make_simple_command(:get, 'accounts/authinfo', options)
           command.response_representation = Google::Apis::ContentV2::AccountsAuthInfoResponse::Representation
           command.response_class = Google::Apis::ContentV2::AccountsAuthInfoResponse
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Claims the website of a Merchant Center sub-account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
+        #   The ID of the account whose website is claimed.
+        # @param [Boolean] overwrite
+        #   Only available to selected merchants. When set to True, this flag removes any
+        #   existing claim on the requested website by another account and replaces it
+        #   with a claim from this account.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::AccountsClaimWebsiteResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::AccountsClaimWebsiteResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def claimwebsite_account(merchant_id, account_id, overwrite: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/accounts/{accountId}/claimwebsite', options)
+          command.response_representation = Google::Apis::ContentV2::AccountsClaimWebsiteResponse::Representation
+          command.response_class = Google::Apis::ContentV2::AccountsClaimWebsiteResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['accountId'] = account_id unless account_id.nil?
+          command.query['overwrite'] = overwrite unless overwrite.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -125,12 +171,15 @@ module Google
         end
         
         # Deletes a Merchant Center sub-account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. This must be a multi-client account, and
+        #   accountId must be the ID of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account.
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
+        # @param [Boolean] force
+        #   Flag to delete sub-accounts with products. The default value is false.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -152,11 +201,12 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def delete_account(merchant_id, account_id, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def delete_account(merchant_id, account_id, dry_run: nil, force: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:delete, '{merchantId}/accounts/{accountId}', options)
           command.params['merchantId'] = merchant_id unless merchant_id.nil?
           command.params['accountId'] = account_id unless account_id.nil?
           command.query['dryRun'] = dry_run unless dry_run.nil?
+          command.query['force'] = force unless force.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -164,9 +214,11 @@ module Google
         end
         
         # Retrieves a Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -202,8 +254,8 @@ module Google
         end
         
         # Creates a Merchant Center sub-account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. This must be a multi-client account.
         # @param [Google::Apis::ContentV2::Account] account_object
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
@@ -243,8 +295,8 @@ module Google
         end
         
         # Lists the sub-accounts in your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. This must be a multi-client account.
         # @param [Fixnum] max_results
         #   The maximum number of accounts to return in the response, used for paging.
         # @param [String] page_token
@@ -284,9 +336,11 @@ module Google
         end
         
         # Updates a Merchant Center account. This method supports patch semantics.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account.
         # @param [Google::Apis::ContentV2::Account] account_object
         # @param [Boolean] dry_run
@@ -328,9 +382,11 @@ module Google
         end
         
         # Updates a Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account.
         # @param [Google::Apis::ContentV2::Account] account_object
         # @param [Boolean] dry_run
@@ -362,215 +418,6 @@ module Google
           command.request_object = account_object
           command.response_representation = Google::Apis::ContentV2::Account::Representation
           command.response_class = Google::Apis::ContentV2::Account
-          command.params['merchantId'] = merchant_id unless merchant_id.nil?
-          command.params['accountId'] = account_id unless account_id.nil?
-          command.query['dryRun'] = dry_run unless dry_run.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          command.query['userIp'] = user_ip unless user_ip.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Retrieves and updates the shipping settings of multiple accounts in a single
-        # request.
-        # @param [Google::Apis::ContentV2::BatchAccountShippingRequest] batch_account_shipping_request_object
-        # @param [Boolean] dry_run
-        #   Flag to run the request in dry-run mode.
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        #   Overrides userIp if both are provided.
-        # @param [String] user_ip
-        #   IP address of the site where the request originates. Use this if you want to
-        #   enforce per-user limits.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::ContentV2::BatchAccountShippingResponse] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::ContentV2::BatchAccountShippingResponse]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def batch_account_shipping(batch_account_shipping_request_object = nil, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
-          command =  make_simple_command(:post, 'accountshipping/batch', options)
-          command.request_representation = Google::Apis::ContentV2::BatchAccountShippingRequest::Representation
-          command.request_object = batch_account_shipping_request_object
-          command.response_representation = Google::Apis::ContentV2::BatchAccountShippingResponse::Representation
-          command.response_class = Google::Apis::ContentV2::BatchAccountShippingResponse
-          command.query['dryRun'] = dry_run unless dry_run.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          command.query['userIp'] = user_ip unless user_ip.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Retrieves the shipping settings of the account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
-        #   The ID of the account for which to get/update account shipping settings.
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        #   Overrides userIp if both are provided.
-        # @param [String] user_ip
-        #   IP address of the site where the request originates. Use this if you want to
-        #   enforce per-user limits.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::ContentV2::AccountShipping] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::ContentV2::AccountShipping]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_account_shipping(merchant_id, account_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
-          command =  make_simple_command(:get, '{merchantId}/accountshipping/{accountId}', options)
-          command.response_representation = Google::Apis::ContentV2::AccountShipping::Representation
-          command.response_class = Google::Apis::ContentV2::AccountShipping
-          command.params['merchantId'] = merchant_id unless merchant_id.nil?
-          command.params['accountId'] = account_id unless account_id.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          command.query['userIp'] = user_ip unless user_ip.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Lists the shipping settings of the sub-accounts in your Merchant Center
-        # account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [Fixnum] max_results
-        #   The maximum number of shipping settings to return in the response, used for
-        #   paging.
-        # @param [String] page_token
-        #   The token returned by the previous request.
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        #   Overrides userIp if both are provided.
-        # @param [String] user_ip
-        #   IP address of the site where the request originates. Use this if you want to
-        #   enforce per-user limits.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::ContentV2::ListAccountShippingResponse] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::ContentV2::ListAccountShippingResponse]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_account_shippings(merchant_id, max_results: nil, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
-          command =  make_simple_command(:get, '{merchantId}/accountshipping', options)
-          command.response_representation = Google::Apis::ContentV2::ListAccountShippingResponse::Representation
-          command.response_class = Google::Apis::ContentV2::ListAccountShippingResponse
-          command.params['merchantId'] = merchant_id unless merchant_id.nil?
-          command.query['maxResults'] = max_results unless max_results.nil?
-          command.query['pageToken'] = page_token unless page_token.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          command.query['userIp'] = user_ip unless user_ip.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Updates the shipping settings of the account. This method supports patch
-        # semantics.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
-        #   The ID of the account for which to get/update account shipping settings.
-        # @param [Google::Apis::ContentV2::AccountShipping] account_shipping_object
-        # @param [Boolean] dry_run
-        #   Flag to run the request in dry-run mode.
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        #   Overrides userIp if both are provided.
-        # @param [String] user_ip
-        #   IP address of the site where the request originates. Use this if you want to
-        #   enforce per-user limits.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::ContentV2::AccountShipping] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::ContentV2::AccountShipping]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def patch_account_shipping(merchant_id, account_id, account_shipping_object = nil, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
-          command =  make_simple_command(:patch, '{merchantId}/accountshipping/{accountId}', options)
-          command.request_representation = Google::Apis::ContentV2::AccountShipping::Representation
-          command.request_object = account_shipping_object
-          command.response_representation = Google::Apis::ContentV2::AccountShipping::Representation
-          command.response_class = Google::Apis::ContentV2::AccountShipping
-          command.params['merchantId'] = merchant_id unless merchant_id.nil?
-          command.params['accountId'] = account_id unless account_id.nil?
-          command.query['dryRun'] = dry_run unless dry_run.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          command.query['userIp'] = user_ip unless user_ip.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # Updates the shipping settings of the account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
-        #   The ID of the account for which to get/update account shipping settings.
-        # @param [Google::Apis::ContentV2::AccountShipping] account_shipping_object
-        # @param [Boolean] dry_run
-        #   Flag to run the request in dry-run mode.
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        #   Overrides userIp if both are provided.
-        # @param [String] user_ip
-        #   IP address of the site where the request originates. Use this if you want to
-        #   enforce per-user limits.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::ContentV2::AccountShipping] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::ContentV2::AccountShipping]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def update_account_shipping(merchant_id, account_id, account_shipping_object = nil, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
-          command =  make_simple_command(:put, '{merchantId}/accountshipping/{accountId}', options)
-          command.request_representation = Google::Apis::ContentV2::AccountShipping::Representation
-          command.request_object = account_shipping_object
-          command.response_representation = Google::Apis::ContentV2::AccountShipping::Representation
-          command.response_class = Google::Apis::ContentV2::AccountShipping
           command.params['merchantId'] = merchant_id unless merchant_id.nil?
           command.params['accountId'] = account_id unless account_id.nil?
           command.query['dryRun'] = dry_run unless dry_run.nil?
@@ -616,9 +463,11 @@ module Google
         end
         
         # Retrieves the status of a Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -654,8 +503,8 @@ module Google
         end
         
         # Lists the statuses of the sub-accounts in your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. This must be a multi-client account.
         # @param [Fixnum] max_results
         #   The maximum number of account statuses to return in the response, used for
         #   paging.
@@ -734,9 +583,11 @@ module Google
         end
         
         # Retrieves the tax settings of the account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account for which to get/update account tax settings.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -772,8 +623,8 @@ module Google
         end
         
         # Lists the tax settings of the sub-accounts in your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. This must be a multi-client account.
         # @param [Fixnum] max_results
         #   The maximum number of tax settings to return in the response, used for paging.
         # @param [String] page_token
@@ -813,9 +664,11 @@ module Google
         end
         
         # Updates the tax settings of the account. This method supports patch semantics.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account for which to get/update account tax settings.
         # @param [Google::Apis::ContentV2::AccountTax] account_tax_object
         # @param [Boolean] dry_run
@@ -857,9 +710,11 @@ module Google
         end
         
         # Updates the tax settings of the account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account for which to get/update account tax settings.
         # @param [Google::Apis::ContentV2::AccountTax] account_tax_object
         # @param [Boolean] dry_run
@@ -938,9 +793,12 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Deletes a datafeed from your Merchant Center account.
-        # @param [String] merchant_id
-        # @param [String] datafeed_id
+        # Deletes a datafeed configuration from your Merchant Center account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the datafeed. This account cannot be a
+        #   multi-client account.
+        # @param [Fixnum] datafeed_id
+        #   The ID of the datafeed.
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
         # @param [String] fields
@@ -975,9 +833,12 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Retrieves a datafeed from your Merchant Center account.
-        # @param [String] merchant_id
-        # @param [String] datafeed_id
+        # Retrieves a datafeed configuration from your Merchant Center account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the datafeed. This account cannot be a
+        #   multi-client account.
+        # @param [Fixnum] datafeed_id
+        #   The ID of the datafeed.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1011,8 +872,10 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Registers a datafeed with your Merchant Center account.
-        # @param [String] merchant_id
+        # Registers a datafeed configuration with your Merchant Center account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the datafeed. This account cannot be a
+        #   multi-client account.
         # @param [Google::Apis::ContentV2::Datafeed] datafeed_object
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
@@ -1051,9 +914,10 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Lists the datafeeds in your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # Lists the configurations for datafeeds in your Merchant Center account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the datafeeds. This account cannot be a
+        #   multi-client account.
         # @param [Fixnum] max_results
         #   The maximum number of products to return in the response, used for paging.
         # @param [String] page_token
@@ -1092,10 +956,13 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Updates a datafeed of your Merchant Center account. This method supports patch
-        # semantics.
-        # @param [String] merchant_id
-        # @param [String] datafeed_id
+        # Updates a datafeed configuration of your Merchant Center account. This method
+        # supports patch semantics.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the datafeed. This account cannot be a
+        #   multi-client account.
+        # @param [Fixnum] datafeed_id
+        #   The ID of the datafeed.
         # @param [Google::Apis::ContentV2::Datafeed] datafeed_object
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
@@ -1135,9 +1002,12 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Updates a datafeed of your Merchant Center account.
-        # @param [String] merchant_id
-        # @param [String] datafeed_id
+        # Updates a datafeed configuration of your Merchant Center account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the datafeed. This account cannot be a
+        #   multi-client account.
+        # @param [Fixnum] datafeed_id
+        #   The ID of the datafeed.
         # @param [Google::Apis::ContentV2::Datafeed] datafeed_object
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
@@ -1213,8 +1083,21 @@ module Google
         end
         
         # Retrieves the status of a datafeed from your Merchant Center account.
-        # @param [String] merchant_id
-        # @param [String] datafeed_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the datafeed. This account cannot be a
+        #   multi-client account.
+        # @param [Fixnum] datafeed_id
+        #   The ID of the datafeed.
+        # @param [String] country
+        #   The country for which to get the datafeed status. If this parameter is
+        #   provided then language must also be provided. Note that this parameter is
+        #   required for feeds targeting multiple countries and languages, since a feed
+        #   may have a different status for each target.
+        # @param [String] language
+        #   The language for which to get the datafeed status. If this parameter is
+        #   provided then country must also be provided. Note that this parameter is
+        #   required for feeds targeting multiple countries and languages, since a feed
+        #   may have a different status for each target.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1236,12 +1119,14 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_datafeed_status(merchant_id, datafeed_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def get_datafeed_status(merchant_id, datafeed_id, country: nil, language: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, '{merchantId}/datafeedstatuses/{datafeedId}', options)
           command.response_representation = Google::Apis::ContentV2::DatafeedStatus::Representation
           command.response_class = Google::Apis::ContentV2::DatafeedStatus
           command.params['merchantId'] = merchant_id unless merchant_id.nil?
           command.params['datafeedId'] = datafeed_id unless datafeed_id.nil?
+          command.query['country'] = country unless country.nil?
+          command.query['language'] = language unless language.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -1249,8 +1134,9 @@ module Google
         end
         
         # Lists the statuses of the datafeeds in your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the datafeeds. This account cannot be a
+        #   multi-client account.
         # @param [Fixnum] max_results
         #   The maximum number of products to return in the response, used for paging.
         # @param [String] page_token
@@ -1329,14 +1215,14 @@ module Google
         end
         
         # Updates price and availability of a product in your Merchant Center account.
-        # This operation does not update the expiration date of the product.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that contains the product. This account cannot be a
+        #   multi-client account.
         # @param [String] store_code
         #   The code of the store for which to update price and availability. Use online
         #   to update price and availability of an online product.
         # @param [String] product_id
-        #   The ID of the product for which to update price and availability.
+        #   The REST id of the product for which to update price and availability.
         # @param [Google::Apis::ContentV2::SetInventoryRequest] set_inventory_request_object
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
@@ -1378,8 +1264,9 @@ module Google
         end
         
         # Marks an order as acknowledged.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order.
         # @param [Google::Apis::ContentV2::OrdersAcknowledgeRequest] orders_acknowledge_request_object
@@ -1420,8 +1307,9 @@ module Google
         
         # Sandbox only. Moves a test order from state "inProgress" to state "
         # pendingShipment".
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the test order to modify.
         # @param [String] fields
@@ -1457,9 +1345,10 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Cancels all line items in an order.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # Cancels all line items in an order, making a full refund.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order to cancel.
         # @param [Google::Apis::ContentV2::OrdersCancelRequest] orders_cancel_request_object
@@ -1498,9 +1387,10 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Cancels a line item.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # Cancels a line item, making a full refund.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order.
         # @param [Google::Apis::ContentV2::OrdersCancelLineItemRequest] orders_cancel_line_item_request_object
@@ -1540,8 +1430,9 @@ module Google
         end
         
         # Sandbox only. Creates a test order.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that should manage the order. This cannot be a multi-
+        #   client account.
         # @param [Google::Apis::ContentV2::OrdersCreateTestOrderRequest] orders_create_test_order_request_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1613,8 +1504,9 @@ module Google
         end
         
         # Retrieves an order from your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order.
         # @param [String] fields
@@ -1651,8 +1543,9 @@ module Google
         end
         
         # Retrieves an order using merchant order id.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] merchant_order_id
         #   The merchant order id to be looked for.
         # @param [String] fields
@@ -1690,8 +1583,9 @@ module Google
         
         # Sandbox only. Retrieves an order template that can be used to quickly create a
         # new order in sandbox.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that should manage the order. This cannot be a multi-
+        #   client account.
         # @param [String] template_name
         #   The name of the template to retrieve.
         # @param [String] fields
@@ -1727,9 +1621,52 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Notifies that item return and refund was handled directly in store.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
+        # @param [String] order_id
+        #   The ID of the order.
+        # @param [Google::Apis::ContentV2::OrdersInStoreRefundLineItemRequest] orders_in_store_refund_line_item_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::OrdersInStoreRefundLineItemResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::OrdersInStoreRefundLineItemResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def instorerefundlineitem_order(merchant_id, order_id, orders_in_store_refund_line_item_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/orders/{orderId}/inStoreRefundLineItem', options)
+          command.request_representation = Google::Apis::ContentV2::OrdersInStoreRefundLineItemRequest::Representation
+          command.request_object = orders_in_store_refund_line_item_request_object
+          command.response_representation = Google::Apis::ContentV2::OrdersInStoreRefundLineItemResponse::Representation
+          command.response_class = Google::Apis::ContentV2::OrdersInStoreRefundLineItemResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['orderId'] = order_id unless order_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Lists the orders in your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [Boolean] acknowledged
         #   Obtains orders that match the acknowledgement status. When set to true,
         #   obtains orders that have been acknowledged. When false, obtains orders that
@@ -1801,8 +1738,9 @@ module Google
         end
         
         # Refund a portion of the order, up to the full amount paid.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order to refund.
         # @param [Google::Apis::ContentV2::OrdersRefundRequest] orders_refund_request_object
@@ -1841,9 +1779,52 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Rejects return on an line item.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
+        # @param [String] order_id
+        #   The ID of the order.
+        # @param [Google::Apis::ContentV2::OrdersRejectReturnLineItemRequest] orders_reject_return_line_item_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::OrdersRejectReturnLineItemResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::OrdersRejectReturnLineItemResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def rejectreturnlineitem_order(merchant_id, order_id, orders_reject_return_line_item_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/orders/{orderId}/rejectReturnLineItem', options)
+          command.request_representation = Google::Apis::ContentV2::OrdersRejectReturnLineItemRequest::Representation
+          command.request_object = orders_reject_return_line_item_request_object
+          command.response_representation = Google::Apis::ContentV2::OrdersRejectReturnLineItemResponse::Representation
+          command.response_class = Google::Apis::ContentV2::OrdersRejectReturnLineItemResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['orderId'] = order_id unless order_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Returns a line item.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order.
         # @param [Google::Apis::ContentV2::OrdersReturnLineItemRequest] orders_return_line_item_request_object
@@ -1882,9 +1863,95 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Returns and refunds a line item. Note that this method can only be called on
+        # fully shipped orders.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
+        # @param [String] order_id
+        #   The ID of the order.
+        # @param [Google::Apis::ContentV2::OrdersReturnRefundLineItemRequest] orders_return_refund_line_item_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::OrdersReturnRefundLineItemResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::OrdersReturnRefundLineItemResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def returnrefundlineitem_order(merchant_id, order_id, orders_return_refund_line_item_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/orders/{orderId}/returnRefundLineItem', options)
+          command.request_representation = Google::Apis::ContentV2::OrdersReturnRefundLineItemRequest::Representation
+          command.request_object = orders_return_refund_line_item_request_object
+          command.response_representation = Google::Apis::ContentV2::OrdersReturnRefundLineItemResponse::Representation
+          command.response_class = Google::Apis::ContentV2::OrdersReturnRefundLineItemResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['orderId'] = order_id unless order_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Sets (overrides) merchant provided annotations on the line item.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
+        # @param [String] order_id
+        #   The ID of the order.
+        # @param [Google::Apis::ContentV2::OrdersSetLineItemMetadataRequest] orders_set_line_item_metadata_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::OrdersSetLineItemMetadataResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::OrdersSetLineItemMetadataResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def setlineitemmetadata_order(merchant_id, order_id, orders_set_line_item_metadata_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/orders/{orderId}/setLineItemMetadata', options)
+          command.request_representation = Google::Apis::ContentV2::OrdersSetLineItemMetadataRequest::Representation
+          command.request_object = orders_set_line_item_metadata_request_object
+          command.response_representation = Google::Apis::ContentV2::OrdersSetLineItemMetadataResponse::Representation
+          command.response_class = Google::Apis::ContentV2::OrdersSetLineItemMetadataResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['orderId'] = order_id unless order_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Marks line item(s) as shipped.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order.
         # @param [Google::Apis::ContentV2::OrdersShipLineItemsRequest] orders_ship_line_items_request_object
@@ -1923,9 +1990,52 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Updates ship by and delivery by dates for a line item.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
+        # @param [String] order_id
+        #   The ID of the order.
+        # @param [Google::Apis::ContentV2::OrdersUpdateLineItemShippingDetailsRequest] orders_update_line_item_shipping_details_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::OrdersUpdateLineItemShippingDetailsResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::OrdersUpdateLineItemShippingDetailsResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def updatelineitemshippingdetails_order(merchant_id, order_id, orders_update_line_item_shipping_details_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/orders/{orderId}/updateLineItemShippingDetails', options)
+          command.request_representation = Google::Apis::ContentV2::OrdersUpdateLineItemShippingDetailsRequest::Representation
+          command.request_object = orders_update_line_item_shipping_details_request_object
+          command.response_representation = Google::Apis::ContentV2::OrdersUpdateLineItemShippingDetailsResponse::Representation
+          command.response_class = Google::Apis::ContentV2::OrdersUpdateLineItemShippingDetailsResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['orderId'] = order_id unless order_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Updates the merchant order ID for a given order.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order.
         # @param [Google::Apis::ContentV2::OrdersUpdateMerchantOrderIdRequest] orders_update_merchant_order_id_request_object
@@ -1965,8 +2075,9 @@ module Google
         end
         
         # Updates a shipment's status, carrier, and/or tracking ID.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that manages the order. This cannot be a multi-client
+        #   account.
         # @param [String] order_id
         #   The ID of the order.
         # @param [Google::Apis::ContentV2::OrdersUpdateShipmentRequest] orders_update_shipment_request_object
@@ -1999,6 +2110,297 @@ module Google
           command.response_class = Google::Apis::ContentV2::OrdersUpdateShipmentResponse
           command.params['merchantId'] = merchant_id unless merchant_id.nil?
           command.params['orderId'] = order_id unless order_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Batches multiple POS-related calls in a single request.
+        # @param [Google::Apis::ContentV2::PosCustomBatchRequest] pos_custom_batch_request_object
+        # @param [Boolean] dry_run
+        #   Flag to run the request in dry-run mode.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::PosCustomBatchResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::PosCustomBatchResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def custombatch_po(pos_custom_batch_request_object = nil, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'pos/batch', options)
+          command.request_representation = Google::Apis::ContentV2::PosCustomBatchRequest::Representation
+          command.request_object = pos_custom_batch_request_object
+          command.response_representation = Google::Apis::ContentV2::PosCustomBatchResponse::Representation
+          command.response_class = Google::Apis::ContentV2::PosCustomBatchResponse
+          command.query['dryRun'] = dry_run unless dry_run.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Deletes a store for the given merchant.
+        # @param [Fixnum] merchant_id
+        #   The ID of the POS provider.
+        # @param [Fixnum] target_merchant_id
+        #   The ID of the target merchant.
+        # @param [String] store_code
+        #   A store code that is unique per merchant.
+        # @param [Boolean] dry_run
+        #   Flag to run the request in dry-run mode.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [NilClass] No result returned for this method
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [void]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def delete_po(merchant_id, target_merchant_id, store_code, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:delete, '{merchantId}/pos/{targetMerchantId}/store/{storeCode}', options)
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['targetMerchantId'] = target_merchant_id unless target_merchant_id.nil?
+          command.params['storeCode'] = store_code unless store_code.nil?
+          command.query['dryRun'] = dry_run unless dry_run.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Retrieves information about the given store.
+        # @param [Fixnum] merchant_id
+        #   The ID of the POS provider.
+        # @param [Fixnum] target_merchant_id
+        #   The ID of the target merchant.
+        # @param [String] store_code
+        #   A store code that is unique per merchant.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::PosStore] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::PosStore]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def get_po(merchant_id, target_merchant_id, store_code, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, '{merchantId}/pos/{targetMerchantId}/store/{storeCode}', options)
+          command.response_representation = Google::Apis::ContentV2::PosStore::Representation
+          command.response_class = Google::Apis::ContentV2::PosStore
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['targetMerchantId'] = target_merchant_id unless target_merchant_id.nil?
+          command.params['storeCode'] = store_code unless store_code.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Creates a store for the given merchant.
+        # @param [Fixnum] merchant_id
+        #   The ID of the POS provider.
+        # @param [Fixnum] target_merchant_id
+        #   The ID of the target merchant.
+        # @param [Google::Apis::ContentV2::PosStore] pos_store_object
+        # @param [Boolean] dry_run
+        #   Flag to run the request in dry-run mode.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::PosStore] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::PosStore]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def insert_po(merchant_id, target_merchant_id, pos_store_object = nil, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/pos/{targetMerchantId}/store', options)
+          command.request_representation = Google::Apis::ContentV2::PosStore::Representation
+          command.request_object = pos_store_object
+          command.response_representation = Google::Apis::ContentV2::PosStore::Representation
+          command.response_class = Google::Apis::ContentV2::PosStore
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['targetMerchantId'] = target_merchant_id unless target_merchant_id.nil?
+          command.query['dryRun'] = dry_run unless dry_run.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Submit inventory for the given merchant.
+        # @param [Fixnum] merchant_id
+        #   The ID of the POS provider.
+        # @param [Fixnum] target_merchant_id
+        #   The ID of the target merchant.
+        # @param [Google::Apis::ContentV2::PosInventoryRequest] pos_inventory_request_object
+        # @param [Boolean] dry_run
+        #   Flag to run the request in dry-run mode.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::PosInventoryResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::PosInventoryResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def inventory_po(merchant_id, target_merchant_id, pos_inventory_request_object = nil, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/pos/{targetMerchantId}/inventory', options)
+          command.request_representation = Google::Apis::ContentV2::PosInventoryRequest::Representation
+          command.request_object = pos_inventory_request_object
+          command.response_representation = Google::Apis::ContentV2::PosInventoryResponse::Representation
+          command.response_class = Google::Apis::ContentV2::PosInventoryResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['targetMerchantId'] = target_merchant_id unless target_merchant_id.nil?
+          command.query['dryRun'] = dry_run unless dry_run.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Lists the stores of the target merchant.
+        # @param [Fixnum] merchant_id
+        #   The ID of the POS provider.
+        # @param [Fixnum] target_merchant_id
+        #   The ID of the target merchant.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::PosListResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::PosListResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def list_pos(merchant_id, target_merchant_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, '{merchantId}/pos/{targetMerchantId}/store', options)
+          command.response_representation = Google::Apis::ContentV2::PosListResponse::Representation
+          command.response_class = Google::Apis::ContentV2::PosListResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['targetMerchantId'] = target_merchant_id unless target_merchant_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Submit a sale event for the given merchant.
+        # @param [Fixnum] merchant_id
+        #   The ID of the POS provider.
+        # @param [Fixnum] target_merchant_id
+        #   The ID of the target merchant.
+        # @param [Google::Apis::ContentV2::PosSaleRequest] pos_sale_request_object
+        # @param [Boolean] dry_run
+        #   Flag to run the request in dry-run mode.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::PosSaleResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::PosSaleResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def sale_po(merchant_id, target_merchant_id, pos_sale_request_object = nil, dry_run: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, '{merchantId}/pos/{targetMerchantId}/sale', options)
+          command.request_representation = Google::Apis::ContentV2::PosSaleRequest::Representation
+          command.request_object = pos_sale_request_object
+          command.response_representation = Google::Apis::ContentV2::PosSaleResponse::Representation
+          command.response_class = Google::Apis::ContentV2::PosSaleResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.params['targetMerchantId'] = target_merchant_id unless target_merchant_id.nil?
+          command.query['dryRun'] = dry_run unless dry_run.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -2044,10 +2446,11 @@ module Google
         end
         
         # Deletes a product from your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that contains the product. This account cannot be a
+        #   multi-client account.
         # @param [String] product_id
-        #   The ID of the product.
+        #   The REST id of the product.
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
         # @param [String] fields
@@ -2083,10 +2486,11 @@ module Google
         end
         
         # Retrieves a product from your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that contains the product. This account cannot be a
+        #   multi-client account.
         # @param [String] product_id
-        #   The ID of the product.
+        #   The REST id of the product.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2120,9 +2524,12 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Uploads a product to your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # Uploads a product to your Merchant Center account. If an item with the same
+        # channel, contentLanguage, offerId, and targetCountry already exists, this
+        # method updates that entry.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that contains the product. This account cannot be a
+        #   multi-client account.
         # @param [Google::Apis::ContentV2::Product] product_object
         # @param [Boolean] dry_run
         #   Flag to run the request in dry-run mode.
@@ -2162,8 +2569,9 @@ module Google
         end
         
         # Lists the products in your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that contains the products. This account cannot be a
+        #   multi-client account.
         # @param [Boolean] include_invalid_inserted_items
         #   Flag to include the invalid inserted items in the result of the list request.
         #   By default the invalid items are not shown (the default value is false).
@@ -2208,6 +2616,9 @@ module Google
         
         # Gets the statuses of multiple products in a single request.
         # @param [Google::Apis::ContentV2::BatchProductStatusesRequest] batch_product_statuses_request_object
+        # @param [Boolean] include_attributes
+        #   Flag to include full product data in the results of this request. The default
+        #   value is false.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2229,12 +2640,13 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def batch_product_status(batch_product_statuses_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def batch_product_status(batch_product_statuses_request_object = nil, include_attributes: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:post, 'productstatuses/batch', options)
           command.request_representation = Google::Apis::ContentV2::BatchProductStatusesRequest::Representation
           command.request_object = batch_product_statuses_request_object
           command.response_representation = Google::Apis::ContentV2::BatchProductStatusesResponse::Representation
           command.response_class = Google::Apis::ContentV2::BatchProductStatusesResponse
+          command.query['includeAttributes'] = include_attributes unless include_attributes.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -2242,10 +2654,14 @@ module Google
         end
         
         # Gets the status of a product from your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that contains the product. This account cannot be a
+        #   multi-client account.
         # @param [String] product_id
-        #   The ID of the product.
+        #   The REST id of the product.
+        # @param [Boolean] include_attributes
+        #   Flag to include full product data in the result of this get request. The
+        #   default value is false.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2267,12 +2683,13 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_product_status(merchant_id, product_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def get_product_status(merchant_id, product_id, include_attributes: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, '{merchantId}/productstatuses/{productId}', options)
           command.response_representation = Google::Apis::ContentV2::ProductStatus::Representation
           command.response_class = Google::Apis::ContentV2::ProductStatus
           command.params['merchantId'] = merchant_id unless merchant_id.nil?
           command.params['productId'] = product_id unless product_id.nil?
+          command.query['includeAttributes'] = include_attributes unless include_attributes.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -2280,8 +2697,12 @@ module Google
         end
         
         # Lists the statuses of the products in your Merchant Center account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account that contains the products. This account cannot be a
+        #   multi-client account.
+        # @param [Boolean] include_attributes
+        #   Flag to include full product data in the results of the list request. The
+        #   default value is false.
         # @param [Boolean] include_invalid_inserted_items
         #   Flag to include the invalid inserted items in the result of the list request.
         #   By default the invalid items are not shown (the default value is false).
@@ -2311,11 +2732,12 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_product_statuses(merchant_id, include_invalid_inserted_items: nil, max_results: nil, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def list_product_statuses(merchant_id, include_attributes: nil, include_invalid_inserted_items: nil, max_results: nil, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, '{merchantId}/productstatuses', options)
           command.response_representation = Google::Apis::ContentV2::ListProductStatusesResponse::Representation
           command.response_class = Google::Apis::ContentV2::ListProductStatusesResponse
           command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.query['includeAttributes'] = include_attributes unless include_attributes.nil?
           command.query['includeInvalidInsertedItems'] = include_invalid_inserted_items unless include_invalid_inserted_items.nil?
           command.query['maxResults'] = max_results unless max_results.nil?
           command.query['pageToken'] = page_token unless page_token.nil?
@@ -2365,9 +2787,11 @@ module Google
         end
         
         # Retrieves the shipping settings of the account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account for which to get/update shipping settings.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -2403,7 +2827,7 @@ module Google
         end
         
         # Retrieves supported carriers and carrier services for an account.
-        # @param [String] merchant_id
+        # @param [Fixnum] merchant_id
         #   The ID of the account for which to retrieve the supported carriers.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -2437,10 +2861,45 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Retrieves supported holidays for an account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the account for which to retrieve the supported holidays.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::ContentV2::ShippingsettingsGetSupportedHolidaysResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::ContentV2::ShippingsettingsGetSupportedHolidaysResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def getsupportedholidays_shippingsetting(merchant_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, '{merchantId}/supportedHolidays', options)
+          command.response_representation = Google::Apis::ContentV2::ShippingsettingsGetSupportedHolidaysResponse::Representation
+          command.response_class = Google::Apis::ContentV2::ShippingsettingsGetSupportedHolidaysResponse
+          command.params['merchantId'] = merchant_id unless merchant_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Lists the shipping settings of the sub-accounts in your Merchant Center
         # account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. This must be a multi-client account.
         # @param [Fixnum] max_results
         #   The maximum number of shipping settings to return in the response, used for
         #   paging.
@@ -2482,9 +2941,11 @@ module Google
         
         # Updates the shipping settings of the account. This method supports patch
         # semantics.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account for which to get/update shipping settings.
         # @param [Google::Apis::ContentV2::ShippingSettings] shipping_settings_object
         # @param [Boolean] dry_run
@@ -2526,9 +2987,11 @@ module Google
         end
         
         # Updates the shipping settings of the account.
-        # @param [String] merchant_id
-        #   The ID of the managing account.
-        # @param [String] account_id
+        # @param [Fixnum] merchant_id
+        #   The ID of the managing account. If this parameter is not the same as accountId,
+        #   then this account must be a multi-client account and accountId must be the ID
+        #   of a sub-account of this account.
+        # @param [Fixnum] account_id
         #   The ID of the account for which to get/update shipping settings.
         # @param [Google::Apis::ContentV2::ShippingSettings] shipping_settings_object
         # @param [Boolean] dry_run

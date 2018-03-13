@@ -88,6 +88,18 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class AssetShare
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class AssetShareListResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class AssetSnippet
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -334,6 +346,18 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class Package
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class PackageInsertResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class PageInfo
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -442,7 +466,25 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class SpreadsheetTemplate
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class SpreadsheetTemplateListResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class StateCompleted
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class StatusReport
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
         include Google::Apis::Core::JsonObjectSupport
@@ -466,6 +508,30 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class Uploader
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class UploaderListResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ValidateAsyncRequest
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ValidateAsyncResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class ValidateError
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -479,6 +545,18 @@ module Google
       end
       
       class ValidateResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ValidateStatusRequest
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ValidateStatusResponse
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
         include Google::Apis::Core::JsonObjectSupport
@@ -640,6 +718,27 @@ module Google
         end
       end
       
+      class AssetShare
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :share_id, as: 'shareId'
+          property :view_id, as: 'viewId'
+        end
+      end
+      
+      class AssetShareListResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :items, as: 'items', class: Google::Apis::YoutubePartnerV1::AssetShare, decorator: Google::Apis::YoutubePartnerV1::AssetShare::Representation
+      
+          property :kind, as: 'kind'
+          property :next_page_token, as: 'nextPageToken'
+          property :page_info, as: 'pageInfo', class: Google::Apis::YoutubePartnerV1::PageInfo, decorator: Google::Apis::YoutubePartnerV1::PageInfo::Representation
+      
+        end
+      end
+      
       class AssetSnippet
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -748,17 +847,17 @@ module Google
           class LongestMatch
             # @private
             class Representation < Google::Apis::Core::JsonRepresentation
-              property :duration_secs, as: 'durationSecs'
-              property :reference_offset, as: 'referenceOffset'
-              property :user_video_offset, as: 'userVideoOffset'
+              property :duration_secs, :numeric_string => true, as: 'durationSecs'
+              property :reference_offset, :numeric_string => true, as: 'referenceOffset'
+              property :user_video_offset, :numeric_string => true, as: 'userVideoOffset'
             end
           end
           
           class TotalMatch
             # @private
             class Representation < Google::Apis::Core::JsonRepresentation
-              property :reference_duration_secs, as: 'referenceDurationSecs'
-              property :user_video_duration_secs, as: 'userVideoDurationSecs'
+              property :reference_duration_secs, :numeric_string => true, as: 'referenceDurationSecs'
+              property :user_video_duration_secs, :numeric_string => true, as: 'userVideoDurationSecs'
             end
           end
         end
@@ -860,7 +959,7 @@ module Google
       
           property :video_id, as: 'videoId'
           property :video_title, as: 'videoTitle'
-          property :video_views, as: 'videoViews'
+          property :video_views, :numeric_string => true, as: 'videoViews'
         end
         
         class Origin
@@ -953,7 +1052,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           property :cue_type, as: 'cueType'
           property :duration_secs, as: 'durationSecs'
-          property :offset_time_ms, as: 'offsetTimeMs'
+          property :offset_time_ms, :numeric_string => true, as: 'offsetTimeMs'
           property :walltime, as: 'walltime', type: DateTime
       
         end
@@ -1168,6 +1267,37 @@ module Google
         end
       end
       
+      class Package
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :content, as: 'content'
+          collection :custom_ids, as: 'customIds'
+          property :id, as: 'id'
+          property :kind, as: 'kind'
+          property :locale, as: 'locale'
+          property :name, as: 'name'
+          property :status, as: 'status'
+          collection :status_reports, as: 'statusReports', class: Google::Apis::YoutubePartnerV1::StatusReport, decorator: Google::Apis::YoutubePartnerV1::StatusReport::Representation
+      
+          property :time_created, as: 'timeCreated', type: DateTime
+      
+          property :type, as: 'type'
+          property :uploader_name, as: 'uploaderName'
+        end
+      end
+      
+      class PackageInsertResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :errors, as: 'errors', class: Google::Apis::YoutubePartnerV1::ValidateError, decorator: Google::Apis::YoutubePartnerV1::ValidateError::Representation
+      
+          property :kind, as: 'kind'
+          property :resource, as: 'resource', class: Google::Apis::YoutubePartnerV1::Package, decorator: Google::Apis::YoutubePartnerV1::Package::Representation
+      
+          property :status, as: 'status'
+        end
+      end
+      
       class PageInfo
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -1304,9 +1434,9 @@ module Google
       class ReferenceConflictMatch
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :conflicting_reference_offset_ms, as: 'conflicting_reference_offset_ms'
-          property :length_ms, as: 'length_ms'
-          property :original_reference_offset_ms, as: 'original_reference_offset_ms'
+          property :conflicting_reference_offset_ms, :numeric_string => true, as: 'conflicting_reference_offset_ms'
+          property :length_ms, :numeric_string => true, as: 'length_ms'
+          property :original_reference_offset_ms, :numeric_string => true, as: 'original_reference_offset_ms'
           property :type, as: 'type'
         end
       end
@@ -1366,9 +1496,9 @@ module Google
       class Segment
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :duration, as: 'duration'
+          property :duration, :numeric_string => true, as: 'duration'
           property :kind, as: 'kind'
-          property :start, as: 'start'
+          property :start, :numeric_string => true, as: 'start'
         end
       end
       
@@ -1382,11 +1512,40 @@ module Google
         end
       end
       
+      class SpreadsheetTemplate
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :status, as: 'status'
+          property :template_content, as: 'templateContent'
+          property :template_name, as: 'templateName'
+          property :template_type, as: 'templateType'
+        end
+      end
+      
+      class SpreadsheetTemplateListResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :items, as: 'items', class: Google::Apis::YoutubePartnerV1::SpreadsheetTemplate, decorator: Google::Apis::YoutubePartnerV1::SpreadsheetTemplate::Representation
+      
+          property :kind, as: 'kind'
+          property :status, as: 'status'
+        end
+      end
+      
       class StateCompleted
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :state, as: 'state'
-          property :time_completed, as: 'timeCompleted'
+          property :time_completed, :numeric_string => true, as: 'timeCompleted'
+        end
+      end
+      
+      class StatusReport
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :status_content, as: 'statusContent'
+          property :status_file_name, as: 'statusFileName'
         end
       end
       
@@ -1418,6 +1577,41 @@ module Google
         end
       end
       
+      class Uploader
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :uploader_name, as: 'uploaderName'
+        end
+      end
+      
+      class UploaderListResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :items, as: 'items', class: Google::Apis::YoutubePartnerV1::Uploader, decorator: Google::Apis::YoutubePartnerV1::Uploader::Representation
+      
+          property :kind, as: 'kind'
+        end
+      end
+      
+      class ValidateAsyncRequest
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :content, as: 'content'
+          property :kind, as: 'kind'
+          property :uploader_name, as: 'uploaderName'
+        end
+      end
+      
+      class ValidateAsyncResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :status, as: 'status'
+          property :validation_id, as: 'validationId'
+        end
+      end
+      
       class ValidateError
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -1445,6 +1639,26 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           collection :errors, as: 'errors', class: Google::Apis::YoutubePartnerV1::ValidateError, decorator: Google::Apis::YoutubePartnerV1::ValidateError::Representation
       
+          property :kind, as: 'kind'
+          property :status, as: 'status'
+        end
+      end
+      
+      class ValidateStatusRequest
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :locale, as: 'locale'
+          property :validation_id, as: 'validationId'
+        end
+      end
+      
+      class ValidateStatusResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :errors, as: 'errors', class: Google::Apis::YoutubePartnerV1::ValidateError, decorator: Google::Apis::YoutubePartnerV1::ValidateError::Representation
+      
+          property :is_metadata_only, as: 'isMetadataOnly'
           property :kind, as: 'kind'
           property :status, as: 'status'
         end

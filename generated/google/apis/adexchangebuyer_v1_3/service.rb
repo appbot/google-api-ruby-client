@@ -51,6 +51,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'adexchangebuyer/v1.3/')
+          @batch_path = 'batch/adexchangebuyer/v1.3'
         end
         
         # Gets one account by ID.
@@ -266,9 +267,9 @@ module Google
         
         # Returns the budget information for the adgroup specified by the accountId and
         # billingId.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id to get the budget information for.
-        # @param [String] billing_id
+        # @param [Fixnum] billing_id
         #   The billing id to get the budget information for.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -306,9 +307,9 @@ module Google
         # Updates the budget amount for the budget of the adgroup specified by the
         # accountId and billingId, with the budget amount in the request. This method
         # supports patch semantics.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id associated with the budget being updated.
-        # @param [String] billing_id
+        # @param [Fixnum] billing_id
         #   The billing id associated with the budget being updated.
         # @param [Google::Apis::AdexchangebuyerV1_3::Budget] budget_object
         # @param [String] fields
@@ -348,9 +349,9 @@ module Google
         
         # Updates the budget amount for the budget of the adgroup specified by the
         # accountId and billingId, with the budget amount in the request.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id associated with the budget being updated.
-        # @param [String] billing_id
+        # @param [Fixnum] billing_id
         #   The billing id associated with the budget being updated.
         # @param [Google::Apis::AdexchangebuyerV1_3::Budget] budget_object
         # @param [String] fields
@@ -514,7 +515,7 @@ module Google
         end
         
         # Gets one direct deal by ID.
-        # @param [String] id
+        # @param [Fixnum] id
         #   The direct deal id
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -581,7 +582,7 @@ module Google
         end
         
         # Retrieves the authenticated user's list of performance metrics.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id to get the reports.
         # @param [String] end_date_time
         #   The end time of the report in ISO 8601 timestamp format using UTC.
@@ -631,9 +632,9 @@ module Google
         end
         
         # Deletes an existing pretargeting config.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id to delete the pretargeting config for.
-        # @param [String] config_id
+        # @param [Fixnum] config_id
         #   The specific id of the configuration to delete.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -667,9 +668,9 @@ module Google
         end
         
         # Gets a specific pretargeting configuration
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id to get the pretargeting config for.
-        # @param [String] config_id
+        # @param [Fixnum] config_id
         #   The specific id of the configuration to retrieve.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -705,7 +706,7 @@ module Google
         end
         
         # Inserts a new pretargeting configuration.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id to insert the pretargeting config for.
         # @param [Google::Apis::AdexchangebuyerV1_3::PretargetingConfig] pretargeting_config_object
         # @param [String] fields
@@ -743,7 +744,7 @@ module Google
         end
         
         # Retrieves a list of the authenticated user's pretargeting configurations.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id to get the pretargeting configs for.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -778,9 +779,9 @@ module Google
         end
         
         # Updates an existing pretargeting config. This method supports patch semantics.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id to update the pretargeting config for.
-        # @param [String] config_id
+        # @param [Fixnum] config_id
         #   The specific id of the configuration to update.
         # @param [Google::Apis::AdexchangebuyerV1_3::PretargetingConfig] pretargeting_config_object
         # @param [String] fields
@@ -819,9 +820,9 @@ module Google
         end
         
         # Updates an existing pretargeting config.
-        # @param [String] account_id
+        # @param [Fixnum] account_id
         #   The account id to update the pretargeting config for.
-        # @param [String] config_id
+        # @param [Fixnum] config_id
         #   The specific id of the configuration to update.
         # @param [Google::Apis::AdexchangebuyerV1_3::PretargetingConfig] pretargeting_config_object
         # @param [String] fields

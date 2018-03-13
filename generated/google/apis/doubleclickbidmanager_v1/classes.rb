@@ -35,7 +35,7 @@ module Google
         # Ids of the specified filter type used to filter line items to fetch. If
         # omitted, all the line items will be returned.
         # Corresponds to the JSON property `filterIds`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :filter_ids
       
         # Filter type used to filter line items to fetch.
@@ -65,8 +65,8 @@ module Google
       class DownloadLineItemsResponse
         include Google::Apis::Core::Hashable
       
-        # Retrieved line items in CSV format. Refer to  Entity Write File Format or
-        # Structured Data File Format for more information on file formats.
+        # Retrieved line items in CSV format. For more information about file formats,
+        # see  Entity Write File Format.
         # Corresponds to the JSON property `lineItems`
         # @return [String]
         attr_accessor :line_items
@@ -93,10 +93,10 @@ module Google
       
         # The IDs of the specified filter type. This is used to filter entities to fetch.
         # At least one ID must be specified. Only one ID is allowed for the
-        # ADVERTISER_ID filter type. For INSERTION_ORDER_ID or LINE_ITEM_ID filter types
+        # ADVERTISER_ID filter type. For INSERTION_ORDER_ID or LINE_ITEM_ID filter types,
         # all IDs must be from the same Advertiser.
         # Corresponds to the JSON property `filterIds`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :filter_ids
       
         # Filter type used to filter line items to fetch.
@@ -137,6 +137,11 @@ module Google
         # @return [String]
         attr_accessor :ads
       
+        # Retrieved campaigns in SDF format.
+        # Corresponds to the JSON property `campaigns`
+        # @return [String]
+        attr_accessor :campaigns
+      
         # Retrieved insertion orders in SDF format.
         # Corresponds to the JSON property `insertionOrders`
         # @return [String]
@@ -155,6 +160,7 @@ module Google
         def update!(**args)
           @ad_groups = args[:ad_groups] if args.key?(:ad_groups)
           @ads = args[:ads] if args.key?(:ads)
+          @campaigns = args[:campaigns] if args.key?(:campaigns)
           @insertion_orders = args[:insertion_orders] if args.key?(:insertion_orders)
           @line_items = args[:line_items] if args.key?(:line_items)
         end
@@ -303,21 +309,21 @@ module Google
       
         # Query ID.
         # Corresponds to the JSON property `queryId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :query_id
       
         # The ending time for the data that is shown in the report. Note,
         # reportDataEndTimeMs is required if metadata.dataRange is CUSTOM_DATES and
         # ignored otherwise.
         # Corresponds to the JSON property `reportDataEndTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :report_data_end_time_ms
       
         # The starting time for the data that is shown in the report. Note,
         # reportDataStartTimeMs is required if metadata.dataRange is CUSTOM_DATES and
         # ignored otherwise.
         # Corresponds to the JSON property `reportDataStartTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :report_data_start_time_ms
       
         # Information on how frequently and when to run a query.
@@ -374,7 +380,7 @@ module Google
       
         # The time when the latest report started to run.
         # Corresponds to the JSON property `latestReportRunTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :latest_report_run_time_ms
       
         # Locale of the generated reports. Valid values are cs CZECH de GERMAN en
@@ -440,7 +446,7 @@ module Google
       
         # Datetime to periodically run the query until.
         # Corresponds to the JSON property `endTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :end_time_ms
       
         # How often the query is run.
@@ -529,12 +535,12 @@ module Google
       
         # Query ID.
         # Corresponds to the JSON property `queryId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :query_id
       
         # Report ID.
         # Corresponds to the JSON property `reportId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :report_id
       
         def initialize(**args)
@@ -559,12 +565,12 @@ module Google
       
         # The ending time for the data that is shown in the report.
         # Corresponds to the JSON property `reportDataEndTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :report_data_end_time_ms
       
         # The starting time for the data that is shown in the report.
         # Corresponds to the JSON property `reportDataStartTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :report_data_start_time_ms
       
         # Report status.
@@ -596,7 +602,7 @@ module Google
       
         # The time when this report either completed successfully or failed.
         # Corresponds to the JSON property `finishTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :finish_time_ms
       
         # The file type of the report.
@@ -634,7 +640,7 @@ module Google
       
         # Entity Id.
         # Corresponds to the JSON property `entityId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :entity_id
       
         # Entity name.
@@ -686,14 +692,14 @@ module Google
         # reportDataEndTimeMs is required if dataRange is CUSTOM_DATES and ignored
         # otherwise.
         # Corresponds to the JSON property `reportDataEndTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :report_data_end_time_ms
       
         # The starting time for the data that is shown in the report. Note,
         # reportDataStartTimeMs is required if dataRange is CUSTOM_DATES and ignored
         # otherwise.
         # Corresponds to the JSON property `reportDataStartTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :report_data_start_time_ms
       
         # Canonical timezone code for report data time. Defaults to America/New_York.

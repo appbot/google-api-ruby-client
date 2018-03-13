@@ -20,7 +20,7 @@ require 'date'
 module Google
   module Apis
     module Core
-      # Support for serializing hashes + propery value/nil/unset tracking
+      # Support for serializing hashes + property value/nil/unset tracking
       # To be included in representers as a feature.
       # @private
       module JsonRepresentationSupport
@@ -55,7 +55,7 @@ module Google
           def if_fn(name)
             ivar_name = "@#{name}".to_sym
             lambda do |opts|
-              if opts[:skip_undefined]
+              if opts[:user_options] && opts[:user_options][:skip_undefined]
                 if respond_to?(:key?)
                   self.key?(name) || instance_variable_defined?(ivar_name)
                 else
@@ -71,6 +71,10 @@ module Google
             if options[:base64]
               options[:render_filter] = ->(value, _doc, *_args) { value.nil? ? nil : Base64.urlsafe_encode64(value) }
               options[:parse_filter] = ->(fragment, _doc, *_args) { Base64.urlsafe_decode64(fragment) }
+            end
+            if options[:numeric_string]
+              options[:render_filter] = ->(value, _doc, *_args) { value.nil? ? nil : value.to_s}
+              options[:parse_filter] = ->(fragment, _doc, *_args) { fragment.to_i }
             end
             if options[:type] == DateTime
               options[:render_filter] = ->(value, _doc, *_args) { value.nil? ? nil : value.is_a?(DateTime) ? value.rfc3339(3) : value.to_s }
@@ -135,9 +139,9 @@ module Google
           end
         end
 
-        def to_json
+        def to_json(*a)
           representation = self.class.const_get(:Representation)
-          representation.new(self).to_json(skip_undefined: true)
+          representation.new(self).to_json(user_options: { skip_undefined: true })
         end
       end
     end

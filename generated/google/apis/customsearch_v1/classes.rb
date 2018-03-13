@@ -210,11 +210,6 @@ module Google
         attr_accessor :cr
       
         # 
-        # Corresponds to the JSON property `cref`
-        # @return [String]
-        attr_accessor :cref
-      
-        # 
         # Corresponds to the JSON property `cx`
         # @return [String]
         attr_accessor :cx
@@ -381,7 +376,7 @@ module Google
       
         # 
         # Corresponds to the JSON property `totalResults`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :total_results
       
         def initialize(**args)
@@ -392,7 +387,6 @@ module Google
         def update!(**args)
           @count = args[:count] if args.key?(:count)
           @cr = args[:cr] if args.key?(:cr)
-          @cref = args[:cref] if args.key?(:cref)
           @cx = args[:cx] if args.key?(:cx)
           @date_restrict = args[:date_restrict] if args.key?(:date_restrict)
           @disable_cn_tw_translation = args[:disable_cn_tw_translation] if args.key?(:disable_cn_tw_translation)
@@ -700,7 +694,7 @@ module Google
         
           # 
           # Corresponds to the JSON property `totalResults`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :total_results
         
           def initialize(**args)

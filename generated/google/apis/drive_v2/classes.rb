@@ -32,6 +32,12 @@ module Google
         # @return [Array<Google::Apis::DriveV2::About::AdditionalRoleInfo>]
         attr_accessor :additional_role_info
       
+        # Whether the user can create Team Drives.
+        # Corresponds to the JSON property `canCreateTeamDrives`
+        # @return [Boolean]
+        attr_accessor :can_create_team_drives
+        alias_method :can_create_team_drives?, :can_create_team_drives
+      
         # The domain sharing policy for the current user. Possible values are:
         # - allowed
         # - allowedWithWarning
@@ -86,7 +92,7 @@ module Google
       
         # The largest change id.
         # Corresponds to the JSON property `largestChangeId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :largest_change_id
       
         # List of max upload sizes for each file type. The most specific type takes
@@ -112,22 +118,22 @@ module Google
       
         # The total number of quota bytes.
         # Corresponds to the JSON property `quotaBytesTotal`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :quota_bytes_total
       
         # The number of quota bytes used by Google Drive.
         # Corresponds to the JSON property `quotaBytesUsed`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :quota_bytes_used
       
         # The number of quota bytes used by all Google apps (Drive, Picasa, etc.).
         # Corresponds to the JSON property `quotaBytesUsedAggregate`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :quota_bytes_used_aggregate
       
         # The number of quota bytes used by trashed items.
         # Corresponds to the JSON property `quotaBytesUsedInTrash`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :quota_bytes_used_in_trash
       
         # The type of the user's storage quota. Possible values are:
@@ -139,7 +145,7 @@ module Google
       
         # The number of remaining change ids, limited to no more than 2500.
         # Corresponds to the JSON property `remainingChangeIds`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :remaining_change_ids
       
         # The id of the root folder.
@@ -151,6 +157,11 @@ module Google
         # Corresponds to the JSON property `selfLink`
         # @return [String]
         attr_accessor :self_link
+      
+        # A list of themes that are supported for Team Drives.
+        # Corresponds to the JSON property `teamDriveThemes`
+        # @return [Array<Google::Apis::DriveV2::About::TeamDriveTheme>]
+        attr_accessor :team_drive_themes
       
         # Information about a Drive user.
         # Corresponds to the JSON property `user`
@@ -164,6 +175,7 @@ module Google
         # Update properties of this object
         def update!(**args)
           @additional_role_info = args[:additional_role_info] if args.key?(:additional_role_info)
+          @can_create_team_drives = args[:can_create_team_drives] if args.key?(:can_create_team_drives)
           @domain_sharing_policy = args[:domain_sharing_policy] if args.key?(:domain_sharing_policy)
           @etag = args[:etag] if args.key?(:etag)
           @export_formats = args[:export_formats] if args.key?(:export_formats)
@@ -186,6 +198,7 @@ module Google
           @remaining_change_ids = args[:remaining_change_ids] if args.key?(:remaining_change_ids)
           @root_folder_id = args[:root_folder_id] if args.key?(:root_folder_id)
           @self_link = args[:self_link] if args.key?(:self_link)
+          @team_drive_themes = args[:team_drive_themes] if args.key?(:team_drive_themes)
           @user = args[:user] if args.key?(:user)
         end
         
@@ -320,7 +333,7 @@ module Google
         
           # The max upload size for this type.
           # Corresponds to the JSON property `size`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :size
         
           # The file type.
@@ -345,7 +358,7 @@ module Google
         
           # The storage quota bytes used by the service.
           # Corresponds to the JSON property `bytesUsed`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :bytes_used
         
           # The service's name, e.g. DRIVE, GMAIL, or PHOTOS.
@@ -361,6 +374,37 @@ module Google
           def update!(**args)
             @bytes_used = args[:bytes_used] if args.key?(:bytes_used)
             @service_name = args[:service_name] if args.key?(:service_name)
+          end
+        end
+        
+        # 
+        class TeamDriveTheme
+          include Google::Apis::Core::Hashable
+        
+          # A link to this Team Drive theme's background image.
+          # Corresponds to the JSON property `backgroundImageLink`
+          # @return [String]
+          attr_accessor :background_image_link
+        
+          # The color of this Team Drive theme as an RGB hex string.
+          # Corresponds to the JSON property `colorRgb`
+          # @return [String]
+          attr_accessor :color_rgb
+        
+          # The ID of the theme.
+          # Corresponds to the JSON property `id`
+          # @return [String]
+          attr_accessor :id
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @background_image_link = args[:background_image_link] if args.key?(:background_image_link)
+            @color_rgb = args[:color_rgb] if args.key?(:color_rgb)
+            @id = args[:id] if args.key?(:id)
           end
         end
       end
@@ -588,7 +632,7 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The actual list of apps.
+        # The list of apps.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::App>]
         attr_accessor :items
@@ -617,11 +661,12 @@ module Google
         end
       end
       
-      # Representation of a change to a file.
+      # Representation of a change to a file or Team Drive.
       class Change
         include Google::Apis::Core::Hashable
       
-        # Whether the file has been deleted.
+        # Whether the file or Team Drive has been removed from this list of changes, for
+        # example by deletion or loss of access.
         # Corresponds to the JSON property `deleted`
         # @return [Boolean]
         attr_accessor :deleted
@@ -639,7 +684,7 @@ module Google
       
         # The ID of the change.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
         # This is always drive#change.
@@ -657,6 +702,21 @@ module Google
         # @return [String]
         attr_accessor :self_link
       
+        # Representation of a Team Drive.
+        # Corresponds to the JSON property `teamDrive`
+        # @return [Google::Apis::DriveV2::TeamDrive]
+        attr_accessor :team_drive
+      
+        # The ID of the Team Drive associated with this change.
+        # Corresponds to the JSON property `teamDriveId`
+        # @return [String]
+        attr_accessor :team_drive_id
+      
+        # The type of the change. Possible values are file and teamDrive.
+        # Corresponds to the JSON property `type`
+        # @return [String]
+        attr_accessor :type
+      
         def initialize(**args)
            update!(**args)
         end
@@ -670,6 +730,9 @@ module Google
           @kind = args[:kind] if args.key?(:kind)
           @modification_date = args[:modification_date] if args.key?(:modification_date)
           @self_link = args[:self_link] if args.key?(:self_link)
+          @team_drive = args[:team_drive] if args.key?(:team_drive)
+          @team_drive_id = args[:team_drive_id] if args.key?(:team_drive_id)
+          @type = args[:type] if args.key?(:type)
         end
       end
       
@@ -682,7 +745,8 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The actual list of changes.
+        # The list of changes. If nextPageToken is populated, then this list may be
+        # incomplete and an additional page of results should be fetched.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::Change>]
         attr_accessor :items
@@ -694,15 +758,24 @@ module Google
       
         # The current largest change ID.
         # Corresponds to the JSON property `largestChangeId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :largest_change_id
+      
+        # The starting page token for future changes. This will be present only if the
+        # end of the current changes list has been reached.
+        # Corresponds to the JSON property `newStartPageToken`
+        # @return [String]
+        attr_accessor :new_start_page_token
       
         # A link to the next page of changes.
         # Corresponds to the JSON property `nextLink`
         # @return [String]
         attr_accessor :next_link
       
-        # The page token for the next page of changes.
+        # The page token for the next page of changes. This will be absent if the end of
+        # the changes list has been reached. If the token is rejected for any reason, it
+        # should be discarded, and pagination should be restarted from the first page of
+        # results.
         # Corresponds to the JSON property `nextPageToken`
         # @return [String]
         attr_accessor :next_page_token
@@ -722,6 +795,7 @@ module Google
           @items = args[:items] if args.key?(:items)
           @kind = args[:kind] if args.key?(:kind)
           @largest_change_id = args[:largest_change_id] if args.key?(:largest_change_id)
+          @new_start_page_token = args[:new_start_page_token] if args.key?(:new_start_page_token)
           @next_link = args[:next_link] if args.key?(:next_link)
           @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
           @self_link = args[:self_link] if args.key?(:self_link)
@@ -740,7 +814,7 @@ module Google
         # Date and time of notification channel expiration, expressed as a Unix
         # timestamp, in milliseconds. Optional.
         # Corresponds to the JSON property `expiration`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :expiration
       
         # A UUID or similar unique string that identifies this channel.
@@ -815,7 +889,8 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The actual list of children.
+        # The list of children. If nextPageToken is populated, then this list may be
+        # incomplete and an additional page of results should be fetched.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::ChildReference>]
         attr_accessor :items
@@ -830,7 +905,10 @@ module Google
         # @return [String]
         attr_accessor :next_link
       
-        # The page token for the next page of children.
+        # The page token for the next page of children. This will be absent if the end
+        # of the children list has been reached. If the token is rejected for any reason,
+        # it should be discarded, and pagination should be restarted from the first
+        # page of results.
         # Corresponds to the JSON property `nextPageToken`
         # @return [String]
         attr_accessor :next_page_token
@@ -1034,7 +1112,8 @@ module Google
       class CommentList
         include Google::Apis::Core::Hashable
       
-        # List of comments.
+        # The list of comments. If nextPageToken is populated, then this list may be
+        # incomplete and an additional page of results should be fetched.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::Comment>]
         attr_accessor :items
@@ -1049,7 +1128,10 @@ module Google
         # @return [String]
         attr_accessor :next_link
       
-        # The token to use to request the next page of results.
+        # The page token for the next page of comments. This will be absent if the end
+        # of the comments list has been reached. If the token is rejected for any reason,
+        # it should be discarded, and pagination should be restarted from the first
+        # page of results.
         # Corresponds to the JSON property `nextPageToken`
         # @return [String]
         attr_accessor :next_page_token
@@ -1152,7 +1234,8 @@ module Google
       class CommentReplyList
         include Google::Apis::Core::Hashable
       
-        # List of reply.
+        # The list of replies. If nextPageToken is populated, then this list may be
+        # incomplete and an additional page of results should be fetched.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::CommentReply>]
         attr_accessor :items
@@ -1167,7 +1250,10 @@ module Google
         # @return [String]
         attr_accessor :next_link
       
-        # The token to use to request the next page of results.
+        # The page token for the next page of replies. This will be absent if the end of
+        # the replies list has been reached. If the token is rejected for any reason, it
+        # should be discarded, and pagination should be restarted from the first page of
+        # results.
         # Corresponds to the JSON property `nextPageToken`
         # @return [String]
         attr_accessor :next_page_token
@@ -1206,19 +1292,25 @@ module Google
         attr_accessor :app_data_contents
         alias_method :app_data_contents?, :app_data_contents
       
-        # Whether the current user can comment on the file.
+        # Deprecated: use capabilities/canComment.
         # Corresponds to the JSON property `canComment`
         # @return [Boolean]
         attr_accessor :can_comment
         alias_method :can_comment?, :can_comment
       
-        # Whether the current user has read access to the Revisions resource of the file.
+        # Deprecated: use capabilities/canReadRevisions.
         # Corresponds to the JSON property `canReadRevisions`
         # @return [Boolean]
         attr_accessor :can_read_revisions
         alias_method :can_read_revisions?, :can_read_revisions
       
-        # Whether the file can be copied by the current user.
+        # Capabilities the current user has on this file. Each capability corresponds to
+        # a fine-grained action that a user may take.
+        # Corresponds to the JSON property `capabilities`
+        # @return [Google::Apis::DriveV2::File::Capabilities]
+        attr_accessor :capabilities
+      
+        # Deprecated: use capabilities/canCopy.
         # Corresponds to the JSON property `copyable`
         # @return [Boolean]
         attr_accessor :copyable
@@ -1245,7 +1337,7 @@ module Google
         # @return [String]
         attr_accessor :download_url
       
-        # Whether the file can be edited by the current user.
+        # Deprecated: use capabilities/canEdit.
         # Corresponds to the JSON property `editable`
         # @return [Boolean]
         attr_accessor :editable
@@ -1284,13 +1376,13 @@ module Google
         # The size of the file in bytes. This field is only populated for files with
         # content stored in Drive; it is not populated for Google Docs or shortcut files.
         # Corresponds to the JSON property `fileSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :file_size
       
         # Folder color as an RGB hex string if the file is a folder. The list of
         # supported colors is available in the folderColorPalette field of the About
         # resource. If an unsupported color is specified, it will be changed to the
-        # closest color in the palette.
+        # closest color in the palette. Not populated for Team Drive files.
         # Corresponds to the JSON property `folderColorRgb`
         # @return [String]
         attr_accessor :folder_color_rgb
@@ -1303,6 +1395,21 @@ module Google
         # Corresponds to the JSON property `fullFileExtension`
         # @return [String]
         attr_accessor :full_file_extension
+      
+        # Whether any users are granted file access directly on this file. This field is
+        # only populated for Team Drive files.
+        # Corresponds to the JSON property `hasAugmentedPermissions`
+        # @return [Boolean]
+        attr_accessor :has_augmented_permissions
+        alias_method :has_augmented_permissions?, :has_augmented_permissions
+      
+        # Whether this file has a thumbnail. This does not indicate whether the
+        # requesting app has access to the thumbnail. To check access, look for the
+        # presence of the thumbnailLink field.
+        # Corresponds to the JSON property `hasThumbnail`
+        # @return [Boolean]
+        attr_accessor :has_thumbnail
+        alias_method :has_thumbnail?, :has_thumbnail
       
         # The ID of the file's head revision. This field is only populated for files
         # with content stored in Drive; it is not populated for Google Docs or shortcut
@@ -1408,31 +1515,40 @@ module Google
         # @return [String]
         attr_accessor :original_filename
       
-        # Whether the file is owned by the current user.
+        # Whether the file is owned by the current user. Not populated for Team Drive
+        # files.
         # Corresponds to the JSON property `ownedByMe`
         # @return [Boolean]
         attr_accessor :owned_by_me
         alias_method :owned_by_me?, :owned_by_me
       
-        # Name(s) of the owner(s) of this file.
+        # Name(s) of the owner(s) of this file. Not populated for Team Drive files.
         # Corresponds to the JSON property `ownerNames`
         # @return [Array<String>]
         attr_accessor :owner_names
       
-        # The owner(s) of this file.
+        # The owner(s) of this file. Not populated for Team Drive files.
         # Corresponds to the JSON property `owners`
         # @return [Array<Google::Apis::DriveV2::User>]
         attr_accessor :owners
       
         # Collection of parent folders which contain this file.
-        # Setting this field will put the file in all of the provided folders. On insert,
-        # if no folders are provided, the file will be placed in the default root
-        # folder.
+        # If not specified as part of an insert request, the file will be placed
+        # directly in the user's My Drive folder. If not specified as part of a copy
+        # request, the file will inherit any discoverable parents of the source file.
+        # Update requests can also use the addParents and removeParents parameters to
+        # modify the parents list.
         # Corresponds to the JSON property `parents`
         # @return [Array<Google::Apis::DriveV2::ParentReference>]
         attr_accessor :parents
       
-        # The list of permissions for users with access to this file.
+        # List of permission IDs for users with access to this file.
+        # Corresponds to the JSON property `permissionIds`
+        # @return [Array<String>]
+        attr_accessor :permission_ids
+      
+        # The list of permissions for users with access to this file. Not populated for
+        # Team Drive files.
         # Corresponds to the JSON property `permissions`
         # @return [Array<Google::Apis::DriveV2::Permission>]
         attr_accessor :permissions
@@ -1444,7 +1560,7 @@ module Google
       
         # The number of quota bytes used by this file.
         # Corresponds to the JSON property `quotaBytesUsed`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :quota_bytes_used
       
         # A link back to this file.
@@ -1452,13 +1568,13 @@ module Google
         # @return [String]
         attr_accessor :self_link
       
-        # Whether the file's sharing settings can be modified by the current user.
+        # Deprecated: use capabilities/canShare.
         # Corresponds to the JSON property `shareable`
         # @return [Boolean]
         attr_accessor :shareable
         alias_method :shareable?, :shareable
       
-        # Whether the file has been shared.
+        # Whether the file has been shared. Not populated for Team Drive files.
         # Corresponds to the JSON property `shared`
         # @return [Boolean]
         attr_accessor :shared
@@ -1481,22 +1597,45 @@ module Google
         # @return [Array<String>]
         attr_accessor :spaces
       
-        # Thumbnail for the file. Only accepted on upload and for files that are not
-        # already thumbnailed by Google.
+        # ID of the Team Drive the file resides in.
+        # Corresponds to the JSON property `teamDriveId`
+        # @return [String]
+        attr_accessor :team_drive_id
+      
+        # A thumbnail for the file. This will only be used if Drive cannot generate a
+        # standard thumbnail.
         # Corresponds to the JSON property `thumbnail`
         # @return [Google::Apis::DriveV2::File::Thumbnail]
         attr_accessor :thumbnail
       
         # A short-lived link to the file's thumbnail. Typically lasts on the order of
-        # hours.
+        # hours. Only populated when the requesting app can access the file's content.
         # Corresponds to the JSON property `thumbnailLink`
         # @return [String]
         attr_accessor :thumbnail_link
       
-        # The title of this file.
+        # The thumbnail version for use in thumbnail cache invalidation.
+        # Corresponds to the JSON property `thumbnailVersion`
+        # @return [Fixnum]
+        attr_accessor :thumbnail_version
+      
+        # The title of this file. Note that for immutable items such as the top level
+        # folders of Team Drives, My Drive root folder, and Application Data folder the
+        # title is constant.
         # Corresponds to the JSON property `title`
         # @return [String]
         attr_accessor :title
+      
+        # The time that the item was trashed (formatted RFC 3339 timestamp). Only
+        # populated for Team Drive files.
+        # Corresponds to the JSON property `trashedDate`
+        # @return [DateTime]
+        attr_accessor :trashed_date
+      
+        # Information about a Drive user.
+        # Corresponds to the JSON property `trashingUser`
+        # @return [Google::Apis::DriveV2::User]
+        attr_accessor :trashing_user
       
         # A permission for a file.
         # Corresponds to the JSON property `userPermission`
@@ -1507,7 +1646,7 @@ module Google
         # change made to the file on the server, even those not visible to the
         # requesting user.
         # Corresponds to the JSON property `version`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :version
       
         # Metadata about video media. This will only be present for video types.
@@ -1528,7 +1667,8 @@ module Google
         # @return [String]
         attr_accessor :web_view_link
       
-        # Whether writers can share the document with other users.
+        # Whether writers can share the document with other users. Not populated for
+        # Team Drive files.
         # Corresponds to the JSON property `writersCanShare`
         # @return [Boolean]
         attr_accessor :writers_can_share
@@ -1544,6 +1684,7 @@ module Google
           @app_data_contents = args[:app_data_contents] if args.key?(:app_data_contents)
           @can_comment = args[:can_comment] if args.key?(:can_comment)
           @can_read_revisions = args[:can_read_revisions] if args.key?(:can_read_revisions)
+          @capabilities = args[:capabilities] if args.key?(:capabilities)
           @copyable = args[:copyable] if args.key?(:copyable)
           @created_date = args[:created_date] if args.key?(:created_date)
           @default_open_with_link = args[:default_open_with_link] if args.key?(:default_open_with_link)
@@ -1558,6 +1699,8 @@ module Google
           @file_size = args[:file_size] if args.key?(:file_size)
           @folder_color_rgb = args[:folder_color_rgb] if args.key?(:folder_color_rgb)
           @full_file_extension = args[:full_file_extension] if args.key?(:full_file_extension)
+          @has_augmented_permissions = args[:has_augmented_permissions] if args.key?(:has_augmented_permissions)
+          @has_thumbnail = args[:has_thumbnail] if args.key?(:has_thumbnail)
           @head_revision_id = args[:head_revision_id] if args.key?(:head_revision_id)
           @icon_link = args[:icon_link] if args.key?(:icon_link)
           @id = args[:id] if args.key?(:id)
@@ -1580,6 +1723,7 @@ module Google
           @owner_names = args[:owner_names] if args.key?(:owner_names)
           @owners = args[:owners] if args.key?(:owners)
           @parents = args[:parents] if args.key?(:parents)
+          @permission_ids = args[:permission_ids] if args.key?(:permission_ids)
           @permissions = args[:permissions] if args.key?(:permissions)
           @properties = args[:properties] if args.key?(:properties)
           @quota_bytes_used = args[:quota_bytes_used] if args.key?(:quota_bytes_used)
@@ -1589,15 +1733,164 @@ module Google
           @shared_with_me_date = args[:shared_with_me_date] if args.key?(:shared_with_me_date)
           @sharing_user = args[:sharing_user] if args.key?(:sharing_user)
           @spaces = args[:spaces] if args.key?(:spaces)
+          @team_drive_id = args[:team_drive_id] if args.key?(:team_drive_id)
           @thumbnail = args[:thumbnail] if args.key?(:thumbnail)
           @thumbnail_link = args[:thumbnail_link] if args.key?(:thumbnail_link)
+          @thumbnail_version = args[:thumbnail_version] if args.key?(:thumbnail_version)
           @title = args[:title] if args.key?(:title)
+          @trashed_date = args[:trashed_date] if args.key?(:trashed_date)
+          @trashing_user = args[:trashing_user] if args.key?(:trashing_user)
           @user_permission = args[:user_permission] if args.key?(:user_permission)
           @version = args[:version] if args.key?(:version)
           @video_media_metadata = args[:video_media_metadata] if args.key?(:video_media_metadata)
           @web_content_link = args[:web_content_link] if args.key?(:web_content_link)
           @web_view_link = args[:web_view_link] if args.key?(:web_view_link)
           @writers_can_share = args[:writers_can_share] if args.key?(:writers_can_share)
+        end
+        
+        # Capabilities the current user has on this file. Each capability corresponds to
+        # a fine-grained action that a user may take.
+        class Capabilities
+          include Google::Apis::Core::Hashable
+        
+          # Whether the current user can add children to this folder. This is always false
+          # when the item is not a folder.
+          # Corresponds to the JSON property `canAddChildren`
+          # @return [Boolean]
+          attr_accessor :can_add_children
+          alias_method :can_add_children?, :can_add_children
+        
+          # Whether the current user can change the restricted download label of this file.
+          # Corresponds to the JSON property `canChangeRestrictedDownload`
+          # @return [Boolean]
+          attr_accessor :can_change_restricted_download
+          alias_method :can_change_restricted_download?, :can_change_restricted_download
+        
+          # Whether the current user can comment on this file.
+          # Corresponds to the JSON property `canComment`
+          # @return [Boolean]
+          attr_accessor :can_comment
+          alias_method :can_comment?, :can_comment
+        
+          # Whether the current user can copy this file. For a Team Drive item, whether
+          # the current user can copy non-folder descendants of this item, or this item
+          # itself if it is not a folder.
+          # Corresponds to the JSON property `canCopy`
+          # @return [Boolean]
+          attr_accessor :can_copy
+          alias_method :can_copy?, :can_copy
+        
+          # Whether the current user can delete this file.
+          # Corresponds to the JSON property `canDelete`
+          # @return [Boolean]
+          attr_accessor :can_delete
+          alias_method :can_delete?, :can_delete
+        
+          # Whether the current user can download this file.
+          # Corresponds to the JSON property `canDownload`
+          # @return [Boolean]
+          attr_accessor :can_download
+          alias_method :can_download?, :can_download
+        
+          # Whether the current user can edit this file.
+          # Corresponds to the JSON property `canEdit`
+          # @return [Boolean]
+          attr_accessor :can_edit
+          alias_method :can_edit?, :can_edit
+        
+          # Whether the current user can list the children of this folder. This is always
+          # false when the item is not a folder.
+          # Corresponds to the JSON property `canListChildren`
+          # @return [Boolean]
+          attr_accessor :can_list_children
+          alias_method :can_list_children?, :can_list_children
+        
+          # Whether the current user can move this item into a Team Drive. If the item is
+          # in a Team Drive, this field is equivalent to canMoveTeamDriveItem.
+          # Corresponds to the JSON property `canMoveItemIntoTeamDrive`
+          # @return [Boolean]
+          attr_accessor :can_move_item_into_team_drive
+          alias_method :can_move_item_into_team_drive?, :can_move_item_into_team_drive
+        
+          # Whether the current user can move this Team Drive item by changing its parent.
+          # Note that a request to change the parent for this item may still fail
+          # depending on the new parent that is being added. Only populated for Team Drive
+          # files.
+          # Corresponds to the JSON property `canMoveTeamDriveItem`
+          # @return [Boolean]
+          attr_accessor :can_move_team_drive_item
+          alias_method :can_move_team_drive_item?, :can_move_team_drive_item
+        
+          # Whether the current user can read the revisions resource of this file. For a
+          # Team Drive item, whether revisions of non-folder descendants of this item, or
+          # this item itself if it is not a folder, can be read.
+          # Corresponds to the JSON property `canReadRevisions`
+          # @return [Boolean]
+          attr_accessor :can_read_revisions
+          alias_method :can_read_revisions?, :can_read_revisions
+        
+          # Whether the current user can read the Team Drive to which this file belongs.
+          # Only populated for Team Drive files.
+          # Corresponds to the JSON property `canReadTeamDrive`
+          # @return [Boolean]
+          attr_accessor :can_read_team_drive
+          alias_method :can_read_team_drive?, :can_read_team_drive
+        
+          # Whether the current user can remove children from this folder. This is always
+          # false when the item is not a folder.
+          # Corresponds to the JSON property `canRemoveChildren`
+          # @return [Boolean]
+          attr_accessor :can_remove_children
+          alias_method :can_remove_children?, :can_remove_children
+        
+          # Whether the current user can rename this file.
+          # Corresponds to the JSON property `canRename`
+          # @return [Boolean]
+          attr_accessor :can_rename
+          alias_method :can_rename?, :can_rename
+        
+          # Whether the current user can modify the sharing settings for this file.
+          # Corresponds to the JSON property `canShare`
+          # @return [Boolean]
+          attr_accessor :can_share
+          alias_method :can_share?, :can_share
+        
+          # Whether the current user can move this file to trash.
+          # Corresponds to the JSON property `canTrash`
+          # @return [Boolean]
+          attr_accessor :can_trash
+          alias_method :can_trash?, :can_trash
+        
+          # Whether the current user can restore this file from trash.
+          # Corresponds to the JSON property `canUntrash`
+          # @return [Boolean]
+          attr_accessor :can_untrash
+          alias_method :can_untrash?, :can_untrash
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @can_add_children = args[:can_add_children] if args.key?(:can_add_children)
+            @can_change_restricted_download = args[:can_change_restricted_download] if args.key?(:can_change_restricted_download)
+            @can_comment = args[:can_comment] if args.key?(:can_comment)
+            @can_copy = args[:can_copy] if args.key?(:can_copy)
+            @can_delete = args[:can_delete] if args.key?(:can_delete)
+            @can_download = args[:can_download] if args.key?(:can_download)
+            @can_edit = args[:can_edit] if args.key?(:can_edit)
+            @can_list_children = args[:can_list_children] if args.key?(:can_list_children)
+            @can_move_item_into_team_drive = args[:can_move_item_into_team_drive] if args.key?(:can_move_item_into_team_drive)
+            @can_move_team_drive_item = args[:can_move_team_drive_item] if args.key?(:can_move_team_drive_item)
+            @can_read_revisions = args[:can_read_revisions] if args.key?(:can_read_revisions)
+            @can_read_team_drive = args[:can_read_team_drive] if args.key?(:can_read_team_drive)
+            @can_remove_children = args[:can_remove_children] if args.key?(:can_remove_children)
+            @can_rename = args[:can_rename] if args.key?(:can_rename)
+            @can_share = args[:can_share] if args.key?(:can_share)
+            @can_trash = args[:can_trash] if args.key?(:can_trash)
+            @can_untrash = args[:can_untrash] if args.key?(:can_untrash)
+          end
         end
         
         # Metadata about image media. This will only be present for image types, and its
@@ -1849,14 +2142,15 @@ module Google
           end
         end
         
-        # Thumbnail for the file. Only accepted on upload and for files that are not
-        # already thumbnailed by Google.
+        # A thumbnail for the file. This will only be used if Drive cannot generate a
+        # standard thumbnail.
         class Thumbnail
           include Google::Apis::Core::Hashable
         
           # The URL-safe Base64 encoded bytes of the thumbnail image. It should conform to
           # RFC 4648 section 5.
           # Corresponds to the JSON property `image`
+          # NOTE: Values are automatically base64 encoded/decoded in the client library.
           # @return [String]
           attr_accessor :image
         
@@ -1882,7 +2176,7 @@ module Google
         
           # The duration of the video in milliseconds.
           # Corresponds to the JSON property `durationMillis`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :duration_millis
         
           # The height of the video in pixels.
@@ -1917,7 +2211,19 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The actual list of files.
+        # Whether the search process was incomplete. If true, then some search results
+        # may be missing, since all documents were not searched. This may occur when
+        # searching multiple Team Drives with the "default,allTeamDrives" corpora, but
+        # all corpora could not be searched. When this happens, it is suggested that
+        # clients narrow their query by choosing a different corpus such as "default" or
+        # "teamDrive".
+        # Corresponds to the JSON property `incompleteSearch`
+        # @return [Boolean]
+        attr_accessor :incomplete_search
+        alias_method :incomplete_search?, :incomplete_search
+      
+        # The list of files. If nextPageToken is populated, then this list may be
+        # incomplete and an additional page of results should be fetched.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::File>]
         attr_accessor :items
@@ -1932,7 +2238,10 @@ module Google
         # @return [String]
         attr_accessor :next_link
       
-        # The page token for the next page of files.
+        # The page token for the next page of files. This will be absent if the end of
+        # the files list has been reached. If the token is rejected for any reason, it
+        # should be discarded, and pagination should be restarted from the first page of
+        # results.
         # Corresponds to the JSON property `nextPageToken`
         # @return [String]
         attr_accessor :next_page_token
@@ -1949,6 +2258,7 @@ module Google
         # Update properties of this object
         def update!(**args)
           @etag = args[:etag] if args.key?(:etag)
+          @incomplete_search = args[:incomplete_search] if args.key?(:incomplete_search)
           @items = args[:items] if args.key?(:items)
           @kind = args[:kind] if args.key?(:kind)
           @next_link = args[:next_link] if args.key?(:next_link)
@@ -1997,7 +2307,7 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The actual list of parents.
+        # The list of parents.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::ParentReference>]
         attr_accessor :items
@@ -2073,15 +2383,23 @@ module Google
       class Permission
         include Google::Apis::Core::Hashable
       
-        # Additional roles for this user. Only commenter is currently allowed.
+        # Additional roles for this user. Only commenter is currently allowed, though
+        # more may be supported in the future.
         # Corresponds to the JSON property `additionalRoles`
         # @return [Array<String>]
         attr_accessor :additional_roles
       
-        # The authkey parameter required for this permission.
+        # Deprecated.
         # Corresponds to the JSON property `authKey`
         # @return [String]
         attr_accessor :auth_key
+      
+        # Whether the account associated with this permission has been deleted. This
+        # field only pertains to user and group permissions.
+        # Corresponds to the JSON property `deleted`
+        # @return [Boolean]
+        attr_accessor :deleted
+        alias_method :deleted?, :deleted
       
         # The domain name of the entity this permission refers to. This is an output-
         # only field which is present when the permission type is user, group or domain.
@@ -2100,7 +2418,13 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The time at which this permission will expire (RFC 3339 date-time).
+        # The time at which this permission will expire (RFC 3339 date-time). Expiration
+        # dates have the following restrictions:
+        # - They can only be set on user and group permissions
+        # - The date must be in the future
+        # - The date cannot be more than a year in the future
+        # - The date can only be set on drive.permissions.update or drive.permissions.
+        # patch requests
         # Corresponds to the JSON property `expirationDate`
         # @return [DateTime]
         attr_accessor :expiration_date
@@ -2108,7 +2432,7 @@ module Google
         # The ID of the user this permission refers to, and identical to the
         # permissionId in the About and Files resources. When making a drive.permissions.
         # insert request, exactly one of the id or value fields must be specified unless
-        # the permission type anyone, in which case both id and value are ignored.
+        # the permission type is anyone, in which case both id and value are ignored.
         # Corresponds to the JSON property `id`
         # @return [String]
         attr_accessor :id
@@ -2128,7 +2452,9 @@ module Google
         # @return [String]
         attr_accessor :photo_link
       
-        # The primary role for this user. Allowed values are:
+        # The primary role for this user. While new values may be supported in the
+        # future, the following are currently allowed:
+        # - organizer
         # - owner
         # - reader
         # - writer
@@ -2140,6 +2466,13 @@ module Google
         # Corresponds to the JSON property `selfLink`
         # @return [String]
         attr_accessor :self_link
+      
+        # Details of whether the permissions on this Team Drive item are inherited or
+        # directly on this item. This is an output-only field which is present only for
+        # Team Drive items.
+        # Corresponds to the JSON property `teamDrivePermissionDetails`
+        # @return [Array<Google::Apis::DriveV2::Permission::TeamDrivePermissionDetail>]
+        attr_accessor :team_drive_permission_details
       
         # The account type. Allowed values are:
         # - user
@@ -2153,7 +2486,7 @@ module Google
         # The email address or domain name for the entity. This is used during inserts
         # and is not populated in responses. When making a drive.permissions.insert
         # request, exactly one of the id or value fields must be specified unless the
-        # permission type anyone, in which case both id and value are ignored.
+        # permission type is anyone, in which case both id and value are ignored.
         # Corresponds to the JSON property `value`
         # @return [String]
         attr_accessor :value
@@ -2172,6 +2505,7 @@ module Google
         def update!(**args)
           @additional_roles = args[:additional_roles] if args.key?(:additional_roles)
           @auth_key = args[:auth_key] if args.key?(:auth_key)
+          @deleted = args[:deleted] if args.key?(:deleted)
           @domain = args[:domain] if args.key?(:domain)
           @email_address = args[:email_address] if args.key?(:email_address)
           @etag = args[:etag] if args.key?(:etag)
@@ -2182,9 +2516,64 @@ module Google
           @photo_link = args[:photo_link] if args.key?(:photo_link)
           @role = args[:role] if args.key?(:role)
           @self_link = args[:self_link] if args.key?(:self_link)
+          @team_drive_permission_details = args[:team_drive_permission_details] if args.key?(:team_drive_permission_details)
           @type = args[:type] if args.key?(:type)
           @value = args[:value] if args.key?(:value)
           @with_link = args[:with_link] if args.key?(:with_link)
+        end
+        
+        # 
+        class TeamDrivePermissionDetail
+          include Google::Apis::Core::Hashable
+        
+          # Additional roles for this user. Only commenter is currently possible, though
+          # more may be supported in the future.
+          # Corresponds to the JSON property `additionalRoles`
+          # @return [Array<String>]
+          attr_accessor :additional_roles
+        
+          # Whether this permission is inherited. This field is always populated. This is
+          # an output-only field.
+          # Corresponds to the JSON property `inherited`
+          # @return [Boolean]
+          attr_accessor :inherited
+          alias_method :inherited?, :inherited
+        
+          # The ID of the item from which this permission is inherited. This is an output-
+          # only field and is only populated for members of the Team Drive.
+          # Corresponds to the JSON property `inheritedFrom`
+          # @return [String]
+          attr_accessor :inherited_from
+        
+          # The primary role for this user. While new values may be added in the future,
+          # the following are currently possible:
+          # - organizer
+          # - reader
+          # - writer
+          # Corresponds to the JSON property `role`
+          # @return [String]
+          attr_accessor :role
+        
+          # The Team Drive permission type for this user. While new values may be added in
+          # future, the following are currently possible:
+          # - file
+          # - member
+          # Corresponds to the JSON property `teamDrivePermissionType`
+          # @return [String]
+          attr_accessor :team_drive_permission_type
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @additional_roles = args[:additional_roles] if args.key?(:additional_roles)
+            @inherited = args[:inherited] if args.key?(:inherited)
+            @inherited_from = args[:inherited_from] if args.key?(:inherited_from)
+            @role = args[:role] if args.key?(:role)
+            @team_drive_permission_type = args[:team_drive_permission_type] if args.key?(:team_drive_permission_type)
+          end
         end
       end
       
@@ -2222,7 +2611,7 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The actual list of permissions.
+        # The list of permissions.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::Permission>]
         attr_accessor :items
@@ -2231,6 +2620,14 @@ module Google
         # Corresponds to the JSON property `kind`
         # @return [String]
         attr_accessor :kind
+      
+        # The page token for the next page of permissions. This field will be absent if
+        # the end of the permissions list has been reached. If the token is rejected for
+        # any reason, it should be discarded, and pagination should be restarted from
+        # the first page of results.
+        # Corresponds to the JSON property `nextPageToken`
+        # @return [String]
+        attr_accessor :next_page_token
       
         # A link back to this list.
         # Corresponds to the JSON property `selfLink`
@@ -2246,6 +2643,7 @@ module Google
           @etag = args[:etag] if args.key?(:etag)
           @items = args[:items] if args.key?(:items)
           @kind = args[:kind] if args.key?(:kind)
+          @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
           @self_link = args[:self_link] if args.key?(:self_link)
         end
       end
@@ -2367,7 +2765,7 @@ module Google
         # The size of the revision in bytes. This will only be populated on files with
         # content stored in Drive.
         # Corresponds to the JSON property `fileSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :file_size
       
         # The ID of the revision.
@@ -2488,7 +2886,8 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The actual list of revisions.
+        # The list of revisions. If nextPageToken is populated, then this list may be
+        # incomplete and an additional page of results should be fetched.
         # Corresponds to the JSON property `items`
         # @return [Array<Google::Apis::DriveV2::Revision>]
         attr_accessor :items
@@ -2522,6 +2921,304 @@ module Google
           @kind = args[:kind] if args.key?(:kind)
           @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
           @self_link = args[:self_link] if args.key?(:self_link)
+        end
+      end
+      
+      # 
+      class StartPageToken
+        include Google::Apis::Core::Hashable
+      
+        # Identifies what kind of resource this is. Value: the fixed string "drive#
+        # startPageToken".
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The starting page token for listing changes.
+        # Corresponds to the JSON property `startPageToken`
+        # @return [String]
+        attr_accessor :start_page_token
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @start_page_token = args[:start_page_token] if args.key?(:start_page_token)
+        end
+      end
+      
+      # Representation of a Team Drive.
+      class TeamDrive
+        include Google::Apis::Core::Hashable
+      
+        # An image file and cropping parameters from which a background image for this
+        # Team Drive is set. This is a write only field; it can only be set on drive.
+        # teamdrives.update requests that don't set themeId. When specified, all fields
+        # of the backgroundImageFile must be set.
+        # Corresponds to the JSON property `backgroundImageFile`
+        # @return [Google::Apis::DriveV2::TeamDrive::BackgroundImageFile]
+        attr_accessor :background_image_file
+      
+        # A short-lived link to this Team Drive's background image.
+        # Corresponds to the JSON property `backgroundImageLink`
+        # @return [String]
+        attr_accessor :background_image_link
+      
+        # Capabilities the current user has on this Team Drive.
+        # Corresponds to the JSON property `capabilities`
+        # @return [Google::Apis::DriveV2::TeamDrive::Capabilities]
+        attr_accessor :capabilities
+      
+        # The color of this Team Drive as an RGB hex string. It can only be set on a
+        # drive.teamdrives.update request that does not set themeId.
+        # Corresponds to the JSON property `colorRgb`
+        # @return [String]
+        attr_accessor :color_rgb
+      
+        # The time at which the Team Drive was created (RFC 3339 date-time).
+        # Corresponds to the JSON property `createdDate`
+        # @return [DateTime]
+        attr_accessor :created_date
+      
+        # The ID of this Team Drive which is also the ID of the top level folder for
+        # this Team Drive.
+        # Corresponds to the JSON property `id`
+        # @return [String]
+        attr_accessor :id
+      
+        # This is always drive#teamDrive
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The name of this Team Drive.
+        # Corresponds to the JSON property `name`
+        # @return [String]
+        attr_accessor :name
+      
+        # The ID of the theme from which the background image and color will be set. The
+        # set of possible teamDriveThemes can be retrieved from a drive.about.get
+        # response. When not specified on a drive.teamdrives.insert request, a random
+        # theme is chosen from which the background image and color are set. This is a
+        # write-only field; it can only be set on requests that don't set colorRgb or
+        # backgroundImageFile.
+        # Corresponds to the JSON property `themeId`
+        # @return [String]
+        attr_accessor :theme_id
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @background_image_file = args[:background_image_file] if args.key?(:background_image_file)
+          @background_image_link = args[:background_image_link] if args.key?(:background_image_link)
+          @capabilities = args[:capabilities] if args.key?(:capabilities)
+          @color_rgb = args[:color_rgb] if args.key?(:color_rgb)
+          @created_date = args[:created_date] if args.key?(:created_date)
+          @id = args[:id] if args.key?(:id)
+          @kind = args[:kind] if args.key?(:kind)
+          @name = args[:name] if args.key?(:name)
+          @theme_id = args[:theme_id] if args.key?(:theme_id)
+        end
+        
+        # An image file and cropping parameters from which a background image for this
+        # Team Drive is set. This is a write only field; it can only be set on drive.
+        # teamdrives.update requests that don't set themeId. When specified, all fields
+        # of the backgroundImageFile must be set.
+        class BackgroundImageFile
+          include Google::Apis::Core::Hashable
+        
+          # The ID of an image file in Drive to use for the background image.
+          # Corresponds to the JSON property `id`
+          # @return [String]
+          attr_accessor :id
+        
+          # The width of the cropped image in the closed range of 0 to 1. This value
+          # represents the width of the cropped image divided by the width of the entire
+          # image. The height is computed by applying a width to height aspect ratio of 80
+          # to 9. The resulting image must be at least 1280 pixels wide and 144 pixels
+          # high.
+          # Corresponds to the JSON property `width`
+          # @return [Float]
+          attr_accessor :width
+        
+          # The X coordinate of the upper left corner of the cropping area in the
+          # background image. This is a value in the closed range of 0 to 1. This value
+          # represents the horizontal distance from the left side of the entire image to
+          # the left side of the cropping area divided by the width of the entire image.
+          # Corresponds to the JSON property `xCoordinate`
+          # @return [Float]
+          attr_accessor :x_coordinate
+        
+          # The Y coordinate of the upper left corner of the cropping area in the
+          # background image. This is a value in the closed range of 0 to 1. This value
+          # represents the vertical distance from the top side of the entire image to the
+          # top side of the cropping area divided by the height of the entire image.
+          # Corresponds to the JSON property `yCoordinate`
+          # @return [Float]
+          attr_accessor :y_coordinate
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @id = args[:id] if args.key?(:id)
+            @width = args[:width] if args.key?(:width)
+            @x_coordinate = args[:x_coordinate] if args.key?(:x_coordinate)
+            @y_coordinate = args[:y_coordinate] if args.key?(:y_coordinate)
+          end
+        end
+        
+        # Capabilities the current user has on this Team Drive.
+        class Capabilities
+          include Google::Apis::Core::Hashable
+        
+          # Whether the current user can add children to folders in this Team Drive.
+          # Corresponds to the JSON property `canAddChildren`
+          # @return [Boolean]
+          attr_accessor :can_add_children
+          alias_method :can_add_children?, :can_add_children
+        
+          # Whether the current user can change the background of this Team Drive.
+          # Corresponds to the JSON property `canChangeTeamDriveBackground`
+          # @return [Boolean]
+          attr_accessor :can_change_team_drive_background
+          alias_method :can_change_team_drive_background?, :can_change_team_drive_background
+        
+          # Whether the current user can comment on files in this Team Drive.
+          # Corresponds to the JSON property `canComment`
+          # @return [Boolean]
+          attr_accessor :can_comment
+          alias_method :can_comment?, :can_comment
+        
+          # Whether the current user can copy files in this Team Drive.
+          # Corresponds to the JSON property `canCopy`
+          # @return [Boolean]
+          attr_accessor :can_copy
+          alias_method :can_copy?, :can_copy
+        
+          # Whether the current user can delete this Team Drive. Attempting to delete the
+          # Team Drive may still fail if there are untrashed items inside the Team Drive.
+          # Corresponds to the JSON property `canDeleteTeamDrive`
+          # @return [Boolean]
+          attr_accessor :can_delete_team_drive
+          alias_method :can_delete_team_drive?, :can_delete_team_drive
+        
+          # Whether the current user can download files in this Team Drive.
+          # Corresponds to the JSON property `canDownload`
+          # @return [Boolean]
+          attr_accessor :can_download
+          alias_method :can_download?, :can_download
+        
+          # Whether the current user can edit files in this Team Drive
+          # Corresponds to the JSON property `canEdit`
+          # @return [Boolean]
+          attr_accessor :can_edit
+          alias_method :can_edit?, :can_edit
+        
+          # Whether the current user can list the children of folders in this Team Drive.
+          # Corresponds to the JSON property `canListChildren`
+          # @return [Boolean]
+          attr_accessor :can_list_children
+          alias_method :can_list_children?, :can_list_children
+        
+          # Whether the current user can add members to this Team Drive or remove them or
+          # change their role.
+          # Corresponds to the JSON property `canManageMembers`
+          # @return [Boolean]
+          attr_accessor :can_manage_members
+          alias_method :can_manage_members?, :can_manage_members
+        
+          # Whether the current user can read the revisions resource of files in this Team
+          # Drive.
+          # Corresponds to the JSON property `canReadRevisions`
+          # @return [Boolean]
+          attr_accessor :can_read_revisions
+          alias_method :can_read_revisions?, :can_read_revisions
+        
+          # Whether the current user can remove children from folders in this Team Drive.
+          # Corresponds to the JSON property `canRemoveChildren`
+          # @return [Boolean]
+          attr_accessor :can_remove_children
+          alias_method :can_remove_children?, :can_remove_children
+        
+          # Whether the current user can rename files or folders in this Team Drive.
+          # Corresponds to the JSON property `canRename`
+          # @return [Boolean]
+          attr_accessor :can_rename
+          alias_method :can_rename?, :can_rename
+        
+          # Whether the current user can rename this Team Drive.
+          # Corresponds to the JSON property `canRenameTeamDrive`
+          # @return [Boolean]
+          attr_accessor :can_rename_team_drive
+          alias_method :can_rename_team_drive?, :can_rename_team_drive
+        
+          # Whether the current user can share files or folders in this Team Drive.
+          # Corresponds to the JSON property `canShare`
+          # @return [Boolean]
+          attr_accessor :can_share
+          alias_method :can_share?, :can_share
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @can_add_children = args[:can_add_children] if args.key?(:can_add_children)
+            @can_change_team_drive_background = args[:can_change_team_drive_background] if args.key?(:can_change_team_drive_background)
+            @can_comment = args[:can_comment] if args.key?(:can_comment)
+            @can_copy = args[:can_copy] if args.key?(:can_copy)
+            @can_delete_team_drive = args[:can_delete_team_drive] if args.key?(:can_delete_team_drive)
+            @can_download = args[:can_download] if args.key?(:can_download)
+            @can_edit = args[:can_edit] if args.key?(:can_edit)
+            @can_list_children = args[:can_list_children] if args.key?(:can_list_children)
+            @can_manage_members = args[:can_manage_members] if args.key?(:can_manage_members)
+            @can_read_revisions = args[:can_read_revisions] if args.key?(:can_read_revisions)
+            @can_remove_children = args[:can_remove_children] if args.key?(:can_remove_children)
+            @can_rename = args[:can_rename] if args.key?(:can_rename)
+            @can_rename_team_drive = args[:can_rename_team_drive] if args.key?(:can_rename_team_drive)
+            @can_share = args[:can_share] if args.key?(:can_share)
+          end
+        end
+      end
+      
+      # A list of Team Drives.
+      class TeamDriveList
+        include Google::Apis::Core::Hashable
+      
+        # The list of Team Drives.
+        # Corresponds to the JSON property `items`
+        # @return [Array<Google::Apis::DriveV2::TeamDrive>]
+        attr_accessor :items
+      
+        # This is always drive#teamDriveList
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The page token for the next page of Team Drives.
+        # Corresponds to the JSON property `nextPageToken`
+        # @return [String]
+        attr_accessor :next_page_token
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @items = args[:items] if args.key?(:items)
+          @kind = args[:kind] if args.key?(:kind)
+          @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
         end
       end
       

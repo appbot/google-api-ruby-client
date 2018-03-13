@@ -27,23 +27,35 @@ module Google
         
         class BidderLocation
           class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
         end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class AccountsList
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class BillingInfo
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class BillingInfoList
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class Budget
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class Creative
@@ -51,10 +63,14 @@ module Google
         
         class Correction
           class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
         end
         
         class DisapprovalReason
           class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
         end
         
         class FilteringReasons
@@ -62,7 +78,11 @@ module Google
           
           class Reason
             class Representation < Google::Apis::Core::JsonRepresentation; end
+          
+            include Google::Apis::Core::JsonObjectSupport
           end
+        
+          include Google::Apis::Core::JsonObjectSupport
         end
         
         class NativeAd
@@ -70,36 +90,56 @@ module Google
           
           class AppIcon
             class Representation < Google::Apis::Core::JsonRepresentation; end
+          
+            include Google::Apis::Core::JsonObjectSupport
           end
           
           class Image
             class Representation < Google::Apis::Core::JsonRepresentation; end
+          
+            include Google::Apis::Core::JsonObjectSupport
           end
           
           class Logo
             class Representation < Google::Apis::Core::JsonRepresentation; end
+          
+            include Google::Apis::Core::JsonObjectSupport
           end
+        
+          include Google::Apis::Core::JsonObjectSupport
         end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class CreativesList
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class DirectDeal
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class DirectDealsList
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class PerformanceReport
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class PerformanceReportList
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class PretargetingConfig
@@ -107,19 +147,29 @@ module Google
         
         class Dimension
           class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
         end
         
         class ExcludedPlacement
           class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
         end
         
         class Placement
           class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
         end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class PretargetingConfigList
         class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
       end
       
       class Account
@@ -177,9 +227,9 @@ module Google
       class Budget
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :account_id, as: 'accountId'
-          property :billing_id, as: 'billingId'
-          property :budget_amount, as: 'budgetAmount'
+          property :account_id, :numeric_string => true, as: 'accountId'
+          property :billing_id, :numeric_string => true, as: 'billingId'
+          property :budget_amount, :numeric_string => true, as: 'budgetAmount'
           property :currency_code, as: 'currencyCode'
           property :id, as: 'id'
           property :kind, as: 'kind'
@@ -193,7 +243,7 @@ module Google
           property :account_id, as: 'accountId'
           collection :advertiser_id, as: 'advertiserId'
           property :advertiser_name, as: 'advertiserName'
-          property :agency_id, as: 'agencyId'
+          property :agency_id, :numeric_string => true, as: 'agencyId'
           property :api_upload_timestamp, as: 'apiUploadTimestamp', type: DateTime
       
           collection :attribute, as: 'attribute'
@@ -247,7 +297,7 @@ module Google
           class Reason
             # @private
             class Representation < Google::Apis::Core::JsonRepresentation
-              property :filtering_count, as: 'filteringCount'
+              property :filtering_count, :numeric_string => true, as: 'filteringCount'
               property :filtering_status, as: 'filteringStatus'
             end
           end
@@ -317,17 +367,19 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           property :account_id, as: 'accountId'
           property :advertiser, as: 'advertiser'
+          property :allows_alcohol, as: 'allowsAlcohol'
+          property :buyer_account_id, :numeric_string => true, as: 'buyerAccountId'
           property :currency_code, as: 'currencyCode'
           property :deal_tier, as: 'dealTier'
-          property :end_time, as: 'endTime'
-          property :fixed_cpm, as: 'fixedCpm'
-          property :id, as: 'id'
+          property :end_time, :numeric_string => true, as: 'endTime'
+          property :fixed_cpm, :numeric_string => true, as: 'fixedCpm'
+          property :id, :numeric_string => true, as: 'id'
           property :kind, as: 'kind'
           property :name, as: 'name'
-          property :private_exchange_min_cpm, as: 'privateExchangeMinCpm'
+          property :private_exchange_min_cpm, :numeric_string => true, as: 'privateExchangeMinCpm'
           property :publisher_blocks_overriden, as: 'publisherBlocksOverriden'
           property :seller_network, as: 'sellerNetwork'
-          property :start_time, as: 'startTime'
+          property :start_time, :numeric_string => true, as: 'startTime'
         end
       end
       
@@ -363,7 +415,7 @@ module Google
           property :quota_throttled_limit, as: 'quotaThrottledLimit'
           property :region, as: 'region'
           property :successful_request_rate, as: 'successfulRequestRate'
-          property :timestamp, as: 'timestamp'
+          property :timestamp, :numeric_string => true, as: 'timestamp'
           property :unsuccessful_request_rate, as: 'unsuccessfulRequestRate'
         end
       end
@@ -380,8 +432,8 @@ module Google
       class PretargetingConfig
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :billing_id, as: 'billingId'
-          property :config_id, as: 'configId'
+          property :billing_id, :numeric_string => true, as: 'billingId'
+          property :config_id, :numeric_string => true, as: 'configId'
           property :config_name, as: 'configName'
           collection :creative_type, as: 'creativeType'
           collection :dimensions, as: 'dimensions', class: Google::Apis::AdexchangebuyerV1_3::PretargetingConfig::Dimension, decorator: Google::Apis::AdexchangebuyerV1_3::PretargetingConfig::Dimension::Representation
@@ -411,8 +463,8 @@ module Google
         class Dimension
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
-            property :height, as: 'height'
-            property :width, as: 'width'
+            property :height, :numeric_string => true, as: 'height'
+            property :width, :numeric_string => true, as: 'width'
           end
         end
         

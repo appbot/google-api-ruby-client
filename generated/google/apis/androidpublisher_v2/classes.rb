@@ -57,6 +57,12 @@ module Google
         # @return [String]
         attr_accessor :sha1
       
+        # A sha256 hash of the APK payload, encoded as a hex string and matching the
+        # output of the sha256sum command.
+        # Corresponds to the JSON property `sha256`
+        # @return [String]
+        attr_accessor :sha256
+      
         def initialize(**args)
            update!(**args)
         end
@@ -64,6 +70,7 @@ module Google
         # Update properties of this object
         def update!(**args)
           @sha1 = args[:sha1] if args.key?(:sha1)
+          @sha256 = args[:sha256] if args.key?(:sha256)
         end
       end
       
@@ -340,6 +347,85 @@ module Google
         end
       end
       
+      # 
+      class DeviceMetadata
+        include Google::Apis::Core::Hashable
+      
+        # Device CPU make e.g. "Qualcomm"
+        # Corresponds to the JSON property `cpuMake`
+        # @return [String]
+        attr_accessor :cpu_make
+      
+        # Device CPU model e.g. "MSM8974"
+        # Corresponds to the JSON property `cpuModel`
+        # @return [String]
+        attr_accessor :cpu_model
+      
+        # Device class (e.g. tablet)
+        # Corresponds to the JSON property `deviceClass`
+        # @return [String]
+        attr_accessor :device_class
+      
+        # OpenGL version
+        # Corresponds to the JSON property `glEsVersion`
+        # @return [Fixnum]
+        attr_accessor :gl_es_version
+      
+        # Device manufacturer (e.g. Motorola)
+        # Corresponds to the JSON property `manufacturer`
+        # @return [String]
+        attr_accessor :manufacturer
+      
+        # Comma separated list of native platforms (e.g. "arm", "arm7")
+        # Corresponds to the JSON property `nativePlatform`
+        # @return [String]
+        attr_accessor :native_platform
+      
+        # Device model name (e.g. Droid)
+        # Corresponds to the JSON property `productName`
+        # @return [String]
+        attr_accessor :product_name
+      
+        # Device RAM in Megabytes e.g. "2048"
+        # Corresponds to the JSON property `ramMb`
+        # @return [Fixnum]
+        attr_accessor :ram_mb
+      
+        # Screen density in DPI
+        # Corresponds to the JSON property `screenDensityDpi`
+        # @return [Fixnum]
+        attr_accessor :screen_density_dpi
+      
+        # Screen height in pixels
+        # Corresponds to the JSON property `screenHeightPx`
+        # @return [Fixnum]
+        attr_accessor :screen_height_px
+      
+        # Screen width in pixels
+        # Corresponds to the JSON property `screenWidthPx`
+        # @return [Fixnum]
+        attr_accessor :screen_width_px
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @cpu_make = args[:cpu_make] if args.key?(:cpu_make)
+          @cpu_model = args[:cpu_model] if args.key?(:cpu_model)
+          @device_class = args[:device_class] if args.key?(:device_class)
+          @gl_es_version = args[:gl_es_version] if args.key?(:gl_es_version)
+          @manufacturer = args[:manufacturer] if args.key?(:manufacturer)
+          @native_platform = args[:native_platform] if args.key?(:native_platform)
+          @product_name = args[:product_name] if args.key?(:product_name)
+          @ram_mb = args[:ram_mb] if args.key?(:ram_mb)
+          @screen_density_dpi = args[:screen_density_dpi] if args.key?(:screen_density_dpi)
+          @screen_height_px = args[:screen_height_px] if args.key?(:screen_height_px)
+          @screen_width_px = args[:screen_width_px] if args.key?(:screen_width_px)
+        end
+      end
+      
       # An Entitlement resource indicates a user's current entitlement to an inapp
       # item or subscription.
       class Entitlement
@@ -419,7 +505,7 @@ module Google
         # this APK does not reference another APK's Expansion File. The field's value
         # is the size of the uploaded Expansion File in bytes.
         # Corresponds to the JSON property `fileSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :file_size
       
         # If set this APK's Expansion File references another APK's Expansion File. The
@@ -493,7 +579,7 @@ module Google
       
         # The file size in bytes of this APK.
         # Corresponds to the JSON property `fileSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :file_size
       
         # The icon image from the APK, as a base64 encoded byte array.
@@ -791,157 +877,6 @@ module Google
       end
       
       # 
-      class InAppProductsBatchRequest
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `entrys`
-        # @return [Array<Google::Apis::AndroidpublisherV2::InAppProductsBatchRequestEntry>]
-        attr_accessor :entrys
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @entrys = args[:entrys] if args.key?(:entrys)
-        end
-      end
-      
-      # 
-      class InAppProductsBatchRequestEntry
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `batchId`
-        # @return [Fixnum]
-        attr_accessor :batch_id
-      
-        # 
-        # Corresponds to the JSON property `inappproductsinsertrequest`
-        # @return [Google::Apis::AndroidpublisherV2::InsertInAppProductsRequest]
-        attr_accessor :inappproductsinsertrequest
-      
-        # 
-        # Corresponds to the JSON property `inappproductsupdaterequest`
-        # @return [Google::Apis::AndroidpublisherV2::UpdateInAppProductsRequest]
-        attr_accessor :inappproductsupdaterequest
-      
-        # 
-        # Corresponds to the JSON property `methodName`
-        # @return [String]
-        attr_accessor :method_name
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @batch_id = args[:batch_id] if args.key?(:batch_id)
-          @inappproductsinsertrequest = args[:inappproductsinsertrequest] if args.key?(:inappproductsinsertrequest)
-          @inappproductsupdaterequest = args[:inappproductsupdaterequest] if args.key?(:inappproductsupdaterequest)
-          @method_name = args[:method_name] if args.key?(:method_name)
-        end
-      end
-      
-      # 
-      class InAppProductsBatchResponse
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `entrys`
-        # @return [Array<Google::Apis::AndroidpublisherV2::InAppProductsBatchResponseEntry>]
-        attr_accessor :entrys
-      
-        # Identifies what kind of resource this is. Value: the fixed string "
-        # androidpublisher#inappproductsBatchResponse".
-        # Corresponds to the JSON property `kind`
-        # @return [String]
-        attr_accessor :kind
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @entrys = args[:entrys] if args.key?(:entrys)
-          @kind = args[:kind] if args.key?(:kind)
-        end
-      end
-      
-      # 
-      class InAppProductsBatchResponseEntry
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `batchId`
-        # @return [Fixnum]
-        attr_accessor :batch_id
-      
-        # 
-        # Corresponds to the JSON property `inappproductsinsertresponse`
-        # @return [Google::Apis::AndroidpublisherV2::InsertInAppProductsResponse]
-        attr_accessor :inappproductsinsertresponse
-      
-        # 
-        # Corresponds to the JSON property `inappproductsupdateresponse`
-        # @return [Google::Apis::AndroidpublisherV2::UpdateInAppProductsResponse]
-        attr_accessor :inappproductsupdateresponse
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @batch_id = args[:batch_id] if args.key?(:batch_id)
-          @inappproductsinsertresponse = args[:inappproductsinsertresponse] if args.key?(:inappproductsinsertresponse)
-          @inappproductsupdateresponse = args[:inappproductsupdateresponse] if args.key?(:inappproductsupdateresponse)
-        end
-      end
-      
-      # 
-      class InsertInAppProductsRequest
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `inappproduct`
-        # @return [Google::Apis::AndroidpublisherV2::InAppProduct]
-        attr_accessor :inappproduct
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @inappproduct = args[:inappproduct] if args.key?(:inappproduct)
-        end
-      end
-      
-      # 
-      class InsertInAppProductsResponse
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `inappproduct`
-        # @return [Google::Apis::AndroidpublisherV2::InAppProduct]
-        attr_accessor :inappproduct
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @inappproduct = args[:inappproduct] if args.key?(:inappproduct)
-        end
-      end
-      
-      # 
       class ListInAppProductsResponse
         include Google::Apis::Core::Hashable
       
@@ -976,44 +911,6 @@ module Google
           @kind = args[:kind] if args.key?(:kind)
           @page_info = args[:page_info] if args.key?(:page_info)
           @token_pagination = args[:token_pagination] if args.key?(:token_pagination)
-        end
-      end
-      
-      # 
-      class UpdateInAppProductsRequest
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `inappproduct`
-        # @return [Google::Apis::AndroidpublisherV2::InAppProduct]
-        attr_accessor :inappproduct
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @inappproduct = args[:inappproduct] if args.key?(:inappproduct)
-        end
-      end
-      
-      # 
-      class UpdateInAppProductsResponse
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `inappproduct`
-        # @return [Google::Apis::AndroidpublisherV2::InAppProduct]
-        attr_accessor :inappproduct
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @inappproduct = args[:inappproduct] if args.key?(:inappproduct)
         end
       end
       
@@ -1192,9 +1089,14 @@ module Google
         # @return [String]
         attr_accessor :kind
       
+        # The order id associated with the purchase of the inapp product.
+        # Corresponds to the JSON property `orderId`
+        # @return [String]
+        attr_accessor :order_id
+      
         # The purchase state of the order. Possible values are:
         # - Purchased
-        # - Cancelled
+        # - Canceled
         # Corresponds to the JSON property `purchaseState`
         # @return [Fixnum]
         attr_accessor :purchase_state
@@ -1202,8 +1104,17 @@ module Google
         # The time the product was purchased, in milliseconds since the epoch (Jan 1,
         # 1970).
         # Corresponds to the JSON property `purchaseTimeMillis`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :purchase_time_millis
+      
+        # The type of purchase of the inapp product. This field is only set if this
+        # purchase was not made using the standard in-app billing flow. Possible values
+        # are:
+        # - Test (i.e. purchased from a license testing account)
+        # - Promo (i.e. purchased using a promo code)
+        # Corresponds to the JSON property `purchaseType`
+        # @return [Fixnum]
+        attr_accessor :purchase_type
       
         def initialize(**args)
            update!(**args)
@@ -1214,8 +1125,10 @@ module Google
           @consumption_state = args[:consumption_state] if args.key?(:consumption_state)
           @developer_payload = args[:developer_payload] if args.key?(:developer_payload)
           @kind = args[:kind] if args.key?(:kind)
+          @order_id = args[:order_id] if args.key?(:order_id)
           @purchase_state = args[:purchase_state] if args.key?(:purchase_state)
           @purchase_time_millis = args[:purchase_time_millis] if args.key?(:purchase_time_millis)
+          @purchase_type = args[:purchase_type] if args.key?(:purchase_type)
         end
       end
       
@@ -1415,13 +1328,13 @@ module Google
         # since the Epoch. The given time must be later/greater than the current expiry
         # time for the subscription.
         # Corresponds to the JSON property `desiredExpiryTimeMillis`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :desired_expiry_time_millis
       
         # The expected expiry time for the subscription. If the current expiry time for
         # the subscription is not the value specified here, the deferral will not occur.
         # Corresponds to the JSON property `expectedExpiryTimeMillis`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :expected_expiry_time_millis
       
         def initialize(**args)
@@ -1447,11 +1360,13 @@ module Google
         attr_accessor :auto_renewing
         alias_method :auto_renewing?, :auto_renewing
       
-        # The reason why a subscription was cancelled or is not auto-renewing. Possible
+        # The reason why a subscription was canceled or is not auto-renewing. Possible
         # values are:
-        # - User cancelled the subscription
-        # - Subscription was cancelled by the system, for example because of a billing
+        # - User canceled the subscription
+        # - Subscription was canceled by the system, for example because of a billing
         # problem
+        # - Subscription was replaced with a new subscription
+        # - Subscription was canceled by the developer
         # Corresponds to the JSON property `cancelReason`
         # @return [Fixnum]
         attr_accessor :cancel_reason
@@ -1470,7 +1385,7 @@ module Google
       
         # Time at which the subscription will expire, in milliseconds since the Epoch.
         # Corresponds to the JSON property `expiryTimeMillis`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :expiry_time_millis
       
         # This kind represents a subscriptionPurchase object in the androidpublisher
@@ -1479,9 +1394,31 @@ module Google
         # @return [String]
         attr_accessor :kind
       
+        # The purchase token of the originating purchase if this subscription is one of
+        # the following:
+        # - Re-signup of a canceled but non-lapsed subscription
+        # - Upgrade/downgrade from a previous subscription  For example, suppose a user
+        # originally signs up and you receive purchase token X, then the user cancels
+        # and goes through the resignup flow (before their subscription lapses) and you
+        # receive purchase token Y, and finally the user upgrades their subscription and
+        # you receive purchase token Z. If you call this API with purchase token Z, this
+        # field will be set to Y. If you call this API with purchase token Y, this field
+        # will be set to X. If you call this API with purchase token X, this field will
+        # not be set.
+        # Corresponds to the JSON property `linkedPurchaseToken`
+        # @return [String]
+        attr_accessor :linked_purchase_token
+      
+        # The order id of the latest recurring order associated with the purchase of the
+        # subscription.
+        # Corresponds to the JSON property `orderId`
+        # @return [String]
+        attr_accessor :order_id
+      
         # The payment state of the subscription. Possible values are:
         # - Payment pending
         # - Payment received
+        # - Free trial
         # Corresponds to the JSON property `paymentState`
         # @return [Fixnum]
         attr_accessor :payment_state
@@ -1490,7 +1427,7 @@ module Google
         # units, where 1,000,000 micro-units represents one unit of the currency. For
         # example, if the subscription price is €1.99, price_amount_micros is 1990000.
         # Corresponds to the JSON property `priceAmountMicros`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :price_amount_micros
       
         # ISO 4217 currency code for the subscription price. For example, if the price
@@ -1499,10 +1436,24 @@ module Google
         # @return [String]
         attr_accessor :price_currency_code
       
+        # The type of purchase of the subscription. This field is only set if this
+        # purchase was not made using the standard in-app billing flow. Possible values
+        # are:
+        # - Test (i.e. purchased from a license testing account)
+        # Corresponds to the JSON property `purchaseType`
+        # @return [Fixnum]
+        attr_accessor :purchase_type
+      
         # Time at which the subscription was granted, in milliseconds since the Epoch.
         # Corresponds to the JSON property `startTimeMillis`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :start_time_millis
+      
+        # The time at which the subscription was canceled by the user, in milliseconds
+        # since the epoch. Only present if cancelReason is 0.
+        # Corresponds to the JSON property `userCancellationTimeMillis`
+        # @return [Fixnum]
+        attr_accessor :user_cancellation_time_millis
       
         def initialize(**args)
            update!(**args)
@@ -1516,10 +1467,14 @@ module Google
           @developer_payload = args[:developer_payload] if args.key?(:developer_payload)
           @expiry_time_millis = args[:expiry_time_millis] if args.key?(:expiry_time_millis)
           @kind = args[:kind] if args.key?(:kind)
+          @linked_purchase_token = args[:linked_purchase_token] if args.key?(:linked_purchase_token)
+          @order_id = args[:order_id] if args.key?(:order_id)
           @payment_state = args[:payment_state] if args.key?(:payment_state)
           @price_amount_micros = args[:price_amount_micros] if args.key?(:price_amount_micros)
           @price_currency_code = args[:price_currency_code] if args.key?(:price_currency_code)
+          @purchase_type = args[:purchase_type] if args.key?(:purchase_type)
           @start_time_millis = args[:start_time_millis] if args.key?(:start_time_millis)
+          @user_cancellation_time_millis = args[:user_cancellation_time_millis] if args.key?(:user_cancellation_time_millis)
         end
       end
       
@@ -1549,7 +1504,7 @@ module Google
       
         # The new expiry time for the subscription in milliseconds since the Epoch.
         # Corresponds to the JSON property `newExpiryTimeMillis`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :new_expiry_time_millis
       
         def initialize(**args)
@@ -1598,7 +1553,7 @@ module Google
       
         # 
         # Corresponds to the JSON property `seconds`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :seconds
       
         def initialize(**args)
@@ -1641,7 +1596,7 @@ module Google
       class Track
         include Google::Apis::Core::Hashable
       
-        # 
+        # Identifier for this track. One of "alpha", "beta", "production" or "rollout".
         # Corresponds to the JSON property `track`
         # @return [String]
         attr_accessor :track
@@ -1721,10 +1676,21 @@ module Google
         # @return [String]
         attr_accessor :device
       
+        # Some information about the characteristics of the user's device
+        # Corresponds to the JSON property `deviceMetadata`
+        # @return [Google::Apis::AndroidpublisherV2::DeviceMetadata]
+        attr_accessor :device_metadata
+      
         # The last time at which this comment was updated.
         # Corresponds to the JSON property `lastModified`
         # @return [Google::Apis::AndroidpublisherV2::Timestamp]
         attr_accessor :last_modified
+      
+        # Untranslated text of the review, in the case where the review has been
+        # translated. If the review has not been translated this is left blank.
+        # Corresponds to the JSON property `originalText`
+        # @return [String]
+        attr_accessor :original_text
       
         # Language code for the reviewer. This is taken from the device settings so is
         # not guaranteed to match the language the review is written in. May be absent.
@@ -1744,6 +1710,16 @@ module Google
         # @return [String]
         attr_accessor :text
       
+        # Number of users who have given this review a thumbs down
+        # Corresponds to the JSON property `thumbsDownCount`
+        # @return [Fixnum]
+        attr_accessor :thumbs_down_count
+      
+        # Number of users who have given this review a thumbs up
+        # Corresponds to the JSON property `thumbsUpCount`
+        # @return [Fixnum]
+        attr_accessor :thumbs_up_count
+      
         def initialize(**args)
            update!(**args)
         end
@@ -1754,10 +1730,86 @@ module Google
           @app_version_code = args[:app_version_code] if args.key?(:app_version_code)
           @app_version_name = args[:app_version_name] if args.key?(:app_version_name)
           @device = args[:device] if args.key?(:device)
+          @device_metadata = args[:device_metadata] if args.key?(:device_metadata)
           @last_modified = args[:last_modified] if args.key?(:last_modified)
+          @original_text = args[:original_text] if args.key?(:original_text)
           @reviewer_language = args[:reviewer_language] if args.key?(:reviewer_language)
           @star_rating = args[:star_rating] if args.key?(:star_rating)
           @text = args[:text] if args.key?(:text)
+          @thumbs_down_count = args[:thumbs_down_count] if args.key?(:thumbs_down_count)
+          @thumbs_up_count = args[:thumbs_up_count] if args.key?(:thumbs_up_count)
+        end
+      end
+      
+      # A VoidedPurchase resource indicates a purchase that was either canceled/
+      # refunded/charged-back.
+      class VoidedPurchase
+        include Google::Apis::Core::Hashable
+      
+        # This kind represents a voided purchase object in the androidpublisher service.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The time at which the purchase was made, in milliseconds since the epoch (Jan
+        # 1, 1970).
+        # Corresponds to the JSON property `purchaseTimeMillis`
+        # @return [Fixnum]
+        attr_accessor :purchase_time_millis
+      
+        # The token that was generated when a purchase was made. This uniquely
+        # identifies a purchase.
+        # Corresponds to the JSON property `purchaseToken`
+        # @return [String]
+        attr_accessor :purchase_token
+      
+        # The time at which the purchase was canceled/refunded/charged-back, in
+        # milliseconds since the epoch (Jan 1, 1970).
+        # Corresponds to the JSON property `voidedTimeMillis`
+        # @return [Fixnum]
+        attr_accessor :voided_time_millis
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @purchase_time_millis = args[:purchase_time_millis] if args.key?(:purchase_time_millis)
+          @purchase_token = args[:purchase_token] if args.key?(:purchase_token)
+          @voided_time_millis = args[:voided_time_millis] if args.key?(:voided_time_millis)
+        end
+      end
+      
+      # 
+      class VoidedPurchasesListResponse
+        include Google::Apis::Core::Hashable
+      
+        # 
+        # Corresponds to the JSON property `pageInfo`
+        # @return [Google::Apis::AndroidpublisherV2::PageInfo]
+        attr_accessor :page_info
+      
+        # 
+        # Corresponds to the JSON property `tokenPagination`
+        # @return [Google::Apis::AndroidpublisherV2::TokenPagination]
+        attr_accessor :token_pagination
+      
+        # 
+        # Corresponds to the JSON property `voidedPurchases`
+        # @return [Array<Google::Apis::AndroidpublisherV2::VoidedPurchase>]
+        attr_accessor :voided_purchases
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @page_info = args[:page_info] if args.key?(:page_info)
+          @token_pagination = args[:token_pagination] if args.key?(:token_pagination)
+          @voided_purchases = args[:voided_purchases] if args.key?(:voided_purchases)
         end
       end
     end

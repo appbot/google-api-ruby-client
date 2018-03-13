@@ -50,6 +50,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'fitness/v1/users/')
+          @batch_path = 'batch/fitness/v1'
         end
         
         # Creates a new data source that is unique across all data sources belonging to
@@ -310,6 +311,54 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Queries for user's data point changes for a particular data source.
+        # @param [String] user_id
+        #   List data points for the person identified. Use me to indicate the
+        #   authenticated user. Only me is supported at this time.
+        # @param [String] data_source_id
+        #   The data stream ID of the data source that created the dataset.
+        # @param [Fixnum] limit
+        #   If specified, no more than this many data point changes will be included in
+        #   the response.
+        # @param [String] page_token
+        #   The continuation token, which is used to page through large result sets. To
+        #   get the next page of results, set this parameter to the value of nextPageToken
+        #   from the previous response.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::FitnessV1::ListDataPointChangesResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::FitnessV1::ListDataPointChangesResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def list_user_data_source_data_point_changes(user_id, data_source_id, limit: nil, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, '{userId}/dataSources/{dataSourceId}/dataPointChanges', options)
+          command.response_representation = Google::Apis::FitnessV1::ListDataPointChangesResponse::Representation
+          command.response_class = Google::Apis::FitnessV1::ListDataPointChangesResponse
+          command.params['userId'] = user_id unless user_id.nil?
+          command.params['dataSourceId'] = data_source_id unless data_source_id.nil?
+          command.query['limit'] = limit unless limit.nil?
+          command.query['pageToken'] = page_token unless page_token.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Performs an inclusive delete of all data points whose start and end times have
         # any overlap with the time range specified by the dataset ID. For most data
         # types, the entire data point will be deleted. For data types where the time
@@ -326,9 +375,9 @@ module Google
         #   and maximum data point end time represented as nanoseconds from the epoch. The
         #   ID is formatted like: "startTime-endTime" where startTime and endTime are 64
         #   bit integers.
-        # @param [String] current_time_millis
+        # @param [Fixnum] current_time_millis
         #   The client's current time in milliseconds since epoch.
-        # @param [String] modified_time_millis
+        # @param [Fixnum] modified_time_millis
         #   When the operation was performed on the client.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -440,7 +489,7 @@ module Google
         #   ID is formatted like: "startTime-endTime" where startTime and endTime are 64
         #   bit integers.
         # @param [Google::Apis::FitnessV1::Dataset] dataset_object
-        # @param [String] current_time_millis
+        # @param [Fixnum] current_time_millis
         #   The client's current time in milliseconds since epoch. Note that the
         #   minStartTimeNs and maxEndTimeNs properties in the request body are in
         #   nanoseconds instead of milliseconds.
@@ -528,7 +577,7 @@ module Google
         #   authenticated user. Only me is supported at this time.
         # @param [String] session_id
         #   The ID of the session to be deleted.
-        # @param [String] current_time_millis
+        # @param [Fixnum] current_time_millis
         #   The client's current time in milliseconds since epoch.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -623,7 +672,7 @@ module Google
         # @param [String] session_id
         #   The ID of the session to be created.
         # @param [Google::Apis::FitnessV1::Session] session_object
-        # @param [String] current_time_millis
+        # @param [Fixnum] current_time_millis
         #   The client's current time in milliseconds since epoch.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.

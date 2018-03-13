@@ -262,6 +262,18 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class FamilyInfo
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+        class Membership
+          class Representation < Google::Apis::Core::JsonRepresentation; end
+        
+          include Google::Apis::Core::JsonObjectSupport
+        end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class GeoLayerData
         class Representation < Google::Apis::Core::JsonRepresentation; end
         
@@ -412,6 +424,12 @@ module Google
         class Notification
           class Representation < Google::Apis::Core::JsonRepresentation; end
           
+          class MatchMyInterests
+            class Representation < Google::Apis::Core::JsonRepresentation; end
+          
+            include Google::Apis::Core::JsonObjectSupport
+          end
+          
           class MoreFromAuthors
             class Representation < Google::Apis::Core::JsonRepresentation; end
           
@@ -419,6 +437,18 @@ module Google
           end
           
           class MoreFromSeries
+            class Representation < Google::Apis::Core::JsonRepresentation; end
+          
+            include Google::Apis::Core::JsonObjectSupport
+          end
+          
+          class PriceDrop
+            class Representation < Google::Apis::Core::JsonRepresentation; end
+          
+            include Google::Apis::Core::JsonObjectSupport
+          end
+          
+          class RewardExpirations
             class Representation < Google::Apis::Core::JsonRepresentation; end
           
             include Google::Apis::Core::JsonObjectSupport
@@ -1076,6 +1106,26 @@ module Google
         end
       end
       
+      class FamilyInfo
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :membership, as: 'membership', class: Google::Apis::BooksV1::FamilyInfo::Membership, decorator: Google::Apis::BooksV1::FamilyInfo::Membership::Representation
+      
+        end
+        
+        class Membership
+          # @private
+          class Representation < Google::Apis::Core::JsonRepresentation
+            property :acquire_permission, as: 'acquirePermission'
+            property :age_group, as: 'ageGroup'
+            property :allowed_maturity_rating, as: 'allowedMaturityRating'
+            property :is_in_family, as: 'isInFamily'
+            property :role, as: 'role'
+          end
+        end
+      end
+      
       class GeoLayerData
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -1196,8 +1246,8 @@ module Google
             property :download_url, as: 'download_url'
             property :encrypted_key, as: 'encrypted_key'
             property :language, as: 'language'
-            property :size, as: 'size'
-            property :version, as: 'version'
+            property :size, :numeric_string => true, as: 'size'
+            property :version, :numeric_string => true, as: 'version'
           end
         end
       end
@@ -1212,6 +1262,7 @@ module Google
           property :dont_show_notification, as: 'dont_show_notification'
           property :icon_url, as: 'iconUrl'
           property :kind, as: 'kind'
+          property :notification_group, as: 'notificationGroup'
           property :notification_type, as: 'notification_type'
           property :pcampaign_id, as: 'pcampaign_id'
           property :reason, as: 'reason'
@@ -1363,10 +1414,23 @@ module Google
         class Notification
           # @private
           class Representation < Google::Apis::Core::JsonRepresentation
+            property :match_my_interests, as: 'matchMyInterests', class: Google::Apis::BooksV1::UserSettings::Notification::MatchMyInterests, decorator: Google::Apis::BooksV1::UserSettings::Notification::MatchMyInterests::Representation
+        
             property :more_from_authors, as: 'moreFromAuthors', class: Google::Apis::BooksV1::UserSettings::Notification::MoreFromAuthors, decorator: Google::Apis::BooksV1::UserSettings::Notification::MoreFromAuthors::Representation
         
             property :more_from_series, as: 'moreFromSeries', class: Google::Apis::BooksV1::UserSettings::Notification::MoreFromSeries, decorator: Google::Apis::BooksV1::UserSettings::Notification::MoreFromSeries::Representation
         
+            property :price_drop, as: 'priceDrop', class: Google::Apis::BooksV1::UserSettings::Notification::PriceDrop, decorator: Google::Apis::BooksV1::UserSettings::Notification::PriceDrop::Representation
+        
+            property :reward_expirations, as: 'rewardExpirations', class: Google::Apis::BooksV1::UserSettings::Notification::RewardExpirations, decorator: Google::Apis::BooksV1::UserSettings::Notification::RewardExpirations::Representation
+        
+          end
+          
+          class MatchMyInterests
+            # @private
+            class Representation < Google::Apis::Core::JsonRepresentation
+              property :opted_state, as: 'opted_state'
+            end
           end
           
           class MoreFromAuthors
@@ -1377,6 +1441,20 @@ module Google
           end
           
           class MoreFromSeries
+            # @private
+            class Representation < Google::Apis::Core::JsonRepresentation
+              property :opted_state, as: 'opted_state'
+            end
+          end
+          
+          class PriceDrop
+            # @private
+            class Representation < Google::Apis::Core::JsonRepresentation
+              property :opted_state, as: 'opted_state'
+            end
+          end
+          
+          class RewardExpirations
             # @private
             class Representation < Google::Apis::Core::JsonRepresentation
               property :opted_state, as: 'opted_state'
@@ -1606,8 +1684,8 @@ module Google
           class RentalPeriod
             # @private
             class Representation < Google::Apis::Core::JsonRepresentation
-              property :end_utc_sec, as: 'endUtcSec'
-              property :start_utc_sec, as: 'startUtcSec'
+              property :end_utc_sec, :numeric_string => true, as: 'endUtcSec'
+              property :start_utc_sec, :numeric_string => true, as: 'startUtcSec'
             end
           end
           

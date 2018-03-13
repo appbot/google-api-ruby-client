@@ -100,6 +100,12 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class DeviceMetadata
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class Entitlement
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -172,55 +178,7 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
-      class InAppProductsBatchRequest
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class InAppProductsBatchRequestEntry
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class InAppProductsBatchResponse
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class InAppProductsBatchResponseEntry
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class InsertInAppProductsRequest
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class InsertInAppProductsResponse
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
       class ListInAppProductsResponse
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class UpdateInAppProductsRequest
-        class Representation < Google::Apis::Core::JsonRepresentation; end
-      
-        include Google::Apis::Core::JsonObjectSupport
-      end
-      
-      class UpdateInAppProductsResponse
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
         include Google::Apis::Core::JsonObjectSupport
@@ -364,6 +322,18 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class VoidedPurchase
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class VoidedPurchasesListResponse
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class Apk
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -377,6 +347,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :sha1, as: 'sha1'
+          property :sha256, as: 'sha256'
         end
       end
       
@@ -474,6 +445,23 @@ module Google
         end
       end
       
+      class DeviceMetadata
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :cpu_make, as: 'cpuMake'
+          property :cpu_model, as: 'cpuModel'
+          property :device_class, as: 'deviceClass'
+          property :gl_es_version, as: 'glEsVersion'
+          property :manufacturer, as: 'manufacturer'
+          property :native_platform, as: 'nativePlatform'
+          property :product_name, as: 'productName'
+          property :ram_mb, as: 'ramMb'
+          property :screen_density_dpi, as: 'screenDensityDpi'
+          property :screen_height_px, as: 'screenHeightPx'
+          property :screen_width_px, as: 'screenWidthPx'
+        end
+      end
+      
       class Entitlement
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -499,7 +487,7 @@ module Google
       class ExpansionFile
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :file_size, as: 'fileSize'
+          property :file_size, :numeric_string => true, as: 'fileSize'
           property :references_version, as: 'referencesVersion'
         end
       end
@@ -520,7 +508,7 @@ module Google
           property :externally_hosted_url, as: 'externallyHostedUrl'
           property :file_sha1_base64, as: 'fileSha1Base64'
           property :file_sha256_base64, as: 'fileSha256Base64'
-          property :file_size, as: 'fileSize'
+          property :file_size, :numeric_string => true, as: 'fileSize'
           property :icon_base64, as: 'iconBase64'
           property :maximum_sdk, as: 'maximumSdk'
           property :minimum_sdk, as: 'minimumSdk'
@@ -604,62 +592,6 @@ module Google
         end
       end
       
-      class InAppProductsBatchRequest
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          collection :entrys, as: 'entrys', class: Google::Apis::AndroidpublisherV2::InAppProductsBatchRequestEntry, decorator: Google::Apis::AndroidpublisherV2::InAppProductsBatchRequestEntry::Representation
-      
-        end
-      end
-      
-      class InAppProductsBatchRequestEntry
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          property :batch_id, as: 'batchId'
-          property :inappproductsinsertrequest, as: 'inappproductsinsertrequest', class: Google::Apis::AndroidpublisherV2::InsertInAppProductsRequest, decorator: Google::Apis::AndroidpublisherV2::InsertInAppProductsRequest::Representation
-      
-          property :inappproductsupdaterequest, as: 'inappproductsupdaterequest', class: Google::Apis::AndroidpublisherV2::UpdateInAppProductsRequest, decorator: Google::Apis::AndroidpublisherV2::UpdateInAppProductsRequest::Representation
-      
-          property :method_name, as: 'methodName'
-        end
-      end
-      
-      class InAppProductsBatchResponse
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          collection :entrys, as: 'entrys', class: Google::Apis::AndroidpublisherV2::InAppProductsBatchResponseEntry, decorator: Google::Apis::AndroidpublisherV2::InAppProductsBatchResponseEntry::Representation
-      
-          property :kind, as: 'kind'
-        end
-      end
-      
-      class InAppProductsBatchResponseEntry
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          property :batch_id, as: 'batchId'
-          property :inappproductsinsertresponse, as: 'inappproductsinsertresponse', class: Google::Apis::AndroidpublisherV2::InsertInAppProductsResponse, decorator: Google::Apis::AndroidpublisherV2::InsertInAppProductsResponse::Representation
-      
-          property :inappproductsupdateresponse, as: 'inappproductsupdateresponse', class: Google::Apis::AndroidpublisherV2::UpdateInAppProductsResponse, decorator: Google::Apis::AndroidpublisherV2::UpdateInAppProductsResponse::Representation
-      
-        end
-      end
-      
-      class InsertInAppProductsRequest
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          property :inappproduct, as: 'inappproduct', class: Google::Apis::AndroidpublisherV2::InAppProduct, decorator: Google::Apis::AndroidpublisherV2::InAppProduct::Representation
-      
-        end
-      end
-      
-      class InsertInAppProductsResponse
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          property :inappproduct, as: 'inappproduct', class: Google::Apis::AndroidpublisherV2::InAppProduct, decorator: Google::Apis::AndroidpublisherV2::InAppProduct::Representation
-      
-        end
-      end
-      
       class ListInAppProductsResponse
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -669,22 +601,6 @@ module Google
           property :page_info, as: 'pageInfo', class: Google::Apis::AndroidpublisherV2::PageInfo, decorator: Google::Apis::AndroidpublisherV2::PageInfo::Representation
       
           property :token_pagination, as: 'tokenPagination', class: Google::Apis::AndroidpublisherV2::TokenPagination, decorator: Google::Apis::AndroidpublisherV2::TokenPagination::Representation
-      
-        end
-      end
-      
-      class UpdateInAppProductsRequest
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          property :inappproduct, as: 'inappproduct', class: Google::Apis::AndroidpublisherV2::InAppProduct, decorator: Google::Apis::AndroidpublisherV2::InAppProduct::Representation
-      
-        end
-      end
-      
-      class UpdateInAppProductsResponse
-        # @private
-        class Representation < Google::Apis::Core::JsonRepresentation
-          property :inappproduct, as: 'inappproduct', class: Google::Apis::AndroidpublisherV2::InAppProduct, decorator: Google::Apis::AndroidpublisherV2::InAppProduct::Representation
       
         end
       end
@@ -740,8 +656,10 @@ module Google
           property :consumption_state, as: 'consumptionState'
           property :developer_payload, as: 'developerPayload'
           property :kind, as: 'kind'
+          property :order_id, as: 'orderId'
           property :purchase_state, as: 'purchaseState'
-          property :purchase_time_millis, as: 'purchaseTimeMillis'
+          property :purchase_time_millis, :numeric_string => true, as: 'purchaseTimeMillis'
+          property :purchase_type, as: 'purchaseType'
         end
       end
       
@@ -816,8 +734,8 @@ module Google
       class SubscriptionDeferralInfo
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :desired_expiry_time_millis, as: 'desiredExpiryTimeMillis'
-          property :expected_expiry_time_millis, as: 'expectedExpiryTimeMillis'
+          property :desired_expiry_time_millis, :numeric_string => true, as: 'desiredExpiryTimeMillis'
+          property :expected_expiry_time_millis, :numeric_string => true, as: 'expectedExpiryTimeMillis'
         end
       end
       
@@ -828,12 +746,16 @@ module Google
           property :cancel_reason, as: 'cancelReason'
           property :country_code, as: 'countryCode'
           property :developer_payload, as: 'developerPayload'
-          property :expiry_time_millis, as: 'expiryTimeMillis'
+          property :expiry_time_millis, :numeric_string => true, as: 'expiryTimeMillis'
           property :kind, as: 'kind'
+          property :linked_purchase_token, as: 'linkedPurchaseToken'
+          property :order_id, as: 'orderId'
           property :payment_state, as: 'paymentState'
-          property :price_amount_micros, as: 'priceAmountMicros'
+          property :price_amount_micros, :numeric_string => true, as: 'priceAmountMicros'
           property :price_currency_code, as: 'priceCurrencyCode'
-          property :start_time_millis, as: 'startTimeMillis'
+          property :purchase_type, as: 'purchaseType'
+          property :start_time_millis, :numeric_string => true, as: 'startTimeMillis'
+          property :user_cancellation_time_millis, :numeric_string => true, as: 'userCancellationTimeMillis'
         end
       end
       
@@ -848,7 +770,7 @@ module Google
       class DeferSubscriptionPurchasesResponse
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :new_expiry_time_millis, as: 'newExpiryTimeMillis'
+          property :new_expiry_time_millis, :numeric_string => true, as: 'newExpiryTimeMillis'
         end
       end
       
@@ -864,7 +786,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :nanos, as: 'nanos'
-          property :seconds, as: 'seconds'
+          property :seconds, :numeric_string => true, as: 'seconds'
         end
       end
       
@@ -901,11 +823,38 @@ module Google
           property :app_version_code, as: 'appVersionCode'
           property :app_version_name, as: 'appVersionName'
           property :device, as: 'device'
+          property :device_metadata, as: 'deviceMetadata', class: Google::Apis::AndroidpublisherV2::DeviceMetadata, decorator: Google::Apis::AndroidpublisherV2::DeviceMetadata::Representation
+      
           property :last_modified, as: 'lastModified', class: Google::Apis::AndroidpublisherV2::Timestamp, decorator: Google::Apis::AndroidpublisherV2::Timestamp::Representation
       
+          property :original_text, as: 'originalText'
           property :reviewer_language, as: 'reviewerLanguage'
           property :star_rating, as: 'starRating'
           property :text, as: 'text'
+          property :thumbs_down_count, as: 'thumbsDownCount'
+          property :thumbs_up_count, as: 'thumbsUpCount'
+        end
+      end
+      
+      class VoidedPurchase
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :purchase_time_millis, :numeric_string => true, as: 'purchaseTimeMillis'
+          property :purchase_token, as: 'purchaseToken'
+          property :voided_time_millis, :numeric_string => true, as: 'voidedTimeMillis'
+        end
+      end
+      
+      class VoidedPurchasesListResponse
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :page_info, as: 'pageInfo', class: Google::Apis::AndroidpublisherV2::PageInfo, decorator: Google::Apis::AndroidpublisherV2::PageInfo::Representation
+      
+          property :token_pagination, as: 'tokenPagination', class: Google::Apis::AndroidpublisherV2::TokenPagination, decorator: Google::Apis::AndroidpublisherV2::TokenPagination::Representation
+      
+          collection :voided_purchases, as: 'voidedPurchases', class: Google::Apis::AndroidpublisherV2::VoidedPurchase, decorator: Google::Apis::AndroidpublisherV2::VoidedPurchase::Representation
+      
         end
       end
     end

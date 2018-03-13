@@ -82,6 +82,14 @@ module Google
         # @return [String]
         attr_accessor :kind
       
+        # Whether replication log archiving is enabled. Replication log archiving is
+        # required for the point-in-time recovery (PITR) feature. PostgreSQL instances
+        # only.
+        # Corresponds to the JSON property `replicationLogArchivingEnabled`
+        # @return [Boolean]
+        attr_accessor :replication_log_archiving_enabled
+        alias_method :replication_log_archiving_enabled?, :replication_log_archiving_enabled
+      
         # Start time for the daily backup configuration in UTC timezone in the 24 hour
         # format - HH:MM.
         # Corresponds to the JSON property `startTime`
@@ -97,6 +105,7 @@ module Google
           @binary_log_enabled = args[:binary_log_enabled] if args.key?(:binary_log_enabled)
           @enabled = args[:enabled] if args.key?(:enabled)
           @kind = args[:kind] if args.key?(:kind)
+          @replication_log_archiving_enabled = args[:replication_log_archiving_enabled] if args.key?(:replication_log_archiving_enabled)
           @start_time = args[:start_time] if args.key?(:start_time)
         end
       end
@@ -130,7 +139,7 @@ module Google
         # A unique identifier for this backup run. Note that this is unique only within
         # the scope of a particular Cloud SQL instance.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
         # Name of the database instance.
@@ -234,7 +243,7 @@ module Google
       
         # Position (offset) within the binary log file.
         # Corresponds to the JSON property `binLogPosition`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :bin_log_position
       
         # This is always sql#binLogCoordinates.
@@ -273,6 +282,13 @@ module Google
         # @return [String]
         attr_accessor :kind
       
+        # The epoch timestamp, in milliseconds, of the time to which a point-in-time
+        # recovery (PITR) is performed. PostgreSQL instances only. For MySQL instances,
+        # use the binLogCoordinates property.
+        # Corresponds to the JSON property `pitrTimestampMs`
+        # @return [Fixnum]
+        attr_accessor :pitr_timestamp_ms
+      
         def initialize(**args)
            update!(**args)
         end
@@ -282,6 +298,7 @@ module Google
           @bin_log_coordinates = args[:bin_log_coordinates] if args.key?(:bin_log_coordinates)
           @destination_instance_name = args[:destination_instance_name] if args.key?(:destination_instance_name)
           @kind = args[:kind] if args.key?(:kind)
+          @pitr_timestamp_ms = args[:pitr_timestamp_ms] if args.key?(:pitr_timestamp_ms)
         end
       end
       
@@ -400,12 +417,13 @@ module Google
         # google.com/d/msg/google-cloud-sql-announce/I_7-F9EBhT0/BtvFtdFeAgAJ for
         # details.
         # Corresponds to the JSON property `currentDiskSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :current_disk_size
       
-        # The database engine type and version. The databaseVersion can not be changed
-        # after instance creation. Can be MYSQL_5_5, MYSQL_5_6 or MYSQL_5_7. Defaults to
-        # MYSQL_5_6. MYSQL_5_7 is applicable only to Second Generation instances.
+        # The database engine type and version. The databaseVersion field can not be
+        # changed after instance creation. MySQL Second Generation instances: MYSQL_5_7 (
+        # default) or MYSQL_5_6. PostgreSQL instances: POSTGRES_9_6 MySQL First
+        # Generation instances: MYSQL_5_6 (default) or MYSQL_5_5
         # Corresponds to the JSON property `databaseVersion`
         # @return [String]
         attr_accessor :database_version
@@ -420,6 +438,13 @@ module Google
         # Corresponds to the JSON property `failoverReplica`
         # @return [Google::Apis::SqladminV1beta4::DatabaseInstance::FailoverReplica]
         attr_accessor :failover_replica
+      
+        # The Compute Engine zone that the instance is currently serving from. This
+        # value could be different from the zone that was specified when the instance
+        # was created if the instance has failed over to its secondary zone.
+        # Corresponds to the JSON property `gceZone`
+        # @return [String]
+        attr_accessor :gce_zone
       
         # The instance type. This can be one of the following.
         # CLOUD_SQL_INSTANCE: A Cloud SQL instance that is not replicating from a master.
@@ -452,7 +477,7 @@ module Google
       
         # The maximum disk size of the instance in bytes.
         # Corresponds to the JSON property `maxDiskSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :max_disk_size
       
         # Name of the Cloud SQL instance. This does not include the project ID.
@@ -540,6 +565,7 @@ module Google
           @database_version = args[:database_version] if args.key?(:database_version)
           @etag = args[:etag] if args.key?(:etag)
           @failover_replica = args[:failover_replica] if args.key?(:failover_replica)
+          @gce_zone = args[:gce_zone] if args.key?(:gce_zone)
           @instance_type = args[:instance_type] if args.key?(:instance_type)
           @ip_addresses = args[:ip_addresses] if args.key?(:ip_addresses)
           @ipv6_address = args[:ipv6_address] if args.key?(:ipv6_address)
@@ -617,6 +643,127 @@ module Google
         end
       end
       
+      # Read-replica configuration for connecting to the on-premises master.
+      class DemoteMasterConfiguration
+        include Google::Apis::Core::Hashable
+      
+        # This is always sql#demoteMasterConfiguration.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # Read-replica configuration specific to MySQL databases.
+        # Corresponds to the JSON property `mysqlReplicaConfiguration`
+        # @return [Google::Apis::SqladminV1beta4::DemoteMasterMySqlReplicaConfiguration]
+        attr_accessor :mysql_replica_configuration
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @mysql_replica_configuration = args[:mysql_replica_configuration] if args.key?(:mysql_replica_configuration)
+        end
+      end
+      
+      # Database instance demote master context.
+      class DemoteMasterContext
+        include Google::Apis::Core::Hashable
+      
+        # This is always sql#demoteMasterContext.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The name of the instance which will act as on-premises master in the
+        # replication setup.
+        # Corresponds to the JSON property `masterInstanceName`
+        # @return [String]
+        attr_accessor :master_instance_name
+      
+        # Read-replica configuration for connecting to the on-premises master.
+        # Corresponds to the JSON property `replicaConfiguration`
+        # @return [Google::Apis::SqladminV1beta4::DemoteMasterConfiguration]
+        attr_accessor :replica_configuration
+      
+        # Verify GTID consistency for demote operation. Default value: True. Second
+        # Generation instances only. Setting this flag to false enables you to bypass
+        # GTID consistency check between on-premises master and Cloud SQL instance
+        # during the demotion operation but also exposes you to the risk of future
+        # replication failures. Change the value only if you know the reason for the
+        # GTID divergence and are confident that doing so will not cause any replication
+        # issues.
+        # Corresponds to the JSON property `verifyGtidConsistency`
+        # @return [Boolean]
+        attr_accessor :verify_gtid_consistency
+        alias_method :verify_gtid_consistency?, :verify_gtid_consistency
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @master_instance_name = args[:master_instance_name] if args.key?(:master_instance_name)
+          @replica_configuration = args[:replica_configuration] if args.key?(:replica_configuration)
+          @verify_gtid_consistency = args[:verify_gtid_consistency] if args.key?(:verify_gtid_consistency)
+        end
+      end
+      
+      # Read-replica configuration specific to MySQL databases.
+      class DemoteMasterMySqlReplicaConfiguration
+        include Google::Apis::Core::Hashable
+      
+        # PEM representation of the trusted CA's x509 certificate.
+        # Corresponds to the JSON property `caCertificate`
+        # @return [String]
+        attr_accessor :ca_certificate
+      
+        # PEM representation of the slave's x509 certificate.
+        # Corresponds to the JSON property `clientCertificate`
+        # @return [String]
+        attr_accessor :client_certificate
+      
+        # PEM representation of the slave's private key. The corresponsing public key is
+        # encoded in the client's certificate. The format of the slave's private key can
+        # be either PKCS #1 or PKCS #8.
+        # Corresponds to the JSON property `clientKey`
+        # @return [String]
+        attr_accessor :client_key
+      
+        # This is always sql#demoteMasterMysqlReplicaConfiguration.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The password for the replication connection.
+        # Corresponds to the JSON property `password`
+        # @return [String]
+        attr_accessor :password
+      
+        # The username for the replication connection.
+        # Corresponds to the JSON property `username`
+        # @return [String]
+        attr_accessor :username
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @ca_certificate = args[:ca_certificate] if args.key?(:ca_certificate)
+          @client_certificate = args[:client_certificate] if args.key?(:client_certificate)
+          @client_key = args[:client_key] if args.key?(:client_key)
+          @kind = args[:kind] if args.key?(:kind)
+          @password = args[:password] if args.key?(:password)
+          @username = args[:username] if args.key?(:username)
+        end
+      end
+      
       # Database instance export context.
       class ExportContext
         include Google::Apis::Core::Hashable
@@ -654,8 +801,8 @@ module Google
       
         # The path to the file in Google Cloud Storage where the export will be stored.
         # The URI is in the form gs://bucketName/fileName. If the file already exists,
-        # the operation fails. If fileType is SQL and the filename ends with .gz, the
-        # contents are compressed.
+        # the requests succeeds, but the operation fails. If fileType is SQL and the
+        # filename ends with .gz, the contents are compressed.
         # Corresponds to the JSON property `uri`
         # @return [String]
         attr_accessor :uri
@@ -733,7 +880,7 @@ module Google
         # The current settings version of this instance. Request will be rejected if
         # this version doesn't match the current settings version.
         # Corresponds to the JSON property `settingsVersion`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :settings_version
       
         def initialize(**args)
@@ -769,12 +916,12 @@ module Google
       
         # For INTEGER flags, the maximum allowed value.
         # Corresponds to the JSON property `maxValue`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :max_value
       
         # For INTEGER flags, the minimum allowed value.
         # Corresponds to the JSON property `minValue`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :min_value
       
         # This is the name of the flag. Flag names always use underscores, not hyphens,
@@ -862,6 +1009,12 @@ module Google
         # @return [String]
         attr_accessor :file_type
       
+        # The PostgreSQL user for this import operation. Defaults to cloudsqlsuperuser.
+        # Used only for PostgreSQL instances.
+        # Corresponds to the JSON property `importUser`
+        # @return [String]
+        attr_accessor :import_user
+      
         # This is always sql#importContext.
         # Corresponds to the JSON property `kind`
         # @return [String]
@@ -883,6 +1036,7 @@ module Google
           @csv_import_options = args[:csv_import_options] if args.key?(:csv_import_options)
           @database = args[:database] if args.key?(:database)
           @file_type = args[:file_type] if args.key?(:file_type)
+          @import_user = args[:import_user] if args.key?(:import_user)
           @kind = args[:kind] if args.key?(:kind)
           @uri = args[:uri] if args.key?(:uri)
         end
@@ -930,6 +1084,25 @@ module Google
         # Update properties of this object
         def update!(**args)
           @clone_context = args[:clone_context] if args.key?(:clone_context)
+        end
+      end
+      
+      # Database demote master request.
+      class InstancesDemoteMasterRequest
+        include Google::Apis::Core::Hashable
+      
+        # Database instance demote master context.
+        # Corresponds to the JSON property `demoteMasterContext`
+        # @return [Google::Apis::SqladminV1beta4::DemoteMasterContext]
+        attr_accessor :demote_master_context
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @demote_master_context = args[:demote_master_context] if args.key?(:demote_master_context)
         end
       end
       
@@ -1041,6 +1214,25 @@ module Google
         end
       end
       
+      # Instance truncate log request.
+      class InstancesTruncateLogRequest
+        include Google::Apis::Core::Hashable
+      
+        # Database Instance truncate log context.
+        # Corresponds to the JSON property `truncateLogContext`
+        # @return [Google::Apis::SqladminV1beta4::TruncateLogContext]
+        attr_accessor :truncate_log_context
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @truncate_log_context = args[:truncate_log_context] if args.key?(:truncate_log_context)
+        end
+      end
+      
       # IP Management configuration.
       class IpConfiguration
         include Google::Apis::Core::Hashable
@@ -1058,8 +1250,7 @@ module Google
         attr_accessor :ipv4_enabled
         alias_method :ipv4_enabled?, :ipv4_enabled
       
-        # Whether the mysqld should default to 'REQUIRE X509' for users connecting over
-        # IP.
+        # Whether SSL connections over IP should be enforced or not.
         # Corresponds to the JSON property `requireSsl`
         # @return [Boolean]
         attr_accessor :require_ssl
@@ -1093,6 +1284,13 @@ module Google
         # @return [DateTime]
         attr_accessor :time_to_retire
       
+        # The type of this IP address. A PRIMARY address is an address that can accept
+        # incoming connections. An OUTGOING address is the source address of connections
+        # originating from the instance, if supported.
+        # Corresponds to the JSON property `type`
+        # @return [String]
+        attr_accessor :type
+      
         def initialize(**args)
            update!(**args)
         end
@@ -1101,6 +1299,7 @@ module Google
         def update!(**args)
           @ip_address = args[:ip_address] if args.key?(:ip_address)
           @time_to_retire = args[:time_to_retire] if args.key?(:time_to_retire)
+          @type = args[:type] if args.key?(:type)
         end
       end
       
@@ -1160,7 +1359,8 @@ module Google
         # @return [String]
         attr_accessor :kind
       
-        # 
+        # Maintenance timing setting: canary (Earlier) or stable (Later).
+        # Learn more.
         # Corresponds to the JSON property `updateTrack`
         # @return [String]
         attr_accessor :update_track
@@ -1219,7 +1419,7 @@ module Google
       
         # Interval in milliseconds between replication heartbeats.
         # Corresponds to the JSON property `masterHeartbeatPeriod`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :master_heartbeat_period
       
         # The password for the replication connection.
@@ -1362,7 +1562,7 @@ module Google
         # @return [String]
         attr_accessor :target_id
       
-        # The URI of the instance related to the operation.
+        # 
         # Corresponds to the JSON property `targetLink`
         # @return [String]
         attr_accessor :target_link
@@ -1532,7 +1732,7 @@ module Google
       
         # The ID of the backup run to restore from.
         # Corresponds to the JSON property `backupRunId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :backup_run_id
       
         # The ID of the instance that the backup was taken from.
@@ -1562,16 +1762,15 @@ module Google
         include Google::Apis::Core::Hashable
       
         # The activation policy specifies when the instance is activated; it is
-        # applicable only when the instance state is RUNNABLE. The activation policy
-        # cannot be updated together with other settings for Second Generation instances.
-        # Valid values:
-        # ALWAYS: The instance is on; it is not deactivated by inactivity.
+        # applicable only when the instance state is RUNNABLE. Valid values:
+        # ALWAYS: The instance is on, and remains so even in the absence of connection
+        # requests.
         # NEVER: The instance is off; it is not activated, even if a connection request
         # arrives.
-        # ON_DEMAND: The instance responds to incoming requests, and turns itself off
-        # when not in use. Instances with PER_USE pricing turn off after 15 minutes of
-        # inactivity. Instances with PER_PACKAGE pricing turn off after 12 hours of
-        # inactivity.
+        # ON_DEMAND: First Generation instances only. The instance responds to incoming
+        # requests, and turns itself off when not in use. Instances with PER_USE pricing
+        # turn off after 15 minutes of inactivity. Instances with PER_PACKAGE pricing
+        # turn off after 12 hours of inactivity.
         # Corresponds to the JSON property `activationPolicy`
         # @return [String]
         attr_accessor :activation_policy
@@ -1581,6 +1780,16 @@ module Google
         # Corresponds to the JSON property `authorizedGaeApplications`
         # @return [Array<String>]
         attr_accessor :authorized_gae_applications
+      
+        # Availability type (PostgreSQL instances only). Potential values:
+        # ZONAL: The instance serves data from only one zone. Outages in that zone
+        # affect data accessibility.
+        # REGIONAL: The instance can serve data from more than one zone in a region (it
+        # is highly available).
+        # For more information, see Overview of the High Availability Configuration.
+        # Corresponds to the JSON property `availabilityType`
+        # @return [String]
+        attr_accessor :availability_type
       
         # Database instance backup configuration.
         # Corresponds to the JSON property `backupConfiguration`
@@ -1598,7 +1807,7 @@ module Google
         # The size of data disk, in GB. The data disk size minimum is 10GB. Applies only
         # to Second Generation instances.
         # Corresponds to the JSON property `dataDiskSizeGb`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :data_disk_size_gb
       
         # The type of data disk. Only supported for Second Generation instances. The
@@ -1661,21 +1870,34 @@ module Google
         # most recent settingsVersion value for this instance and do not try to update
         # this value.
         # Corresponds to the JSON property `settingsVersion`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :settings_version
       
         # Configuration to increase storage size automatically. The default value is
-        # false. Applies only to Second Generation instances.
+        # true. Applies only to Second Generation instances.
         # Corresponds to the JSON property `storageAutoResize`
         # @return [Boolean]
         attr_accessor :storage_auto_resize
         alias_method :storage_auto_resize?, :storage_auto_resize
+      
+        # The maximum size to which storage capacity can be automatically increased. The
+        # default value is 0, which specifies that there is no limit. Applies only to
+        # Second Generation instances.
+        # Corresponds to the JSON property `storageAutoResizeLimit`
+        # @return [Fixnum]
+        attr_accessor :storage_auto_resize_limit
       
         # The tier of service for this instance, for example D1, D2. For more
         # information, see pricing.
         # Corresponds to the JSON property `tier`
         # @return [String]
         attr_accessor :tier
+      
+        # User-provided labels, represented as a dictionary where each label is a single
+        # key value pair.
+        # Corresponds to the JSON property `userLabels`
+        # @return [Hash<String,String>]
+        attr_accessor :user_labels
       
         def initialize(**args)
            update!(**args)
@@ -1685,6 +1907,7 @@ module Google
         def update!(**args)
           @activation_policy = args[:activation_policy] if args.key?(:activation_policy)
           @authorized_gae_applications = args[:authorized_gae_applications] if args.key?(:authorized_gae_applications)
+          @availability_type = args[:availability_type] if args.key?(:availability_type)
           @backup_configuration = args[:backup_configuration] if args.key?(:backup_configuration)
           @crash_safe_replication_enabled = args[:crash_safe_replication_enabled] if args.key?(:crash_safe_replication_enabled)
           @data_disk_size_gb = args[:data_disk_size_gb] if args.key?(:data_disk_size_gb)
@@ -1699,7 +1922,9 @@ module Google
           @replication_type = args[:replication_type] if args.key?(:replication_type)
           @settings_version = args[:settings_version] if args.key?(:settings_version)
           @storage_auto_resize = args[:storage_auto_resize] if args.key?(:storage_auto_resize)
+          @storage_auto_resize_limit = args[:storage_auto_resize_limit] if args.key?(:storage_auto_resize_limit)
           @tier = args[:tier] if args.key?(:tier)
+          @user_labels = args[:user_labels] if args.key?(:user_labels)
         end
       end
       
@@ -1908,12 +2133,12 @@ module Google
       
         # The maximum disk size of this tier in bytes.
         # Corresponds to the JSON property `DiskQuota`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :disk_quota
       
         # The maximum RAM usage of this tier in bytes.
         # Corresponds to the JSON property `RAM`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :ram
       
         # This is always sql#tier.
@@ -1921,8 +2146,7 @@ module Google
         # @return [String]
         attr_accessor :kind
       
-        # The applicable regions for this tier. Can be us-east1, europe-west1 or asia-
-        # east1.
+        # The applicable regions for this tier.
         # Corresponds to the JSON property `region`
         # @return [Array<String>]
         attr_accessor :region
@@ -1969,6 +2193,32 @@ module Google
         def update!(**args)
           @items = args[:items] if args.key?(:items)
           @kind = args[:kind] if args.key?(:kind)
+        end
+      end
+      
+      # Database Instance truncate log context.
+      class TruncateLogContext
+        include Google::Apis::Core::Hashable
+      
+        # This is always sql#truncateLogContext.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The type of log to truncate. Valid values are MYSQL_GENERAL_TABLE and
+        # MYSQL_SLOW_TABLE.
+        # Corresponds to the JSON property `logType`
+        # @return [String]
+        attr_accessor :log_type
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @log_type = args[:log_type] if args.key?(:log_type)
         end
       end
       

@@ -39,7 +39,7 @@ module Google
         attr_accessor :path
 
         def properties
-          @properties ||= {}
+          Hash[(@properties || {}).sort]
         end
 
         def qualified_name
@@ -51,10 +51,18 @@ module Google
           when 'string', 'boolean', 'number', 'integer', 'any'
             return 'DateTime' if format == 'date-time'
             return 'Date' if format == 'date'
+            return 'Fixnum' if format == 'int64'
+            return 'Fixnum' if format == 'uint64'
             return TYPE_MAP[type]
           when 'array'
+            if items == self
+              return sprintf('Array<%s>', qualified_name)
+            end
             return sprintf('Array<%s>', items.generated_type)
           when 'hash'
+            if additional_properties == self
+              return sprintf('Hash<String,%s>', qualified_name)
+            end
             return sprintf('Hash<String,%s>', additional_properties.generated_type)
           when 'object'
             return qualified_name
@@ -66,6 +74,10 @@ module Google
         attr_accessor :generated_name
         attr_accessor :parent
 
+        def parameters
+          Hash[(@parameters || {}).sort]
+        end
+
         def path_parameters
           return [] if parameter_order.nil? || parameters.nil?
           parameter_order.map { |name| parameters[name] }.select { |param| param.location == 'path' }
@@ -75,20 +87,28 @@ module Google
           return [] if parameters.nil?
           parameters.values.select { |param| param.location == 'query' }
         end
-        
+
         def required_parameters
           return [] if parameter_order.nil? || parameters.nil?
           parameter_order.map { |name| parameters[name] }.select { |param| param.location == 'path' || param.required }
         end
-        
+
         def optional_query_parameters
           query_parameters.select { |param| param.required != true }
         end
-        
+
       end
 
       class RestResource
         attr_accessor :parent
+
+        def api_methods
+          Hash[(@api_methods || {}).sort]
+        end
+
+        def resources
+          Hash[(@resources || {}).sort]
+        end
 
         def all_methods
           m = []
@@ -101,6 +121,10 @@ module Google
       class RestDescription
         attr_accessor :force_alt_json
         alias_method :force_alt_json?, :force_alt_json
+
+        # Don't expose these in the API directly.
+        PARAMETER_BLACKLIST = %w(alt access_token bearer_token oauth_token pp prettyPrint
+                                 $.xgafv callback upload_protocol uploadType)
 
         def version
           ActiveSupport::Inflector.camelize(@version.gsub(/\W/, '-')).gsub(/-/, '_')
@@ -123,6 +147,14 @@ module Google
           ActiveSupport::Inflector.camelize(sprintf('%sService', class_name))
         end
 
+        def api_methods
+          Hash[(@api_methods || {}).sort]
+        end
+
+        def resources
+          Hash[(@resources || {}).sort]
+        end
+
         def all_methods
           m = []
           m << api_methods.values unless api_methods.nil?
@@ -130,10 +162,22 @@ module Google
           m.flatten
         end
 
+        def parameters
+          Hash[(@parameters || {}).sort].reject! { |k, _v| PARAMETER_BLACKLIST.include?(k) }
+        end
+
+        def schemas
+          Hash[(@schemas || {}).sort]
+        end
+
         class Auth
           class Oauth2
             class Scope
               attr_accessor :constant
+            end
+
+            def scopes
+              Hash[(@scopes || {}).sort]
             end
           end
         end

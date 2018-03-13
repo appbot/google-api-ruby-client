@@ -51,6 +51,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'sql/v1beta4/')
+          @batch_path = 'batch/sqladmin/v1beta4'
         end
         
         # Deletes the backup taken by a backup run.
@@ -58,7 +59,7 @@ module Google
         #   Project ID of the project that contains the instance.
         # @param [String] instance
         #   Cloud SQL instance ID. This does not include the project ID.
-        # @param [String] id
+        # @param [Fixnum] id
         #   The ID of the Backup Run to delete. To find a Backup Run ID, use the list
         #   method.
         # @param [String] fields
@@ -100,7 +101,7 @@ module Google
         #   Project ID of the project that contains the instance.
         # @param [String] instance
         #   Cloud SQL instance ID. This does not include the project ID.
-        # @param [String] id
+        # @param [Fixnum] id
         #   The ID of this Backup Run.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -478,6 +479,9 @@ module Google
         end
         
         # List all available database flags for Google Cloud SQL instances.
+        # @param [String] database_version
+        #   Database version for flag retrieval. Flags are specific to the database
+        #   version.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -499,10 +503,11 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_flags(fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def list_flags(database_version: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'flags', options)
           command.response_representation = Google::Apis::SqladminV1beta4::ListFlagsResponse::Representation
           command.response_class = Google::Apis::SqladminV1beta4::ListFlagsResponse
+          command.query['databaseVersion'] = database_version unless database_version.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -580,6 +585,47 @@ module Google
         # @raise [Google::Apis::AuthorizationError] Authorization is required
         def delete_instance(project, instance, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:delete, 'projects/{project}/instances/{instance}', options)
+          command.response_representation = Google::Apis::SqladminV1beta4::Operation::Representation
+          command.response_class = Google::Apis::SqladminV1beta4::Operation
+          command.params['project'] = project unless project.nil?
+          command.params['instance'] = instance unless instance.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Reserved for future use.
+        # @param [String] project
+        #   ID of the project that contains the instance.
+        # @param [String] instance
+        #   Cloud SQL instance name.
+        # @param [Google::Apis::SqladminV1beta4::InstancesDemoteMasterRequest] instances_demote_master_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::SqladminV1beta4::Operation] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::SqladminV1beta4::Operation]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def demote_instance_master(project, instance, instances_demote_master_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'projects/{project}/instances/{instance}/demoteMaster', options)
+          command.request_representation = Google::Apis::SqladminV1beta4::InstancesDemoteMasterRequest::Representation
+          command.request_object = instances_demote_master_request_object
           command.response_representation = Google::Apis::SqladminV1beta4::Operation::Representation
           command.response_class = Google::Apis::SqladminV1beta4::Operation
           command.params['project'] = project unless project.nil?
@@ -796,6 +842,9 @@ module Google
         # instance name.
         # @param [String] project
         #   Project ID of the project for which to list Cloud SQL instances.
+        # @param [String] filter
+        #   An expression for filtering the results of the request, such as by name or
+        #   label.
         # @param [Fixnum] max_results
         #   The maximum number of results to return per response.
         # @param [String] page_token
@@ -822,11 +871,12 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_instances(project, max_results: nil, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def list_instances(project, filter: nil, max_results: nil, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'projects/{project}/instances', options)
           command.response_representation = Google::Apis::SqladminV1beta4::ListInstancesResponse::Representation
           command.response_class = Google::Apis::SqladminV1beta4::ListInstancesResponse
           command.params['project'] = project unless project.nil?
+          command.query['filter'] = filter unless filter.nil?
           command.query['maxResults'] = max_results unless max_results.nil?
           command.query['pageToken'] = page_token unless page_token.nil?
           command.query['fields'] = fields unless fields.nil?
@@ -1102,6 +1152,47 @@ module Google
         # @raise [Google::Apis::AuthorizationError] Authorization is required
         def stop_instance_replica(project, instance, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:post, 'projects/{project}/instances/{instance}/stopReplica', options)
+          command.response_representation = Google::Apis::SqladminV1beta4::Operation::Representation
+          command.response_class = Google::Apis::SqladminV1beta4::Operation
+          command.params['project'] = project unless project.nil?
+          command.params['instance'] = instance unless instance.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Truncate MySQL general and slow query log tables
+        # @param [String] project
+        #   Project ID of the Cloud SQL project.
+        # @param [String] instance
+        #   Cloud SQL instance ID. This does not include the project ID.
+        # @param [Google::Apis::SqladminV1beta4::InstancesTruncateLogRequest] instances_truncate_log_request_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::SqladminV1beta4::Operation] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::SqladminV1beta4::Operation]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def truncate_instance_log(project, instance, instances_truncate_log_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'projects/{project}/instances/{instance}/truncateLog', options)
+          command.request_representation = Google::Apis::SqladminV1beta4::InstancesTruncateLogRequest::Representation
+          command.request_object = instances_truncate_log_request_object
           command.response_representation = Google::Apis::SqladminV1beta4::Operation::Representation
           command.response_class = Google::Apis::SqladminV1beta4::Operation
           command.params['project'] = project unless project.nil?

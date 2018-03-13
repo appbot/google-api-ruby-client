@@ -51,6 +51,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'civicinfo/v2/')
+          @batch_path = 'batch/civicinfo/v2'
         end
         
         # Searches for political divisions by their natural name or OCD ID.
@@ -73,10 +74,10 @@ module Google
         #   Request-specific options
         #
         # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::CivicinfoV2::DivisionSearchResponse] parsed result object
+        # @yieldparam result [Google::Apis::CivicinfoV2::SearchDivisionResponse] parsed result object
         # @yieldparam err [StandardError] error object if request failed
         #
-        # @return [Google::Apis::CivicinfoV2::DivisionSearchResponse]
+        # @return [Google::Apis::CivicinfoV2::SearchDivisionResponse]
         #
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
@@ -85,8 +86,8 @@ module Google
           command =  make_simple_command(:get, 'divisions', options)
           command.request_representation = Google::Apis::CivicinfoV2::DivisionSearchRequest::Representation
           command.request_object = division_search_request_object
-          command.response_representation = Google::Apis::CivicinfoV2::DivisionSearchResponse::Representation
-          command.response_class = Google::Apis::CivicinfoV2::DivisionSearchResponse
+          command.response_representation = Google::Apis::CivicinfoV2::SearchDivisionResponse::Representation
+          command.response_class = Google::Apis::CivicinfoV2::SearchDivisionResponse
           command.query['query'] = query unless query.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
@@ -134,7 +135,7 @@ module Google
         # @param [String] address
         #   The registered address of the voter to look up.
         # @param [Google::Apis::CivicinfoV2::VoterInfoRequest] voter_info_request_object
-        # @param [String] election_id
+        # @param [Fixnum] election_id
         #   The unique ID of the election to look up. A list of election IDs can be
         #   obtained at https://www.googleapis.com/civicinfo/`version`/elections
         # @param [Boolean] official_only

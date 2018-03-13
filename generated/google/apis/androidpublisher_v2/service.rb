@@ -50,6 +50,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'androidpublisher/v2/applications/')
+          @batch_path = 'batch/androidpublisher/v2'
         end
         
         # Commits/applies the changes made in this edit back to the app.
@@ -1494,6 +1495,8 @@ module Google
         # @param [String] edit_id
         #   Unique identifier for this edit.
         # @param [String] track
+        #   The track to read or modify. Acceptable values are: "alpha", "beta", "
+        #   production" or "rollout".
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1535,6 +1538,8 @@ module Google
         # @param [String] edit_id
         #   Unique identifier for this edit.
         # @param [String] track
+        #   The track to read or modify. Acceptable values are: "alpha", "beta", "
+        #   production" or "rollout".
         # @param [Google::Apis::AndroidpublisherV2::Testers] testers_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1579,6 +1584,8 @@ module Google
         # @param [String] edit_id
         #   Unique identifier for this edit.
         # @param [String] track
+        #   The track to read or modify. Acceptable values are: "alpha", "beta", "
+        #   production" or "rollout".
         # @param [Google::Apis::AndroidpublisherV2::Testers] testers_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1624,7 +1631,8 @@ module Google
         # @param [String] edit_id
         #   Unique identifier for this edit.
         # @param [String] track
-        #   The track type to read or modify.
+        #   The track to read or modify. Acceptable values are: "alpha", "beta", "
+        #   production" or "rollout".
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1707,7 +1715,8 @@ module Google
         # @param [String] edit_id
         #   Unique identifier for this edit.
         # @param [String] track
-        #   The track type to read or modify.
+        #   The track to read or modify. Acceptable values are: "alpha", "beta", "
+        #   production" or "rollout".
         # @param [Google::Apis::AndroidpublisherV2::Track] track_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1754,7 +1763,8 @@ module Google
         # @param [String] edit_id
         #   Unique identifier for this edit.
         # @param [String] track
-        #   The track type to read or modify.
+        #   The track to read or modify. Acceptable values are: "alpha", "beta", "
+        #   production" or "rollout".
         # @param [Google::Apis::AndroidpublisherV2::Track] track_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1832,41 +1842,6 @@ module Google
           command.query['productId'] = product_id unless product_id.nil?
           command.query['startIndex'] = start_index unless start_index.nil?
           command.query['token'] = token unless token.nil?
-          command.query['fields'] = fields unless fields.nil?
-          command.query['quotaUser'] = quota_user unless quota_user.nil?
-          command.query['userIp'] = user_ip unless user_ip.nil?
-          execute_or_queue_command(command, &block)
-        end
-        
-        # 
-        # @param [Google::Apis::AndroidpublisherV2::InAppProductsBatchRequest] in_app_products_batch_request_object
-        # @param [String] fields
-        #   Selector specifying which fields to include in a partial response.
-        # @param [String] quota_user
-        #   Available to use for quota purposes for server-side applications. Can be any
-        #   arbitrary string assigned to a user, but should not exceed 40 characters.
-        #   Overrides userIp if both are provided.
-        # @param [String] user_ip
-        #   IP address of the site where the request originates. Use this if you want to
-        #   enforce per-user limits.
-        # @param [Google::Apis::RequestOptions] options
-        #   Request-specific options
-        #
-        # @yield [result, err] Result & error if block supplied
-        # @yieldparam result [Google::Apis::AndroidpublisherV2::InAppProductsBatchResponse] parsed result object
-        # @yieldparam err [StandardError] error object if request failed
-        #
-        # @return [Google::Apis::AndroidpublisherV2::InAppProductsBatchResponse]
-        #
-        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
-        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
-        # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def batch_update_in_app_products(in_app_products_batch_request_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
-          command =  make_simple_command(:post, 'inappproducts/batch', options)
-          command.request_representation = Google::Apis::AndroidpublisherV2::InAppProductsBatchRequest::Representation
-          command.request_object = in_app_products_batch_request_object
-          command.response_representation = Google::Apis::AndroidpublisherV2::InAppProductsBatchResponse::Representation
-          command.response_class = Google::Apis::AndroidpublisherV2::InAppProductsBatchResponse
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -2380,11 +2355,70 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Lists the purchases that were canceled, refunded or charged-back.
+        # @param [String] package_name
+        #   The package name of the application for which voided purchases need to be
+        #   returned (for example, 'com.some.thing').
+        # @param [Fixnum] end_time
+        #   The time, in milliseconds since the Epoch, of the newest voided in-app product
+        #   purchase that you want to see in the response. The value of this parameter
+        #   cannot be greater than the current time and is ignored if a pagination token
+        #   is set. Default value is current time. Note: This filter is applied on the
+        #   time at which the record is seen as voided by our systems and not the actual
+        #   voided time returned in the response.
+        # @param [Fixnum] max_results
+        # @param [Fixnum] start_index
+        # @param [Fixnum] start_time
+        #   The time, in milliseconds since the Epoch, of the oldest voided in-app product
+        #   purchase that you want to see in the response. The value of this parameter
+        #   cannot be older than 30 days and is ignored if a pagination token is set.
+        #   Default value is current time minus 30 days. Note: This filter is applied on
+        #   the time at which the record is seen as voided by our systems and not the
+        #   actual voided time returned in the response.
+        # @param [String] token
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AndroidpublisherV2::VoidedPurchasesListResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AndroidpublisherV2::VoidedPurchasesListResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def list_purchase_voidedpurchases(package_name, end_time: nil, max_results: nil, start_index: nil, start_time: nil, token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, '{packageName}/purchases/voidedpurchases', options)
+          command.response_representation = Google::Apis::AndroidpublisherV2::VoidedPurchasesListResponse::Representation
+          command.response_class = Google::Apis::AndroidpublisherV2::VoidedPurchasesListResponse
+          command.params['packageName'] = package_name unless package_name.nil?
+          command.query['endTime'] = end_time unless end_time.nil?
+          command.query['maxResults'] = max_results unless max_results.nil?
+          command.query['startIndex'] = start_index unless start_index.nil?
+          command.query['startTime'] = start_time unless start_time.nil?
+          command.query['token'] = token unless token.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Returns a single review.
         # @param [String] package_name
         #   Unique identifier for the Android app for which we want reviews; for example, "
         #   com.spiffygame".
         # @param [String] review_id
+        # @param [String] translation_language
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2406,25 +2440,27 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_review(package_name, review_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def get_review(package_name, review_id, translation_language: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, '{packageName}/reviews/{reviewId}', options)
           command.response_representation = Google::Apis::AndroidpublisherV2::Review::Representation
           command.response_class = Google::Apis::AndroidpublisherV2::Review
           command.params['packageName'] = package_name unless package_name.nil?
           command.params['reviewId'] = review_id unless review_id.nil?
+          command.query['translationLanguage'] = translation_language unless translation_language.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
           execute_or_queue_command(command, &block)
         end
         
-        # Returns a list of reviews.
+        # Returns a list of reviews. Only reviews from last week will be returned.
         # @param [String] package_name
         #   Unique identifier for the Android app for which we want reviews; for example, "
         #   com.spiffygame".
         # @param [Fixnum] max_results
         # @param [Fixnum] start_index
         # @param [String] token
+        # @param [String] translation_language
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2446,7 +2482,7 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_reviews(package_name, max_results: nil, start_index: nil, token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def list_reviews(package_name, max_results: nil, start_index: nil, token: nil, translation_language: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, '{packageName}/reviews', options)
           command.response_representation = Google::Apis::AndroidpublisherV2::ReviewsListResponse::Representation
           command.response_class = Google::Apis::AndroidpublisherV2::ReviewsListResponse
@@ -2454,6 +2490,7 @@ module Google
           command.query['maxResults'] = max_results unless max_results.nil?
           command.query['startIndex'] = start_index unless start_index.nil?
           command.query['token'] = token unless token.nil?
+          command.query['translationLanguage'] = translation_language unless translation_language.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?

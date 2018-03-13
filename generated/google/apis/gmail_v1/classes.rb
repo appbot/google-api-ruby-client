@@ -74,6 +74,37 @@ module Google
         end
       end
       
+      # 
+      class BatchModifyMessagesRequest
+        include Google::Apis::Core::Hashable
+      
+        # A list of label IDs to add to messages.
+        # Corresponds to the JSON property `addLabelIds`
+        # @return [Array<String>]
+        attr_accessor :add_label_ids
+      
+        # The IDs of the messages to modify. There is a limit of 1000 ids per request.
+        # Corresponds to the JSON property `ids`
+        # @return [Array<String>]
+        attr_accessor :ids
+      
+        # A list of label IDs to remove from messages.
+        # Corresponds to the JSON property `removeLabelIds`
+        # @return [Array<String>]
+        attr_accessor :remove_label_ids
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @add_label_ids = args[:add_label_ids] if args.key?(:add_label_ids)
+          @ids = args[:ids] if args.key?(:ids)
+          @remove_label_ids = args[:remove_label_ids] if args.key?(:remove_label_ids)
+        end
+      end
+      
       # A draft email in the user's mailbox.
       class Draft
         include Google::Apis::Core::Hashable
@@ -273,7 +304,7 @@ module Google
       
         # The mailbox sequence ID.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
         # Labels added to messages in this history record.
@@ -454,6 +485,12 @@ module Google
       class Label
         include Google::Apis::Core::Hashable
       
+        # The color to assign to the label. Color is only available for labels that have
+        # their type set to user.
+        # Corresponds to the JSON property `color`
+        # @return [Google::Apis::GmailV1::LabelColor]
+        attr_accessor :color
+      
         # The immutable ID of the label.
         # Corresponds to the JSON property `id`
         # @return [String]
@@ -512,6 +549,7 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @color = args[:color] if args.key?(:color)
           @id = args[:id] if args.key?(:id)
           @label_list_visibility = args[:label_list_visibility] if args.key?(:label_list_visibility)
           @message_list_visibility = args[:message_list_visibility] if args.key?(:message_list_visibility)
@@ -521,6 +559,51 @@ module Google
           @threads_total = args[:threads_total] if args.key?(:threads_total)
           @threads_unread = args[:threads_unread] if args.key?(:threads_unread)
           @type = args[:type] if args.key?(:type)
+        end
+      end
+      
+      # 
+      class LabelColor
+        include Google::Apis::Core::Hashable
+      
+        # The background color represented as hex string #RRGGBB (ex #000000). This
+        # field is required in order to set the color of a label. Only the following
+        # predefined set of color values are allowed:
+        # #000000, #434343, #666666, #999999, #cccccc, #efefef, #f3f3f3, #ffffff, #
+        # fb4c2f, #ffad47, #fad165, #16a766, #43d692, #4a86e8, #a479e2, #f691b3, #f6c5be,
+        # #ffe6c7, #fef1d1, #b9e4d0, #c6f3de, #c9daf8, #e4d7f5, #fcdee8, #efa093, #
+        # ffd6a2, #fce8b3, #89d3b2, #a0eac9, #a4c2f4, #d0bcf1, #fbc8d9, #e66550, #ffbc6b,
+        # #fcda83, #44b984, #68dfa9, #6d9eeb, #b694e8, #f7a7c0, #cc3a21, #eaa041, #
+        # f2c960, #149e60, #3dc789, #3c78d8, #8e63ce, #e07798, #ac2b16, #cf8933, #d5ae49,
+        # #0b804b, #2a9c68, #285bac, #653e9b, #b65775, #822111, #a46a21, #aa8831, #
+        # 076239, #1a764d, #1c4587, #41236d, #83334c
+        # Corresponds to the JSON property `backgroundColor`
+        # @return [String]
+        attr_accessor :background_color
+      
+        # The text color of the label, represented as hex string. This field is required
+        # in order to set the color of a label. Only the following predefined set of
+        # color values are allowed:
+        # #000000, #434343, #666666, #999999, #cccccc, #efefef, #f3f3f3, #ffffff, #
+        # fb4c2f, #ffad47, #fad165, #16a766, #43d692, #4a86e8, #a479e2, #f691b3, #f6c5be,
+        # #ffe6c7, #fef1d1, #b9e4d0, #c6f3de, #c9daf8, #e4d7f5, #fcdee8, #efa093, #
+        # ffd6a2, #fce8b3, #89d3b2, #a0eac9, #a4c2f4, #d0bcf1, #fbc8d9, #e66550, #ffbc6b,
+        # #fcda83, #44b984, #68dfa9, #6d9eeb, #b694e8, #f7a7c0, #cc3a21, #eaa041, #
+        # f2c960, #149e60, #3dc789, #3c78d8, #8e63ce, #e07798, #ac2b16, #cf8933, #d5ae49,
+        # #0b804b, #2a9c68, #285bac, #653e9b, #b65775, #822111, #a46a21, #aa8831, #
+        # 076239, #1a764d, #1c4587, #41236d, #83334c
+        # Corresponds to the JSON property `textColor`
+        # @return [String]
+        attr_accessor :text_color
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @background_color = args[:background_color] if args.key?(:background_color)
+          @text_color = args[:text_color] if args.key?(:text_color)
         end
       end
       
@@ -605,7 +688,7 @@ module Google
       
         # The ID of the mailbox's current history record.
         # Corresponds to the JSON property `historyId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :history_id
       
         # Page token to retrieve the next page of results in the list.
@@ -695,6 +778,25 @@ module Google
       end
       
       # 
+      class ListSmimeInfoResponse
+        include Google::Apis::Core::Hashable
+      
+        # List of SmimeInfo.
+        # Corresponds to the JSON property `smimeInfo`
+        # @return [Array<Google::Apis::GmailV1::SmimeInfo>]
+        attr_accessor :smime_info
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @smime_info = args[:smime_info] if args.key?(:smime_info)
+        end
+      end
+      
+      # 
       class ListThreadsResponse
         include Google::Apis::Core::Hashable
       
@@ -731,7 +833,7 @@ module Google
       
         # The ID of the last history record that modified this message.
         # Corresponds to the JSON property `historyId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :history_id
       
         # The immutable ID of the message.
@@ -745,7 +847,7 @@ module Google
         # Date header. However, for API-migrated mail, it can be configured by client to
         # be based on the Date header.
         # Corresponds to the JSON property `internalDate`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :internal_date
       
         # List of IDs of labels applied to this message.
@@ -762,6 +864,7 @@ module Google
         # Returned in messages.get and drafts.get responses when the format=RAW
         # parameter is supplied.
         # Corresponds to the JSON property `raw`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :raw
       
@@ -875,10 +978,11 @@ module Google
         # is sent as a separate attachment. An attachment ID is present if the body data
         # is contained in a separate attachment.
         # Corresponds to the JSON property `data`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :data
       
-        # Total number of bytes in the body of the message part.
+        # Number of bytes for the message part data (encoding notwithstanding).
         # Corresponds to the JSON property `size`
         # @return [Fixnum]
         attr_accessor :size
@@ -1008,7 +1112,7 @@ module Google
       
         # The ID of the mailbox's current history record.
         # Corresponds to the JSON property `historyId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :history_id
       
         # The total number of messages in the mailbox.
@@ -1122,6 +1226,69 @@ module Google
         end
       end
       
+      # An S/MIME email config.
+      class SmimeInfo
+        include Google::Apis::Core::Hashable
+      
+        # Encrypted key password, when key is encrypted.
+        # Corresponds to the JSON property `encryptedKeyPassword`
+        # @return [String]
+        attr_accessor :encrypted_key_password
+      
+        # When the certificate expires (in milliseconds since epoch).
+        # Corresponds to the JSON property `expiration`
+        # @return [Fixnum]
+        attr_accessor :expiration
+      
+        # The immutable ID for the SmimeInfo.
+        # Corresponds to the JSON property `id`
+        # @return [String]
+        attr_accessor :id
+      
+        # Whether this SmimeInfo is the default one for this user's send-as address.
+        # Corresponds to the JSON property `isDefault`
+        # @return [Boolean]
+        attr_accessor :is_default
+        alias_method :is_default?, :is_default
+      
+        # The S/MIME certificate issuer's common name.
+        # Corresponds to the JSON property `issuerCn`
+        # @return [String]
+        attr_accessor :issuer_cn
+      
+        # PEM formatted X509 concatenated certificate string (standard base64 encoding).
+        # Format used for returning key, which includes public key as well as
+        # certificate chain (not private key).
+        # Corresponds to the JSON property `pem`
+        # @return [String]
+        attr_accessor :pem
+      
+        # PKCS#12 format containing a single private/public key pair and certificate
+        # chain. This format is only accepted from client for creating a new SmimeInfo
+        # and is never returned, because the private key is not intended to be exported.
+        # PKCS#12 may be encrypted, in which case encryptedKeyPassword should be set
+        # appropriately.
+        # Corresponds to the JSON property `pkcs12`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
+        # @return [String]
+        attr_accessor :pkcs12
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @encrypted_key_password = args[:encrypted_key_password] if args.key?(:encrypted_key_password)
+          @expiration = args[:expiration] if args.key?(:expiration)
+          @id = args[:id] if args.key?(:id)
+          @is_default = args[:is_default] if args.key?(:is_default)
+          @issuer_cn = args[:issuer_cn] if args.key?(:issuer_cn)
+          @pem = args[:pem] if args.key?(:pem)
+          @pkcs12 = args[:pkcs12] if args.key?(:pkcs12)
+        end
+      end
+      
       # Configuration for communication with an SMTP service.
       class SmtpMsa
         include Google::Apis::Core::Hashable
@@ -1176,7 +1343,7 @@ module Google
       
         # The ID of the last history record that modified this thread.
         # Corresponds to the JSON property `historyId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :history_id
       
         # The unique ID of the thread.
@@ -1223,7 +1390,7 @@ module Google
         # before the end time. If both startTime and endTime are specified, startTime
         # must precede endTime.
         # Corresponds to the JSON property `endTime`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :end_time
       
         # Response body in HTML format. Gmail will sanitize the HTML before storing it.
@@ -1251,7 +1418,7 @@ module Google
         alias_method :restrict_to_contacts?, :restrict_to_contacts
       
         # Flag that determines whether responses are sent to recipients who are outside
-        # of the user's domain. This feature is only available for Google Apps users.
+        # of the user's domain. This feature is only available for G Suite users.
         # Corresponds to the JSON property `restrictToDomain`
         # @return [Boolean]
         attr_accessor :restrict_to_domain
@@ -1262,7 +1429,7 @@ module Google
         # after the start time. If both startTime and endTime are specified, startTime
         # must precede endTime.
         # Corresponds to the JSON property `startTime`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :start_time
       
         def initialize(**args)
@@ -1328,12 +1495,12 @@ module Google
         # When Gmail will stop sending notifications for mailbox updates (epoch millis).
         # Call watch again before this time to renew the watch.
         # Corresponds to the JSON property `expiration`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :expiration
       
         # The ID of the mailbox's current history record.
         # Corresponds to the JSON property `historyId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :history_id
       
         def initialize(**args)

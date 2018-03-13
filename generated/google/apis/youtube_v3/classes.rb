@@ -937,7 +937,6 @@ module Google
         attr_accessor :localizations
       
         # Basic details about a channel, including title, description and thumbnails.
-        # Next available id: 15.
         # Corresponds to the JSON property `snippet`
         # @return [Google::Apis::YoutubeV3::ChannelSnippet]
         attr_accessor :snippet
@@ -1717,7 +1716,6 @@ module Google
       end
       
       # Basic details about a channel, including title, description and thumbnails.
-      # Next available id: 15.
       class ChannelSnippet
         include Google::Apis::Core::Hashable
       
@@ -1786,7 +1784,7 @@ module Google
       
         # The number of comments for the channel.
         # Corresponds to the JSON property `commentCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :comment_count
       
         # Whether or not the number of subscribers is shown for this user.
@@ -1797,17 +1795,17 @@ module Google
       
         # The number of subscribers that the channel has.
         # Corresponds to the JSON property `subscriberCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :subscriber_count
       
         # The number of videos uploaded to the channel.
         # Corresponds to the JSON property `videoCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :video_count
       
         # The number of times the channel has been viewed.
         # Corresponds to the JSON property `viewCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :view_count
       
         def initialize(**args)
@@ -1861,6 +1859,11 @@ module Google
       class ChannelTopicDetails
         include Google::Apis::Core::Hashable
       
+        # A list of Wikipedia URLs that describe the channel's content.
+        # Corresponds to the JSON property `topicCategories`
+        # @return [Array<String>]
+        attr_accessor :topic_categories
+      
         # A list of Freebase topic IDs associated with the channel. You can retrieve
         # information about each topic using the Freebase Topic API.
         # Corresponds to the JSON property `topicIds`
@@ -1873,6 +1876,7 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @topic_categories = args[:topic_categories] if args.key?(:topic_categories)
           @topic_ids = args[:topic_ids] if args.key?(:topic_ids)
         end
       end
@@ -2283,7 +2287,7 @@ module Google
       end
       
       # Ratings schemes. The country-specific ratings are mostly for movies and shows.
-      # NEXT_ID: 68
+      # NEXT_ID: 71
       class ContentRating
         include Google::Apis::Core::Hashable
       
@@ -2519,6 +2523,11 @@ module Google
         # @return [String]
         attr_accessor :mccyp_rating
       
+        # The video's rating system for Vietnam - MCST
+        # Corresponds to the JSON property `mcstRating`
+        # @return [String]
+        attr_accessor :mcst_rating
+      
         # The video's rating from Singapore's Media Development Authority (MDA) and,
         # specifically, it's Board of Film Censors (BFC).
         # Corresponds to the JSON property `mdaRating`
@@ -2535,6 +2544,11 @@ module Google
         # Corresponds to the JSON property `mekuRating`
         # @return [String]
         attr_accessor :meku_rating
+      
+        # The rating system for MENA countries, a clone of MPAA. It is needed to
+        # Corresponds to the JSON property `menaMpaaRating`
+        # @return [String]
+        attr_accessor :mena_mpaa_rating
       
         # The video's rating from the Ministero dei Beni e delle Attività Culturali e
         # del Turismo (Italy).
@@ -2556,6 +2570,12 @@ module Google
         # Corresponds to the JSON property `mpaaRating`
         # @return [String]
         attr_accessor :mpaa_rating
+      
+        # The rating system for trailer, DVD, and Ad in the US. See http://movielabs.com/
+        # md/ratings/v2.3/html/US_MPAAT_Ratings.html.
+        # Corresponds to the JSON property `mpaatRating`
+        # @return [String]
+        attr_accessor :mpaat_rating
       
         # The video's rating from the Movie and Television Review and Classification
         # Board (Philippines).
@@ -2701,13 +2721,16 @@ module Google
           @lsf_rating = args[:lsf_rating] if args.key?(:lsf_rating)
           @mccaa_rating = args[:mccaa_rating] if args.key?(:mccaa_rating)
           @mccyp_rating = args[:mccyp_rating] if args.key?(:mccyp_rating)
+          @mcst_rating = args[:mcst_rating] if args.key?(:mcst_rating)
           @mda_rating = args[:mda_rating] if args.key?(:mda_rating)
           @medietilsynet_rating = args[:medietilsynet_rating] if args.key?(:medietilsynet_rating)
           @meku_rating = args[:meku_rating] if args.key?(:meku_rating)
+          @mena_mpaa_rating = args[:mena_mpaa_rating] if args.key?(:mena_mpaa_rating)
           @mibac_rating = args[:mibac_rating] if args.key?(:mibac_rating)
           @moc_rating = args[:moc_rating] if args.key?(:moc_rating)
           @moctw_rating = args[:moctw_rating] if args.key?(:moctw_rating)
           @mpaa_rating = args[:mpaa_rating] if args.key?(:mpaa_rating)
+          @mpaat_rating = args[:mpaat_rating] if args.key?(:mpaat_rating)
           @mtrcb_rating = args[:mtrcb_rating] if args.key?(:mtrcb_rating)
           @nbc_rating = args[:nbc_rating] if args.key?(:nbc_rating)
           @nbcpl_rating = args[:nbcpl_rating] if args.key?(:nbcpl_rating)
@@ -2839,7 +2862,7 @@ module Google
       
         # The amount of funding in micros of fund_currency. e.g., 1 is represented
         # Corresponds to the JSON property `amountMicros`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :amount_micros
       
         # Channel id where the funding event occurred.
@@ -3479,6 +3502,7 @@ module Google
       
         # 
         # Corresponds to the JSON property `imageBytes`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :image_bytes
       
@@ -3593,14 +3617,14 @@ module Google
         # Defines the duration in milliseconds for which the promotion should be
         # displayed. If missing, the client should use the default.
         # Corresponds to the JSON property `durationMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :duration_ms
       
         # Defines the time at which the promotion will appear. Depending on the value of
         # type the value of the offsetMs field will represent a time offset from the
         # start or from the end of the video, expressed in milliseconds.
         # Corresponds to the JSON property `offsetMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :offset_ms
       
         # Describes a timing type. If the value is offsetFromStart, then the offsetMs
@@ -3685,11 +3709,6 @@ module Google
         # @return [Google::Apis::YoutubeV3::LiveBroadcastStatus]
         attr_accessor :status
       
-        # 
-        # Corresponds to the JSON property `topicDetails`
-        # @return [Google::Apis::YoutubeV3::LiveBroadcastTopicDetails]
-        attr_accessor :topic_details
-      
         def initialize(**args)
            update!(**args)
         end
@@ -3703,7 +3722,6 @@ module Google
           @snippet = args[:snippet] if args.key?(:snippet)
           @statistics = args[:statistics] if args.key?(:statistics)
           @status = args[:status] if args.key?(:status)
-          @topic_details = args[:topic_details] if args.key?(:topic_details)
         end
       end
       
@@ -3726,6 +3744,12 @@ module Google
         # Corresponds to the JSON property `closedCaptionsType`
         # @return [String]
         attr_accessor :closed_captions_type
+      
+        # This setting indicates whether auto start is enabled for this broadcast.
+        # Corresponds to the JSON property `enableAutoStart`
+        # @return [Boolean]
+        attr_accessor :enable_auto_start
+        alias_method :enable_auto_start?, :enable_auto_start
       
         # This setting indicates whether HTTP POST closed captioning is enabled for this
         # broadcast. The ingestion URL of the closed captions is returned through the
@@ -3770,6 +3794,20 @@ module Google
         attr_accessor :enable_low_latency
         alias_method :enable_low_latency?, :enable_low_latency
       
+        # If both this and enable_low_latency are set, they must match. LATENCY_NORMAL
+        # should match enable_low_latency=false LATENCY_LOW should match
+        # enable_low_latency=true LATENCY_ULTRA_LOW should have enable_low_latency
+        # omitted.
+        # Corresponds to the JSON property `latencyPreference`
+        # @return [String]
+        attr_accessor :latency_preference
+      
+        # 
+        # Corresponds to the JSON property `mesh`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
+        # @return [String]
+        attr_accessor :mesh
+      
         # Settings and Info of the monitor stream
         # Corresponds to the JSON property `monitorStream`
         # @return [Google::Apis::YoutubeV3::MonitorStreamInfo]
@@ -3811,11 +3849,14 @@ module Google
           @bound_stream_id = args[:bound_stream_id] if args.key?(:bound_stream_id)
           @bound_stream_last_update_time_ms = args[:bound_stream_last_update_time_ms] if args.key?(:bound_stream_last_update_time_ms)
           @closed_captions_type = args[:closed_captions_type] if args.key?(:closed_captions_type)
+          @enable_auto_start = args[:enable_auto_start] if args.key?(:enable_auto_start)
           @enable_closed_captions = args[:enable_closed_captions] if args.key?(:enable_closed_captions)
           @enable_content_encryption = args[:enable_content_encryption] if args.key?(:enable_content_encryption)
           @enable_dvr = args[:enable_dvr] if args.key?(:enable_dvr)
           @enable_embed = args[:enable_embed] if args.key?(:enable_embed)
           @enable_low_latency = args[:enable_low_latency] if args.key?(:enable_low_latency)
+          @latency_preference = args[:latency_preference] if args.key?(:latency_preference)
+          @mesh = args[:mesh] if args.key?(:mesh)
           @monitor_stream = args[:monitor_stream] if args.key?(:monitor_stream)
           @projection = args[:projection] if args.key?(:projection)
           @record_from_start = args[:record_from_start] if args.key?(:record_from_start)
@@ -3998,7 +4039,7 @@ module Google
         # ends. So, this property would not identify the number of viewers watching an
         # archived video of a live broadcast that already ended.
         # Corresponds to the JSON property `concurrentViewers`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :concurrent_viewers
       
         # The total number of live chat messages currently on the broadcast. The
@@ -4008,7 +4049,7 @@ module Google
         # identify the number of chat messages for an archived video of a completed live
         # broadcast.
         # Corresponds to the JSON property `totalChatCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :total_chat_count
       
         def initialize(**args)
@@ -4064,83 +4105,6 @@ module Google
         end
       end
       
-      # 
-      class LiveBroadcastTopic
-        include Google::Apis::Core::Hashable
-      
-        # Information about the topic matched.
-        # Corresponds to the JSON property `snippet`
-        # @return [Google::Apis::YoutubeV3::LiveBroadcastTopicSnippet]
-        attr_accessor :snippet
-      
-        # The type of the topic.
-        # Corresponds to the JSON property `type`
-        # @return [String]
-        attr_accessor :type
-      
-        # If this flag is set it means that we have not been able to match the topic
-        # title and type provided to a known entity.
-        # Corresponds to the JSON property `unmatched`
-        # @return [Boolean]
-        attr_accessor :unmatched
-        alias_method :unmatched?, :unmatched
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @snippet = args[:snippet] if args.key?(:snippet)
-          @type = args[:type] if args.key?(:type)
-          @unmatched = args[:unmatched] if args.key?(:unmatched)
-        end
-      end
-      
-      # 
-      class LiveBroadcastTopicDetails
-        include Google::Apis::Core::Hashable
-      
-        # 
-        # Corresponds to the JSON property `topics`
-        # @return [Array<Google::Apis::YoutubeV3::LiveBroadcastTopic>]
-        attr_accessor :topics
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @topics = args[:topics] if args.key?(:topics)
-        end
-      end
-      
-      # 
-      class LiveBroadcastTopicSnippet
-        include Google::Apis::Core::Hashable
-      
-        # The name of the topic.
-        # Corresponds to the JSON property `name`
-        # @return [String]
-        attr_accessor :name
-      
-        # The date at which the topic was released. Filled for types: videoGame
-        # Corresponds to the JSON property `releaseDate`
-        # @return [String]
-        attr_accessor :release_date
-      
-        def initialize(**args)
-           update!(**args)
-        end
-      
-        # Update properties of this object
-        def update!(**args)
-          @name = args[:name] if args.key?(:name)
-          @release_date = args[:release_date] if args.key?(:release_date)
-        end
-      end
-      
       # A liveChatBan resource represents a ban for a YouTube live chat.
       class LiveChatBan
         include Google::Apis::Core::Hashable
@@ -4185,7 +4149,7 @@ module Google
       
         # The duration of a ban, only filled if the ban has type TEMPORARY.
         # Corresponds to the JSON property `banDurationSeconds`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :ban_duration_seconds
       
         # 
@@ -4227,7 +4191,7 @@ module Google
       
         # The amount of the fund.
         # Corresponds to the JSON property `amountMicros`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :amount_micros
       
         # The currency in which the fund was made.
@@ -4487,7 +4451,8 @@ module Google
         # that funded the broadcast newSponsorEvent - the user that just became a
         # sponsor messageDeletedEvent - the moderator that took the action
         # messageRetractedEvent - the author that retracted their message
-        # userBannedEvent - the moderator that took the action
+        # userBannedEvent - the moderator that took the action superChatEvent - the user
+        # that made the purchase
         # Corresponds to the JSON property `authorChannelId`
         # @return [String]
         attr_accessor :author_channel_id
@@ -4552,6 +4517,12 @@ module Google
         # @return [DateTime]
         attr_accessor :published_at
       
+        # Details about the Super Chat event, this is only set if the type is '
+        # superChatEvent'.
+        # Corresponds to the JSON property `superChatDetails`
+        # @return [Google::Apis::YoutubeV3::LiveChatSuperChatDetails]
+        attr_accessor :super_chat_details
+      
         # Details about the text message, this is only set if the type is '
         # textMessageEvent'.
         # Corresponds to the JSON property `textMessageDetails`
@@ -4587,6 +4558,7 @@ module Google
           @poll_opened_details = args[:poll_opened_details] if args.key?(:poll_opened_details)
           @poll_voted_details = args[:poll_voted_details] if args.key?(:poll_voted_details)
           @published_at = args[:published_at] if args.key?(:published_at)
+          @super_chat_details = args[:super_chat_details] if args.key?(:super_chat_details)
           @text_message_details = args[:text_message_details] if args.key?(:text_message_details)
           @type = args[:type] if args.key?(:type)
           @user_banned_details = args[:user_banned_details] if args.key?(:user_banned_details)
@@ -4861,6 +4833,50 @@ module Google
       end
       
       # 
+      class LiveChatSuperChatDetails
+        include Google::Apis::Core::Hashable
+      
+        # A rendered string that displays the fund amount and currency to the user.
+        # Corresponds to the JSON property `amountDisplayString`
+        # @return [String]
+        attr_accessor :amount_display_string
+      
+        # The amount purchased by the user, in micros (1,750,000 micros = 1.75).
+        # Corresponds to the JSON property `amountMicros`
+        # @return [Fixnum]
+        attr_accessor :amount_micros
+      
+        # The currency in which the purchase was made.
+        # Corresponds to the JSON property `currency`
+        # @return [String]
+        attr_accessor :currency
+      
+        # The tier in which the amount belongs to. Lower amounts belong to lower tiers.
+        # Starts at 1.
+        # Corresponds to the JSON property `tier`
+        # @return [Fixnum]
+        attr_accessor :tier
+      
+        # The comment added by the user to this Super Chat event.
+        # Corresponds to the JSON property `userComment`
+        # @return [String]
+        attr_accessor :user_comment
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @amount_display_string = args[:amount_display_string] if args.key?(:amount_display_string)
+          @amount_micros = args[:amount_micros] if args.key?(:amount_micros)
+          @currency = args[:currency] if args.key?(:currency)
+          @tier = args[:tier] if args.key?(:tier)
+          @user_comment = args[:user_comment] if args.key?(:user_comment)
+        end
+      end
+      
+      # 
       class LiveChatTextMessageDetails
         include Google::Apis::Core::Hashable
       
@@ -4886,7 +4902,7 @@ module Google
         # The duration of the ban. This property is only present if the banType is
         # temporary.
         # Corresponds to the JSON property `banDurationSeconds`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :ban_duration_seconds
       
         # The type of ban.
@@ -5054,7 +5070,7 @@ module Google
       
         # The last time this status was updated (in seconds)
         # Corresponds to the JSON property `lastUpdateTimeSeconds`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :last_update_time_seconds
       
         # The status code of this stream
@@ -5313,6 +5329,50 @@ module Google
         end
       end
       
+      # Nonprofit information.
+      class Nonprofit
+        include Google::Apis::Core::Hashable
+      
+        # Id of the nonprofit.
+        # Corresponds to the JSON property `nonprofitId`
+        # @return [Google::Apis::YoutubeV3::NonprofitId]
+        attr_accessor :nonprofit_id
+      
+        # Legal name of the nonprofit.
+        # Corresponds to the JSON property `nonprofitLegalName`
+        # @return [String]
+        attr_accessor :nonprofit_legal_name
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @nonprofit_id = args[:nonprofit_id] if args.key?(:nonprofit_id)
+          @nonprofit_legal_name = args[:nonprofit_legal_name] if args.key?(:nonprofit_legal_name)
+        end
+      end
+      
+      # 
+      class NonprofitId
+        include Google::Apis::Core::Hashable
+      
+        # 
+        # Corresponds to the JSON property `value`
+        # @return [String]
+        attr_accessor :value
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @value = args[:value] if args.key?(:value)
+        end
+      end
+      
       # Paging details for lists of resources, including total number of items
       # available and number of resources returned in a single page.
       class PageInfo
@@ -5538,6 +5598,12 @@ module Google
         # @return [String]
         attr_accessor :video_id
       
+        # The date and time that the video was published to YouTube. The value is
+        # specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format.
+        # Corresponds to the JSON property `videoPublishedAt`
+        # @return [DateTime]
+        attr_accessor :video_published_at
+      
         def initialize(**args)
            update!(**args)
         end
@@ -5548,6 +5614,7 @@ module Google
           @note = args[:note] if args.key?(:note)
           @start_at = args[:start_at] if args.key?(:start_at)
           @video_id = args[:video_id] if args.key?(:video_id)
+          @video_published_at = args[:video_published_at] if args.key?(:video_published_at)
         end
       end
       
@@ -6635,6 +6702,187 @@ module Google
         end
       end
       
+      # A superChatEvent resource represents a Super Chat purchase on a YouTube
+      # channel.
+      class SuperChatEvent
+        include Google::Apis::Core::Hashable
+      
+        # Etag of this resource.
+        # Corresponds to the JSON property `etag`
+        # @return [String]
+        attr_accessor :etag
+      
+        # The ID that YouTube assigns to uniquely identify the Super Chat event.
+        # Corresponds to the JSON property `id`
+        # @return [String]
+        attr_accessor :id
+      
+        # Identifies what kind of resource this is. Value: the fixed string "youtube#
+        # superChatEvent".
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The snippet object contains basic details about the Super Chat event.
+        # Corresponds to the JSON property `snippet`
+        # @return [Google::Apis::YoutubeV3::SuperChatEventSnippet]
+        attr_accessor :snippet
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @etag = args[:etag] if args.key?(:etag)
+          @id = args[:id] if args.key?(:id)
+          @kind = args[:kind] if args.key?(:kind)
+          @snippet = args[:snippet] if args.key?(:snippet)
+        end
+      end
+      
+      # 
+      class SuperChatEventListResponse
+        include Google::Apis::Core::Hashable
+      
+        # Etag of this resource.
+        # Corresponds to the JSON property `etag`
+        # @return [String]
+        attr_accessor :etag
+      
+        # Serialized EventId of the request which produced this response.
+        # Corresponds to the JSON property `eventId`
+        # @return [String]
+        attr_accessor :event_id
+      
+        # A list of Super Chat purchases that match the request criteria.
+        # Corresponds to the JSON property `items`
+        # @return [Array<Google::Apis::YoutubeV3::SuperChatEvent>]
+        attr_accessor :items
+      
+        # Identifies what kind of resource this is. Value: the fixed string "youtube#
+        # superChatEventListResponse".
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The token that can be used as the value of the pageToken parameter to retrieve
+        # the next page in the result set.
+        # Corresponds to the JSON property `nextPageToken`
+        # @return [String]
+        attr_accessor :next_page_token
+      
+        # Paging details for lists of resources, including total number of items
+        # available and number of resources returned in a single page.
+        # Corresponds to the JSON property `pageInfo`
+        # @return [Google::Apis::YoutubeV3::PageInfo]
+        attr_accessor :page_info
+      
+        # Stub token pagination template to suppress results.
+        # Corresponds to the JSON property `tokenPagination`
+        # @return [Google::Apis::YoutubeV3::TokenPagination]
+        attr_accessor :token_pagination
+      
+        # The visitorId identifies the visitor.
+        # Corresponds to the JSON property `visitorId`
+        # @return [String]
+        attr_accessor :visitor_id
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @etag = args[:etag] if args.key?(:etag)
+          @event_id = args[:event_id] if args.key?(:event_id)
+          @items = args[:items] if args.key?(:items)
+          @kind = args[:kind] if args.key?(:kind)
+          @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
+          @page_info = args[:page_info] if args.key?(:page_info)
+          @token_pagination = args[:token_pagination] if args.key?(:token_pagination)
+          @visitor_id = args[:visitor_id] if args.key?(:visitor_id)
+        end
+      end
+      
+      # 
+      class SuperChatEventSnippet
+        include Google::Apis::Core::Hashable
+      
+        # The purchase amount, in micros of the purchase currency. e.g., 1 is
+        # represented as 1000000.
+        # Corresponds to the JSON property `amountMicros`
+        # @return [Fixnum]
+        attr_accessor :amount_micros
+      
+        # Channel id where the event occurred.
+        # Corresponds to the JSON property `channelId`
+        # @return [String]
+        attr_accessor :channel_id
+      
+        # The text contents of the comment left by the user.
+        # Corresponds to the JSON property `commentText`
+        # @return [String]
+        attr_accessor :comment_text
+      
+        # The date and time when the event occurred. The value is specified in ISO 8601 (
+        # YYYY-MM-DDThh:mm:ss.sZ) format.
+        # Corresponds to the JSON property `createdAt`
+        # @return [DateTime]
+        attr_accessor :created_at
+      
+        # The currency in which the purchase was made. ISO 4217.
+        # Corresponds to the JSON property `currency`
+        # @return [String]
+        attr_accessor :currency
+      
+        # A rendered string that displays the purchase amount and currency (e.g., "$1.00"
+        # ). The string is rendered for the given language.
+        # Corresponds to the JSON property `displayString`
+        # @return [String]
+        attr_accessor :display_string
+      
+        # True if this event is a Super Chat for Good purchase.
+        # Corresponds to the JSON property `isSuperChatForGood`
+        # @return [Boolean]
+        attr_accessor :is_super_chat_for_good
+        alias_method :is_super_chat_for_good?, :is_super_chat_for_good
+      
+        # The tier for the paid message, which is based on the amount of money spent to
+        # purchase the message.
+        # Corresponds to the JSON property `messageType`
+        # @return [Fixnum]
+        attr_accessor :message_type
+      
+        # Nonprofit information.
+        # Corresponds to the JSON property `nonprofit`
+        # @return [Google::Apis::YoutubeV3::Nonprofit]
+        attr_accessor :nonprofit
+      
+        # Details about the supporter.
+        # Corresponds to the JSON property `supporterDetails`
+        # @return [Google::Apis::YoutubeV3::ChannelProfileDetails]
+        attr_accessor :supporter_details
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @amount_micros = args[:amount_micros] if args.key?(:amount_micros)
+          @channel_id = args[:channel_id] if args.key?(:channel_id)
+          @comment_text = args[:comment_text] if args.key?(:comment_text)
+          @created_at = args[:created_at] if args.key?(:created_at)
+          @currency = args[:currency] if args.key?(:currency)
+          @display_string = args[:display_string] if args.key?(:display_string)
+          @is_super_chat_for_good = args[:is_super_chat_for_good] if args.key?(:is_super_chat_for_good)
+          @message_type = args[:message_type] if args.key?(:message_type)
+          @nonprofit = args[:nonprofit] if args.key?(:nonprofit)
+          @supporter_details = args[:supporter_details] if args.key?(:supporter_details)
+        end
+      end
+      
       # A thumbnail is an image representing a YouTube resource.
       class Thumbnail
         include Google::Apis::Core::Hashable
@@ -7267,7 +7515,7 @@ module Google
         attr_accessor :caption
       
         # Ratings schemes. The country-specific ratings are mostly for movies and shows.
-        # NEXT_ID: 68
+        # NEXT_ID: 71
         # Corresponds to the JSON property `contentRating`
         # @return [Google::Apis::YoutubeV3::ContentRating]
         attr_accessor :content_rating
@@ -7387,7 +7635,7 @@ module Google
         # The uploaded video file's combined (video and audio) bitrate in bits per
         # second.
         # Corresponds to the JSON property `bitrateBps`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :bitrate_bps
       
         # The uploaded video file's container format.
@@ -7407,7 +7655,7 @@ module Google
       
         # The length of the uploaded video in milliseconds.
         # Corresponds to the JSON property `durationMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :duration_ms
       
         # The uploaded file's name. This field is present whether a video file or
@@ -7419,7 +7667,7 @@ module Google
         # The uploaded file's size in bytes. This field is present whether a video file
         # or another type of file was uploaded.
         # Corresponds to the JSON property `fileSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :file_size
       
         # The uploaded file's type as detected by YouTube's video processing engine.
@@ -7459,7 +7707,7 @@ module Google
       
         # The audio stream's bitrate, in bits per second.
         # Corresponds to the JSON property `bitrateBps`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :bitrate_bps
       
         # The number of audio channels that the stream contains.
@@ -7503,7 +7751,7 @@ module Google
       
         # The video stream's bitrate, in bits per second.
         # Corresponds to the JSON property `bitrateBps`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :bitrate_bps
       
         # The video codec that the stream uses.
@@ -7706,7 +7954,7 @@ module Google
         # ends. So, this property would not identify the number of viewers watching an
         # archived video of a live broadcast that already ended.
         # Corresponds to the JSON property `concurrentViewers`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :concurrent_viewers
       
         # The time that the broadcast is scheduled to end. The value is specified in ISO
@@ -7787,7 +8035,7 @@ module Google
       
         # 
         # Corresponds to the JSON property `embedHeight`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :embed_height
       
         # An <iframe> tag that embeds a player that will play the video.
@@ -7797,7 +8045,7 @@ module Google
       
         # The embed width
         # Corresponds to the JSON property `embedWidth`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :embed_width
       
         def initialize(**args)
@@ -7902,20 +8150,20 @@ module Google
         # it is possible that the calculated progress could periodically decrease while
         # YouTube processes a video.
         # Corresponds to the JSON property `partsProcessed`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :parts_processed
       
         # An estimate of the total number of parts that need to be processed for the
         # video. The number may be updated with more precise estimates while YouTube
         # processes the video.
         # Corresponds to the JSON property `partsTotal`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :parts_total
       
         # An estimate of the amount of time, in millseconds, that YouTube needs to
         # finish processing the video.
         # Corresponds to the JSON property `timeLeftMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :time_left_ms
       
         def initialize(**args)
@@ -8103,29 +8351,29 @@ module Google
       
         # The number of comments for the video.
         # Corresponds to the JSON property `commentCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :comment_count
       
         # The number of users who have indicated that they disliked the video by giving
         # it a negative rating.
         # Corresponds to the JSON property `dislikeCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :dislike_count
       
         # The number of users who currently have the video marked as a favorite video.
         # Corresponds to the JSON property `favoriteCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :favorite_count
       
         # The number of users who have indicated that they liked the video by giving it
         # a positive rating.
         # Corresponds to the JSON property `likeCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :like_count
       
         # The number of times the video has been viewed.
         # Corresponds to the JSON property `viewCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :view_count
       
         def initialize(**args)
@@ -8307,6 +8555,12 @@ module Google
         # @return [Array<String>]
         attr_accessor :relevant_topic_ids
       
+        # A list of Wikipedia URLs that provide a high-level description of the video's
+        # content.
+        # Corresponds to the JSON property `topicCategories`
+        # @return [Array<String>]
+        attr_accessor :topic_categories
+      
         # A list of Freebase topic IDs that are centrally associated with the video.
         # These are topics that are centrally featured in the video, and it can be said
         # that the video is mainly about each of these. You can retrieve information
@@ -8322,6 +8576,7 @@ module Google
         # Update properties of this object
         def update!(**args)
           @relevant_topic_ids = args[:relevant_topic_ids] if args.key?(:relevant_topic_ids)
+          @topic_categories = args[:topic_categories] if args.key?(:topic_categories)
           @topic_ids = args[:topic_ids] if args.key?(:topic_ids)
         end
       end

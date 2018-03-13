@@ -22,19 +22,38 @@ module Google
   module Apis
     module DeploymentmanagerV2
       
-      # Enables "data access" audit logging for a service and specifies a list of
-      # members that are log-exempted.
+      # Specifies the audit configuration for a service. The configuration determines
+      # which permission types are logged, and what identities, if any, are exempted
+      # from logging. An AuditConfig must have one or more AuditLogConfigs.
+      # If there are AuditConfigs for both `allServices` and a specific service, the
+      # union of the two AuditConfigs is used for that service: the log_types
+      # specified in each AuditConfig are enabled, and the exempted_members in each
+      # AuditLogConfig are exempted.
+      # Example Policy with multiple AuditConfigs:
+      # ` "audit_configs": [ ` "service": "allServices" "audit_log_configs": [ ` "
+      # log_type": "DATA_READ", "exempted_members": [ "user:foo@gmail.com" ] `, ` "
+      # log_type": "DATA_WRITE", `, ` "log_type": "ADMIN_READ", ` ] `, ` "service": "
+      # fooservice.googleapis.com" "audit_log_configs": [ ` "log_type": "DATA_READ", `,
+      # ` "log_type": "DATA_WRITE", "exempted_members": [ "user:bar@gmail.com" ] ` ] `
+      # ] `
+      # For fooservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ
+      # logging. It also exempts foo@gmail.com from DATA_READ logging, and bar@gmail.
+      # com from DATA_WRITE logging.
       class AuditConfig
         include Google::Apis::Core::Hashable
       
-        # Specifies the identities that are exempted from "data access" audit logging
-        # for the `service` specified above. Follows the same format of Binding.members.
+        # The configuration for logging of each type of permission.
+        # Corresponds to the JSON property `auditLogConfigs`
+        # @return [Array<Google::Apis::DeploymentmanagerV2::AuditLogConfig>]
+        attr_accessor :audit_log_configs
+      
+        # 
         # Corresponds to the JSON property `exemptedMembers`
         # @return [Array<String>]
         attr_accessor :exempted_members
       
-        # Specifies a service that will be enabled for "data access" audit logging. For
-        # example, `resourcemanager`, `storage`, `compute`. `allServices` is a special
+        # Specifies a service that will be enabled for audit logging. For example, `
+        # storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special
         # value that covers all services.
         # Corresponds to the JSON property `service`
         # @return [String]
@@ -46,14 +65,71 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @audit_log_configs = args[:audit_log_configs] if args.key?(:audit_log_configs)
           @exempted_members = args[:exempted_members] if args.key?(:exempted_members)
           @service = args[:service] if args.key?(:service)
+        end
+      end
+      
+      # Provides the configuration for logging a type of permissions. Example:
+      # ` "audit_log_configs": [ ` "log_type": "DATA_READ", "exempted_members": [ "
+      # user:foo@gmail.com" ] `, ` "log_type": "DATA_WRITE", ` ] `
+      # This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting foo@gmail.
+      # com from DATA_READ logging.
+      class AuditLogConfig
+        include Google::Apis::Core::Hashable
+      
+        # Specifies the identities that do not cause logging for this type of permission.
+        # Follows the same format of [Binding.members][].
+        # Corresponds to the JSON property `exemptedMembers`
+        # @return [Array<String>]
+        attr_accessor :exempted_members
+      
+        # The log type that this config enables.
+        # Corresponds to the JSON property `logType`
+        # @return [String]
+        attr_accessor :log_type
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @exempted_members = args[:exempted_members] if args.key?(:exempted_members)
+          @log_type = args[:log_type] if args.key?(:log_type)
+        end
+      end
+      
+      # Authorization-related information used by Cloud Audit Logging.
+      class AuthorizationLoggingOptions
+        include Google::Apis::Core::Hashable
+      
+        # The type of the permission that was checked.
+        # Corresponds to the JSON property `permissionType`
+        # @return [String]
+        attr_accessor :permission_type
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @permission_type = args[:permission_type] if args.key?(:permission_type)
         end
       end
       
       # Associates `members` with a `role`.
       class Binding
         include Google::Apis::Core::Hashable
+      
+        # Represents an expression text. Example:
+        # title: "User account presence" description: "Determines whether the request
+        # has a user account" expression: "size(request.user) > 0"
+        # Corresponds to the JSON property `condition`
+        # @return [Google::Apis::DeploymentmanagerV2::Expr]
+        attr_accessor :condition
       
         # Specifies the identities requesting access for a Cloud Platform resource. `
         # members` can have the following values:
@@ -85,6 +161,7 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @condition = args[:condition] if args.key?(:condition)
           @members = args[:members] if args.key?(:members)
           @role = args[:role] if args.key?(:role)
         end
@@ -177,16 +254,17 @@ module Google
         # every request to modify data. To get the latest fingerprint value, perform a
         # get() request to a deployment.
         # Corresponds to the JSON property `fingerprint`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :fingerprint
       
-        # [Output Only] Unique identifier for the resource; defined by the server.
+        # Output only. Unique identifier for the resource; defined by the server.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
-        # [Output Only] Timestamp when the deployment was created, in RFC3339 text
-        # format .
+        # Output only. Timestamp when the deployment was created, in RFC3339 text format
+        # .
         # Corresponds to the JSON property `insertTime`
         # @return [String]
         attr_accessor :insert_time
@@ -200,7 +278,7 @@ module Google
         # @return [Array<Google::Apis::DeploymentmanagerV2::DeploymentLabelEntry>]
         attr_accessor :labels
       
-        # [Output Only] URL of the manifest representing the last manifest that was
+        # Output only. URL of the manifest representing the last manifest that was
         # successfully deployed.
         # Corresponds to the JSON property `manifest`
         # @return [String]
@@ -216,12 +294,16 @@ module Google
         # @return [String]
         attr_accessor :name
       
-        # An Operation resource, used to manage asynchronous API requests.
+        # An Operation resource, used to manage asynchronous API requests. (==
+        # resource_for v1.globalOperations ==) (== resource_for beta.globalOperations ==)
+        # (== resource_for v1.regionOperations ==) (== resource_for beta.
+        # regionOperations ==) (== resource_for v1.zoneOperations ==) (== resource_for
+        # beta.zoneOperations ==)
         # Corresponds to the JSON property `operation`
         # @return [Google::Apis::DeploymentmanagerV2::Operation]
         attr_accessor :operation
       
-        # [Output Only] Self link for the deployment.
+        # Output only. Self link for the deployment.
         # Corresponds to the JSON property `selfLink`
         # @return [String]
         attr_accessor :self_link
@@ -285,7 +367,13 @@ module Google
       class DeploymentUpdate
         include Google::Apis::Core::Hashable
       
-        # [Output Only] Map of labels; provided by the client when the resource is
+        # Output only. An optional user-provided description of the deployment after the
+        # current update has been applied.
+        # Corresponds to the JSON property `description`
+        # @return [String]
+        attr_accessor :description
+      
+        # Output only. Map of labels; provided by the client when the resource is
         # created or updated. Specifically: Label keys must be between 1 and 63
         # characters long and must conform to the following regular expression: [a-z]([-
         # a-z0-9]*[a-z0-9])? Label values must be between 0 and 63 characters long and
@@ -294,8 +382,8 @@ module Google
         # @return [Array<Google::Apis::DeploymentmanagerV2::DeploymentUpdateLabelEntry>]
         attr_accessor :labels
       
-        # [Output Only] URL of the manifest representing the update configuration of
-        # this deployment.
+        # Output only. URL of the manifest representing the update configuration of this
+        # deployment.
         # Corresponds to the JSON property `manifest`
         # @return [String]
         attr_accessor :manifest
@@ -306,6 +394,7 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @description = args[:description] if args.key?(:description)
           @labels = args[:labels] if args.key?(:labels)
           @manifest = args[:manifest] if args.key?(:manifest)
         end
@@ -350,6 +439,7 @@ module Google
         # every request to modify a deployment. To get the latest fingerprint value,
         # perform a get() request on the deployment.
         # Corresponds to the JSON property `fingerprint`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :fingerprint
       
@@ -368,12 +458,12 @@ module Google
       class ListDeploymentsResponse
         include Google::Apis::Core::Hashable
       
-        # [Output Only] The deployments contained in this response.
+        # Output only. The deployments contained in this response.
         # Corresponds to the JSON property `deployments`
         # @return [Array<Google::Apis::DeploymentmanagerV2::Deployment>]
         attr_accessor :deployments
       
-        # [Output Only] A token used to continue a truncated list request.
+        # Output only. A token used to continue a truncated list request.
         # Corresponds to the JSON property `nextPageToken`
         # @return [String]
         attr_accessor :next_page_token
@@ -403,6 +493,7 @@ module Google
         # every request to modify a deployment. To get the latest fingerprint value,
         # perform a get() request on the deployment.
         # Corresponds to the JSON property `fingerprint`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :fingerprint
       
@@ -413,6 +504,50 @@ module Google
         # Update properties of this object
         def update!(**args)
           @fingerprint = args[:fingerprint] if args.key?(:fingerprint)
+        end
+      end
+      
+      # Represents an expression text. Example:
+      # title: "User account presence" description: "Determines whether the request
+      # has a user account" expression: "size(request.user) > 0"
+      class Expr
+        include Google::Apis::Core::Hashable
+      
+        # An optional description of the expression. This is a longer text which
+        # describes the expression, e.g. when hovered over it in a UI.
+        # Corresponds to the JSON property `description`
+        # @return [String]
+        attr_accessor :description
+      
+        # Textual representation of an expression in Common Expression Language syntax.
+        # The application context of the containing message determines which well-known
+        # feature set of CEL is supported.
+        # Corresponds to the JSON property `expression`
+        # @return [String]
+        attr_accessor :expression
+      
+        # An optional string indicating the location of the expression for error
+        # reporting, e.g. a file name and a position in the file.
+        # Corresponds to the JSON property `location`
+        # @return [String]
+        attr_accessor :location
+      
+        # An optional title for the expression, i.e. a short string describing its
+        # purpose. This can be used e.g. in UIs which allow to enter the expression.
+        # Corresponds to the JSON property `title`
+        # @return [String]
+        attr_accessor :title
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @description = args[:description] if args.key?(:description)
+          @expression = args[:expression] if args.key?(:expression)
+          @location = args[:location] if args.key?(:location)
+          @title = args[:title] if args.key?(:title)
         end
       end
       
@@ -445,10 +580,34 @@ module Google
       class LogConfig
         include Google::Apis::Core::Hashable
       
-        # Options for counters
+        # Write a Cloud Audit log
+        # Corresponds to the JSON property `cloudAudit`
+        # @return [Google::Apis::DeploymentmanagerV2::LogConfigCloudAuditOptions]
+        attr_accessor :cloud_audit
+      
+        # Increment a streamz counter with the specified metric and field names.
+        # Metric names should start with a '/', generally be lowercase-only, and end in "
+        # _count". Field names should not contain an initial slash. The actual exported
+        # metric names will have "/iam/policy" prepended.
+        # Field names correspond to IAM request parameters and field values are their
+        # respective values.
+        # At present the only supported field names are - "iam_principal", corresponding
+        # to IAMContext.principal; - "" (empty string), resulting in one aggretated
+        # counter with no field.
+        # Examples: counter ` metric: "/debug_access_count" field: "iam_principal" ` ==>
+        # increment counter /iam/policy/backend_debug_access_count `iam_principal=[value
+        # of IAMContext.principal]`
+        # At this time we do not support: * multiple field names (though this may be
+        # supported in the future) * decrementing the counter * incrementing it by
+        # anything other than 1
         # Corresponds to the JSON property `counter`
         # @return [Google::Apis::DeploymentmanagerV2::LogConfigCounterOptions]
         attr_accessor :counter
+      
+        # Write a Data Access (Gin) log
+        # Corresponds to the JSON property `dataAccess`
+        # @return [Google::Apis::DeploymentmanagerV2::LogConfigDataAccessOptions]
+        attr_accessor :data_access
       
         def initialize(**args)
            update!(**args)
@@ -456,11 +615,52 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @cloud_audit = args[:cloud_audit] if args.key?(:cloud_audit)
           @counter = args[:counter] if args.key?(:counter)
+          @data_access = args[:data_access] if args.key?(:data_access)
         end
       end
       
-      # Options for counters
+      # Write a Cloud Audit log
+      class LogConfigCloudAuditOptions
+        include Google::Apis::Core::Hashable
+      
+        # Authorization-related information used by Cloud Audit Logging.
+        # Corresponds to the JSON property `authorizationLoggingOptions`
+        # @return [Google::Apis::DeploymentmanagerV2::AuthorizationLoggingOptions]
+        attr_accessor :authorization_logging_options
+      
+        # The log_name to populate in the Cloud Audit Record.
+        # Corresponds to the JSON property `logName`
+        # @return [String]
+        attr_accessor :log_name
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @authorization_logging_options = args[:authorization_logging_options] if args.key?(:authorization_logging_options)
+          @log_name = args[:log_name] if args.key?(:log_name)
+        end
+      end
+      
+      # Increment a streamz counter with the specified metric and field names.
+      # Metric names should start with a '/', generally be lowercase-only, and end in "
+      # _count". Field names should not contain an initial slash. The actual exported
+      # metric names will have "/iam/policy" prepended.
+      # Field names correspond to IAM request parameters and field values are their
+      # respective values.
+      # At present the only supported field names are - "iam_principal", corresponding
+      # to IAMContext.principal; - "" (empty string), resulting in one aggretated
+      # counter with no field.
+      # Examples: counter ` metric: "/debug_access_count" field: "iam_principal" ` ==>
+      # increment counter /iam/policy/backend_debug_access_count `iam_principal=[value
+      # of IAMContext.principal]`
+      # At this time we do not support: * multiple field names (though this may be
+      # supported in the future) * decrementing the counter * incrementing it by
+      # anything other than 1
       class LogConfigCounterOptions
         include Google::Apis::Core::Hashable
       
@@ -485,6 +685,26 @@ module Google
         end
       end
       
+      # Write a Data Access (Gin) log
+      class LogConfigDataAccessOptions
+        include Google::Apis::Core::Hashable
+      
+        # Whether Gin logging should happen in a fail-closed manner at the caller. This
+        # is relevant only in the LocalIAM implementation, for now.
+        # Corresponds to the JSON property `logMode`
+        # @return [String]
+        attr_accessor :log_mode
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @log_mode = args[:log_mode] if args.key?(:log_mode)
+        end
+      end
+      
       # 
       class Manifest
         include Google::Apis::Core::Hashable
@@ -494,38 +714,39 @@ module Google
         # @return [Google::Apis::DeploymentmanagerV2::ConfigFile]
         attr_accessor :config
       
-        # [Output Only] The fully-expanded configuration file, including any templates
+        # Output only. The fully-expanded configuration file, including any templates
         # and references.
         # Corresponds to the JSON property `expandedConfig`
         # @return [String]
         attr_accessor :expanded_config
       
-        # [Output Only] Unique identifier for the resource; defined by the server.
+        # Output only. Unique identifier for the resource; defined by the server.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
-        # [Output Only] The imported files for this manifest.
+        # Output only. The imported files for this manifest.
         # Corresponds to the JSON property `imports`
         # @return [Array<Google::Apis::DeploymentmanagerV2::ImportFile>]
         attr_accessor :imports
       
-        # [Output Only] Timestamp when the manifest was created, in RFC3339 text format.
+        # Output only. Timestamp when the manifest was created, in RFC3339 text format.
         # Corresponds to the JSON property `insertTime`
         # @return [String]
         attr_accessor :insert_time
       
-        # [Output Only] The YAML layout for this manifest.
+        # Output only. The YAML layout for this manifest.
         # Corresponds to the JSON property `layout`
         # @return [String]
         attr_accessor :layout
       
-        # [Output Only] The name of the manifest.
+        # Output only.
+        # The name of the manifest.
         # Corresponds to the JSON property `name`
         # @return [String]
         attr_accessor :name
       
-        # [Output Only] Self link for the manifest.
+        # Output only. Self link for the manifest.
         # Corresponds to the JSON property `selfLink`
         # @return [String]
         attr_accessor :self_link
@@ -552,12 +773,12 @@ module Google
       class ListManifestsResponse
         include Google::Apis::Core::Hashable
       
-        # [Output Only] Manifests contained in this list response.
+        # Output only. Manifests contained in this list response.
         # Corresponds to the JSON property `manifests`
         # @return [Array<Google::Apis::DeploymentmanagerV2::Manifest>]
         attr_accessor :manifests
       
-        # [Output Only] A token used to continue a truncated list request.
+        # Output only. A token used to continue a truncated list request.
         # Corresponds to the JSON property `nextPageToken`
         # @return [String]
         attr_accessor :next_page_token
@@ -573,7 +794,11 @@ module Google
         end
       end
       
-      # An Operation resource, used to manage asynchronous API requests.
+      # An Operation resource, used to manage asynchronous API requests. (==
+      # resource_for v1.globalOperations ==) (== resource_for beta.globalOperations ==)
+      # (== resource_for v1.regionOperations ==) (== resource_for beta.
+      # regionOperations ==) (== resource_for v1.zoneOperations ==) (== resource_for
+      # beta.zoneOperations ==)
       class Operation
         include Google::Apis::Core::Hashable
       
@@ -582,7 +807,7 @@ module Google
         # @return [String]
         attr_accessor :client_operation_id
       
-        # [Output Only] Creation timestamp in RFC3339 text format.
+        # [Deprecated] This field is deprecated.
         # Corresponds to the JSON property `creationTimestamp`
         # @return [String]
         attr_accessor :creation_timestamp
@@ -621,7 +846,7 @@ module Google
         # [Output Only] The unique identifier for the resource. This identifier is
         # defined by the server.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
         # [Output Only] The time that this operation was requested. This value is in
@@ -656,7 +881,9 @@ module Google
         attr_accessor :progress
       
         # [Output Only] The URL of the region where the operation resides. Only
-        # available when performing regional operations.
+        # available when performing regional operations. You must specify this field as
+        # part of the HTTP request URL. It is not settable as a field in the request
+        # body.
         # Corresponds to the JSON property `region`
         # @return [String]
         attr_accessor :region
@@ -687,7 +914,7 @@ module Google
         # [Output Only] The unique target ID, which identifies a specific incarnation of
         # the target resource.
         # Corresponds to the JSON property `targetId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :target_id
       
         # [Output Only] The URL of the resource that the operation modifies. For
@@ -709,7 +936,8 @@ module Google
         attr_accessor :warnings
       
         # [Output Only] The URL of the zone where the operation resides. Only available
-        # when performing per-zone operations.
+        # when performing per-zone operations. You must specify this field as part of
+        # the HTTP request URL. It is not settable as a field in the request body.
         # Corresponds to the JSON property `zone`
         # @return [String]
         attr_accessor :zone
@@ -867,12 +1095,12 @@ module Google
       class ListOperationsResponse
         include Google::Apis::Core::Hashable
       
-        # [Output Only] A token used to continue a truncated list request.
+        # Output only. A token used to continue a truncated list request.
         # Corresponds to the JSON property `nextPageToken`
         # @return [String]
         attr_accessor :next_page_token
       
-        # [Output Only] Operations contained in this list response.
+        # Output only. Operations contained in this list response.
         # Corresponds to the JSON property `operations`
         # @return [Array<Google::Apis::DeploymentmanagerV2::Operation>]
         attr_accessor :operations
@@ -900,22 +1128,17 @@ module Google
       # appspot.gserviceaccount.com", ] `, ` "role": "roles/viewer", "members": ["user:
       # sean@example.com"] ` ] `
       # For a description of IAM and its features, see the [IAM developer's guide](
-      # https://cloud.google.com/iam).
+      # https://cloud.google.com/iam/docs).
       class Policy
         include Google::Apis::Core::Hashable
       
-        # Specifies audit logging configs for "data access". "data access": generally
-        # refers to data reads/writes and admin reads. "admin activity": generally
-        # refers to admin writes.
-        # Note: `AuditConfig` doesn't apply to "admin activity", which always enables
-        # audit logging.
+        # Specifies cloud audit logging configuration for this policy.
         # Corresponds to the JSON property `auditConfigs`
         # @return [Array<Google::Apis::DeploymentmanagerV2::AuditConfig>]
         attr_accessor :audit_configs
       
-        # Associates a list of `members` to a `role`. Multiple `bindings` must not be
-        # specified for the same `role`. `bindings` with no members will result in an
-        # error.
+        # Associates a list of `members` to a `role`. `bindings` with no members will
+        # result in an error.
         # Corresponds to the JSON property `bindings`
         # @return [Array<Google::Apis::DeploymentmanagerV2::Binding>]
         attr_accessor :bindings
@@ -930,6 +1153,7 @@ module Google
         # If no `etag` is provided in the call to `setIamPolicy`, then the existing
         # policy is overwritten blindly.
         # Corresponds to the JSON property `etag`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :etag
       
@@ -950,7 +1174,7 @@ module Google
         # @return [Array<Google::Apis::DeploymentmanagerV2::Rule>]
         attr_accessor :rules
       
-        # Version of the `Policy`. The default version is 0.
+        # Deprecated.
         # Corresponds to the JSON property `version`
         # @return [Fixnum]
         attr_accessor :version
@@ -979,41 +1203,41 @@ module Google
         # @return [Google::Apis::DeploymentmanagerV2::ResourceAccessControl]
         attr_accessor :access_control
       
-        # [Output Only] The evaluated properties of the resource with references
-        # expanded. Returned as serialized YAML.
+        # Output only. The evaluated properties of the resource with references expanded.
+        # Returned as serialized YAML.
         # Corresponds to the JSON property `finalProperties`
         # @return [String]
         attr_accessor :final_properties
       
-        # [Output Only] Unique identifier for the resource; defined by the server.
+        # Output only. Unique identifier for the resource; defined by the server.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
-        # [Output Only] Timestamp when the resource was created or acquired, in RFC3339
+        # Output only. Timestamp when the resource was created or acquired, in RFC3339
         # text format .
         # Corresponds to the JSON property `insertTime`
         # @return [String]
         attr_accessor :insert_time
       
-        # [Output Only] URL of the manifest representing the current configuration of
+        # Output only. URL of the manifest representing the current configuration of
         # this resource.
         # Corresponds to the JSON property `manifest`
         # @return [String]
         attr_accessor :manifest
       
-        # [Output Only] The name of the resource as it appears in the YAML config.
+        # Output only. The name of the resource as it appears in the YAML config.
         # Corresponds to the JSON property `name`
         # @return [String]
         attr_accessor :name
       
-        # [Output Only] The current properties of the resource before any references
-        # have been filled in. Returned as serialized YAML.
+        # Output only. The current properties of the resource before any references have
+        # been filled in. Returned as serialized YAML.
         # Corresponds to the JSON property `properties`
         # @return [String]
         attr_accessor :properties
       
-        # [Output Only] The type of the resource, for example compute.v1.instance, or
+        # Output only. The type of the resource, for example compute.v1.instance, or
         # cloudfunctions.v1beta1.function.
         # Corresponds to the JSON property `type`
         # @return [String]
@@ -1024,17 +1248,17 @@ module Google
         # @return [Google::Apis::DeploymentmanagerV2::ResourceUpdate]
         attr_accessor :update
       
-        # [Output Only] Timestamp when the resource was updated, in RFC3339 text format .
+        # Output only. Timestamp when the resource was updated, in RFC3339 text format .
         # Corresponds to the JSON property `updateTime`
         # @return [String]
         attr_accessor :update_time
       
-        # [Output Only] The URL of the actual resource.
+        # Output only. The URL of the actual resource.
         # Corresponds to the JSON property `url`
         # @return [String]
         attr_accessor :url
       
-        # [Output Only] If warning messages are generated during processing of this
+        # Output only. If warning messages are generated during processing of this
         # resource, this field will be populated.
         # Corresponds to the JSON property `warnings`
         # @return [Array<Google::Apis::DeploymentmanagerV2::Resource::Warning>]
@@ -1153,41 +1377,41 @@ module Google
         # @return [Google::Apis::DeploymentmanagerV2::ResourceAccessControl]
         attr_accessor :access_control
       
-        # [Output Only] If errors are generated during update of the resource, this
-        # field will be populated.
+        # Output only. If errors are generated during update of the resource, this field
+        # will be populated.
         # Corresponds to the JSON property `error`
         # @return [Google::Apis::DeploymentmanagerV2::ResourceUpdate::Error]
         attr_accessor :error
       
-        # [Output Only] The expanded properties of the resource with reference values
+        # Output only. The expanded properties of the resource with reference values
         # expanded. Returned as serialized YAML.
         # Corresponds to the JSON property `finalProperties`
         # @return [String]
         attr_accessor :final_properties
       
-        # [Output Only] The intent of the resource: PREVIEW, UPDATE, or CANCEL.
+        # Output only. The intent of the resource: PREVIEW, UPDATE, or CANCEL.
         # Corresponds to the JSON property `intent`
         # @return [String]
         attr_accessor :intent
       
-        # [Output Only] URL of the manifest representing the update configuration of
-        # this resource.
+        # Output only. URL of the manifest representing the update configuration of this
+        # resource.
         # Corresponds to the JSON property `manifest`
         # @return [String]
         attr_accessor :manifest
       
-        # [Output Only] The set of updated properties for this resource, before
+        # Output only. The set of updated properties for this resource, before
         # references are expanded. Returned as serialized YAML.
         # Corresponds to the JSON property `properties`
         # @return [String]
         attr_accessor :properties
       
-        # [Output Only] The state of the resource.
+        # Output only. The state of the resource.
         # Corresponds to the JSON property `state`
         # @return [String]
         attr_accessor :state
       
-        # [Output Only] If warning messages are generated during processing of this
+        # Output only. If warning messages are generated during processing of this
         # resource, this field will be populated.
         # Corresponds to the JSON property `warnings`
         # @return [Array<Google::Apis::DeploymentmanagerV2::ResourceUpdate::Warning>]
@@ -1209,8 +1433,8 @@ module Google
           @warnings = args[:warnings] if args.key?(:warnings)
         end
         
-        # [Output Only] If errors are generated during update of the resource, this
-        # field will be populated.
+        # Output only. If errors are generated during update of the resource, this field
+        # will be populated.
         class Error
           include Google::Apis::Core::Hashable
         
@@ -1361,7 +1585,8 @@ module Google
         # @return [String]
         attr_accessor :action
       
-        # Additional restrictions that must be met
+        # Additional restrictions that must be met. All conditions must pass for the
+        # rule to match.
         # Corresponds to the JSON property `conditions`
         # @return [Array<Google::Apis::DeploymentmanagerV2::Condition>]
         attr_accessor :conditions
@@ -1482,12 +1707,12 @@ module Google
       class Type
         include Google::Apis::Core::Hashable
       
-        # [Output Only] Unique identifier for the resource; defined by the server.
+        # Output only. Unique identifier for the resource; defined by the server.
         # Corresponds to the JSON property `id`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :id
       
-        # [Output Only] Timestamp when the type was created, in RFC3339 text format.
+        # Output only. Timestamp when the type was created, in RFC3339 text format.
         # Corresponds to the JSON property `insertTime`
         # @return [String]
         attr_accessor :insert_time
@@ -1497,12 +1722,16 @@ module Google
         # @return [String]
         attr_accessor :name
       
-        # An Operation resource, used to manage asynchronous API requests.
+        # An Operation resource, used to manage asynchronous API requests. (==
+        # resource_for v1.globalOperations ==) (== resource_for beta.globalOperations ==)
+        # (== resource_for v1.regionOperations ==) (== resource_for beta.
+        # regionOperations ==) (== resource_for v1.zoneOperations ==) (== resource_for
+        # beta.zoneOperations ==)
         # Corresponds to the JSON property `operation`
         # @return [Google::Apis::DeploymentmanagerV2::Operation]
         attr_accessor :operation
       
-        # [Output Only] Self link for the type.
+        # Output only. Self link for the type.
         # Corresponds to the JSON property `selfLink`
         # @return [String]
         attr_accessor :self_link
@@ -1530,7 +1759,7 @@ module Google
         # @return [String]
         attr_accessor :next_page_token
       
-        # [Output Only] A list of resource types supported by Deployment Manager.
+        # Output only. A list of resource types supported by Deployment Manager.
         # Corresponds to the JSON property `types`
         # @return [Array<Google::Apis::DeploymentmanagerV2::Type>]
         attr_accessor :types

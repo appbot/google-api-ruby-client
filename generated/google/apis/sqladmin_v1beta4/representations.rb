@@ -88,6 +88,24 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class DemoteMasterConfiguration
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class DemoteMasterContext
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class DemoteMasterMySqlReplicaConfiguration
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class ExportContext
         class Representation < Google::Apis::Core::JsonRepresentation; end
         
@@ -142,6 +160,12 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class InstancesDemoteMasterRequest
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class ExportInstancesRequest
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -167,6 +191,12 @@ module Google
       end
       
       class RestoreInstancesBackupRequest
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class InstancesTruncateLogRequest
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
         include Google::Apis::Core::JsonObjectSupport
@@ -298,6 +328,12 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class TruncateLogContext
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class User
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -327,6 +363,7 @@ module Google
           property :binary_log_enabled, as: 'binaryLogEnabled'
           property :enabled, as: 'enabled'
           property :kind, as: 'kind'
+          property :replication_log_archiving_enabled, as: 'replicationLogArchivingEnabled'
           property :start_time, as: 'startTime'
         end
       end
@@ -341,7 +378,7 @@ module Google
       
           property :error, as: 'error', class: Google::Apis::SqladminV1beta4::OperationError, decorator: Google::Apis::SqladminV1beta4::OperationError::Representation
       
-          property :id, as: 'id'
+          property :id, :numeric_string => true, as: 'id'
           property :instance, as: 'instance'
           property :kind, as: 'kind'
           property :self_link, as: 'selfLink'
@@ -368,7 +405,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :bin_log_file_name, as: 'binLogFileName'
-          property :bin_log_position, as: 'binLogPosition'
+          property :bin_log_position, :numeric_string => true, as: 'binLogPosition'
           property :kind, as: 'kind'
         end
       end
@@ -380,6 +417,7 @@ module Google
       
           property :destination_instance_name, as: 'destinationInstanceName'
           property :kind, as: 'kind'
+          property :pitr_timestamp_ms, :numeric_string => true, as: 'pitrTimestampMs'
         end
       end
       
@@ -410,18 +448,19 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           property :backend_type, as: 'backendType'
           property :connection_name, as: 'connectionName'
-          property :current_disk_size, as: 'currentDiskSize'
+          property :current_disk_size, :numeric_string => true, as: 'currentDiskSize'
           property :database_version, as: 'databaseVersion'
           property :etag, as: 'etag'
           property :failover_replica, as: 'failoverReplica', class: Google::Apis::SqladminV1beta4::DatabaseInstance::FailoverReplica, decorator: Google::Apis::SqladminV1beta4::DatabaseInstance::FailoverReplica::Representation
       
+          property :gce_zone, as: 'gceZone'
           property :instance_type, as: 'instanceType'
           collection :ip_addresses, as: 'ipAddresses', class: Google::Apis::SqladminV1beta4::IpMapping, decorator: Google::Apis::SqladminV1beta4::IpMapping::Representation
       
           property :ipv6_address, as: 'ipv6Address'
           property :kind, as: 'kind'
           property :master_instance_name, as: 'masterInstanceName'
-          property :max_disk_size, as: 'maxDiskSize'
+          property :max_disk_size, :numeric_string => true, as: 'maxDiskSize'
           property :name, as: 'name'
           property :on_premises_configuration, as: 'onPremisesConfiguration', class: Google::Apis::SqladminV1beta4::OnPremisesConfiguration, decorator: Google::Apis::SqladminV1beta4::OnPremisesConfiguration::Representation
       
@@ -458,6 +497,38 @@ module Google
         end
       end
       
+      class DemoteMasterConfiguration
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :mysql_replica_configuration, as: 'mysqlReplicaConfiguration', class: Google::Apis::SqladminV1beta4::DemoteMasterMySqlReplicaConfiguration, decorator: Google::Apis::SqladminV1beta4::DemoteMasterMySqlReplicaConfiguration::Representation
+      
+        end
+      end
+      
+      class DemoteMasterContext
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :master_instance_name, as: 'masterInstanceName'
+          property :replica_configuration, as: 'replicaConfiguration', class: Google::Apis::SqladminV1beta4::DemoteMasterConfiguration, decorator: Google::Apis::SqladminV1beta4::DemoteMasterConfiguration::Representation
+      
+          property :verify_gtid_consistency, as: 'verifyGtidConsistency'
+        end
+      end
+      
+      class DemoteMasterMySqlReplicaConfiguration
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :ca_certificate, as: 'caCertificate'
+          property :client_certificate, as: 'clientCertificate'
+          property :client_key, as: 'clientKey'
+          property :kind, as: 'kind'
+          property :password, as: 'password'
+          property :username, as: 'username'
+        end
+      end
+      
       class ExportContext
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -491,7 +562,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :kind, as: 'kind'
-          property :settings_version, as: 'settingsVersion'
+          property :settings_version, :numeric_string => true, as: 'settingsVersion'
         end
       end
       
@@ -501,8 +572,8 @@ module Google
           collection :allowed_string_values, as: 'allowedStringValues'
           collection :applies_to, as: 'appliesTo'
           property :kind, as: 'kind'
-          property :max_value, as: 'maxValue'
-          property :min_value, as: 'minValue'
+          property :max_value, :numeric_string => true, as: 'maxValue'
+          property :min_value, :numeric_string => true, as: 'minValue'
           property :name, as: 'name'
           property :requires_restart, as: 'requiresRestart'
           property :type, as: 'type'
@@ -525,6 +596,7 @@ module Google
       
           property :database, as: 'database'
           property :file_type, as: 'fileType'
+          property :import_user, as: 'importUser'
           property :kind, as: 'kind'
           property :uri, as: 'uri'
         end
@@ -542,6 +614,14 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :clone_context, as: 'cloneContext', class: Google::Apis::SqladminV1beta4::CloneContext, decorator: Google::Apis::SqladminV1beta4::CloneContext::Representation
+      
+        end
+      end
+      
+      class InstancesDemoteMasterRequest
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :demote_master_context, as: 'demoteMasterContext', class: Google::Apis::SqladminV1beta4::DemoteMasterContext, decorator: Google::Apis::SqladminV1beta4::DemoteMasterContext::Representation
       
         end
       end
@@ -588,6 +668,14 @@ module Google
         end
       end
       
+      class InstancesTruncateLogRequest
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :truncate_log_context, as: 'truncateLogContext', class: Google::Apis::SqladminV1beta4::TruncateLogContext, decorator: Google::Apis::SqladminV1beta4::TruncateLogContext::Representation
+      
+        end
+      end
+      
       class IpConfiguration
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -604,6 +692,7 @@ module Google
           property :ip_address, as: 'ipAddress'
           property :time_to_retire, as: 'timeToRetire', type: DateTime
       
+          property :type, as: 'type'
         end
       end
       
@@ -635,7 +724,7 @@ module Google
           property :connect_retry_interval, as: 'connectRetryInterval'
           property :dump_file_path, as: 'dumpFilePath'
           property :kind, as: 'kind'
-          property :master_heartbeat_period, as: 'masterHeartbeatPeriod'
+          property :master_heartbeat_period, :numeric_string => true, as: 'masterHeartbeatPeriod'
           property :password, as: 'password'
           property :ssl_cipher, as: 'sslCipher'
           property :username, as: 'username'
@@ -719,7 +808,7 @@ module Google
       class RestoreBackupContext
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :backup_run_id, as: 'backupRunId'
+          property :backup_run_id, :numeric_string => true, as: 'backupRunId'
           property :instance_id, as: 'instanceId'
           property :kind, as: 'kind'
         end
@@ -730,10 +819,11 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           property :activation_policy, as: 'activationPolicy'
           collection :authorized_gae_applications, as: 'authorizedGaeApplications'
+          property :availability_type, as: 'availabilityType'
           property :backup_configuration, as: 'backupConfiguration', class: Google::Apis::SqladminV1beta4::BackupConfiguration, decorator: Google::Apis::SqladminV1beta4::BackupConfiguration::Representation
       
           property :crash_safe_replication_enabled, as: 'crashSafeReplicationEnabled'
-          property :data_disk_size_gb, as: 'dataDiskSizeGb'
+          property :data_disk_size_gb, :numeric_string => true, as: 'dataDiskSizeGb'
           property :data_disk_type, as: 'dataDiskType'
           collection :database_flags, as: 'databaseFlags', class: Google::Apis::SqladminV1beta4::DatabaseFlags, decorator: Google::Apis::SqladminV1beta4::DatabaseFlags::Representation
       
@@ -747,9 +837,11 @@ module Google
       
           property :pricing_plan, as: 'pricingPlan'
           property :replication_type, as: 'replicationType'
-          property :settings_version, as: 'settingsVersion'
+          property :settings_version, :numeric_string => true, as: 'settingsVersion'
           property :storage_auto_resize, as: 'storageAutoResize'
+          property :storage_auto_resize_limit, :numeric_string => true, as: 'storageAutoResizeLimit'
           property :tier, as: 'tier'
+          hash :user_labels, as: 'userLabels'
         end
       end
       
@@ -818,8 +910,8 @@ module Google
       class Tier
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
-          property :disk_quota, as: 'DiskQuota'
-          property :ram, as: 'RAM'
+          property :disk_quota, :numeric_string => true, as: 'DiskQuota'
+          property :ram, :numeric_string => true, as: 'RAM'
           property :kind, as: 'kind'
           collection :region, as: 'region'
           property :tier, as: 'tier'
@@ -832,6 +924,14 @@ module Google
           collection :items, as: 'items', class: Google::Apis::SqladminV1beta4::Tier, decorator: Google::Apis::SqladminV1beta4::Tier::Representation
       
           property :kind, as: 'kind'
+        end
+      end
+      
+      class TruncateLogContext
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :kind, as: 'kind'
+          property :log_type, as: 'logType'
         end
       end
       

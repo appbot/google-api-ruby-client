@@ -160,7 +160,6 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           property :count, as: 'count'
           property :cr, as: 'cr'
-          property :cref, as: 'cref'
           property :cx, as: 'cx'
           property :date_restrict, as: 'dateRestrict'
           property :disable_cn_tw_translation, as: 'disableCnTwTranslation'
@@ -194,7 +193,7 @@ module Google
           property :start_index, as: 'startIndex'
           property :start_page, as: 'startPage'
           property :title, as: 'title'
-          property :total_results, as: 'totalResults'
+          property :total_results, :numeric_string => true, as: 'totalResults'
         end
       end
       
@@ -277,7 +276,7 @@ module Google
             property :formatted_search_time, as: 'formattedSearchTime'
             property :formatted_total_results, as: 'formattedTotalResults'
             property :search_time, as: 'searchTime'
-            property :total_results, as: 'totalResults'
+            property :total_results, :numeric_string => true, as: 'totalResults'
           end
         end
         

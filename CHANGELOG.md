@@ -1,3 +1,1149 @@
+# 0.19.8
+* Backwards compatible changes:
+  * Added `serviceusage_v1`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `androidmanagement_v1`
+  * Updated `androidpublisher_v1_1`
+  * Updated `androidpublisher_v2`
+  * Updated `appengine_v1`
+  * Updated `appengine_v1alpha`
+  * Updated `appengine_v1beta`
+  * Updated `appengine_v1beta4`
+  * Updated `appengine_v1beta5`
+  * Updated `bigquery_v2`
+  * Updated `cloudiot_v1`
+  * Updated `cloudresourcemanager_v1`
+  * Updated `cloudresourcemanager_v1beta1`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `container_v1beta1`
+  * Updated `dataproc_v1beta2`
+  * Updated `deploymentmanager_alpha`
+  * Updated `deploymentmanager_v2beta`
+  * Updated `dialogflow_v2beta1`
+  * Updated `dlp_v2beta2`
+  * Updated `doubleclickbidmanager_v1`
+  * Updated `drive_v2`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `manufacturers_v1`
+  * Updated `ml_v1`
+  * Updated `runtimeconfig_v1beta1`
+  * Updated `safebrowsing_v4`
+  * Updated `slides_v1`
+  * Updated `spanner_v1`
+  * Updated `youtube_partner_v1`
+
+# 0.19.7
+* Backwards compatible changes:
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `bigquery_v2`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `cloudbuild_v1`
+  * Updated `cloudiot_v1`
+  * Updated `cloudkms_v1`
+  * Updated `dataproc_v1`
+  * Updated `dialogflow_v2beta1`
+  * Updated `genomics_v1`
+  * Updated `genomics_v1alpha2`
+  * Updated `iam_v1`
+  * Updated `manufacturers_v1`
+  * Updated `monitoring_v3`
+  * Updated `serviceconsumermanagement_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `slides_v1`
+  * Updated `testing_v1`
+  * Updated `webmasters_v3`
+  * Updated `youtube_partner_v1`
+  * Updated `youtube_v3`
+
+# 0.19.6
+* Backwards compatible changes:
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `appengine_v1`
+  * Updated `appengine_v1beta`
+  * Updated `bigquery_v2`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `calendar_v3`
+  * Updated `cloudbuild_v1`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `dialogflow_v2beta1`
+  * Updated `dlp_v2beta1`
+  * Updated `dlp_v2beta2`
+  * Updated `drive_v2`
+  * Updated `gmail_v1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `poly_v1`
+  * Updated `safebrowsing_v4`
+  * Updated `serviceconsumermanagement_v1`
+  * Updated `sheets_v4`
+  * Updated `slides_v1`
+  * Updated `sqladmin_v1beta3`
+  * Updated `sqladmin_v1beta4`
+  * Updated `testing_v1`
+  * Updated `tpu_v1alpha1`
+  * Updated `youtube_partner_v1`
+
+# 0.19.5
+* Backwards compatible changes:
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `appengine_v1beta`
+  * Updated `appsactivity_v1`
+  * Updated `bigquery_v2`
+  * Updated `cloudiot_v1`
+  * Updated `cloudresourcemanager_v1`
+  * Updated `cloudresourcemanager_v1beta1`
+  * Updated `cloudresourcemanager_v2beta1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `content_v2`
+  * Updated `dataproc_v1beta2`
+  * Updated `deploymentmanager_alpha`
+  * Updated `deploymentmanager_v2`
+  * Updated `deploymentmanager_v2beta`
+  * Updated `dlp_v2beta2`
+  * Updated `dns_v1beta2`
+  * Updated `drive_v2`
+  * Updated `drive_v3`
+  * Updated `firebaseremoteconfig_v1`
+  * Updated `firestore_v1beta1`
+  * Updated `gmail_v1`
+  * Updated `iam_v1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `partners_v2`
+  * Updated `safebrowsing_v4`
+  * Updated `sheets_v4`
+  * Updated `speech_v1`
+  * Updated `tpu_v1alpha1`
+  * Updated `vision_v1`
+  * Updated `youtube_partner_v1`
+  * Updated `youtube_v3`
+
+# 0.19.4
+* Backwards compatible changes:
+  * Updated `analytics_v3`
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `androidpublisher_v2`
+  * Updated `appengine_v1beta`
+  * Updated `bigquery_v2`
+  * Updated `cloudbilling_v1`
+  * Updated `cloudkms_v1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `dataproc_v1beta2`
+  * Updated `dialogflow_v2beta1`
+  * Updated `genomics_v1`
+  * Updated `genomics_v1alpha2`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `oslogin_v1`
+  * Updated `oslogin_v1alpha`
+  * Updated `oslogin_v1beta`
+  * Updated `people_v1`
+  * Updated `script_v1`
+  * Updated `serviceconsumermanagement_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `speech_v1`
+  * Updated `speech_v1beta1`
+  * Updated `youtube_partner_v1`
+
+# 0.19.3
+* Backwards compatible changes:
+  * Updated `admin_reports_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `calendar_v3`
+  * Updated `cloudbilling_v1`
+  * Updated `clouddebugger_v2`
+  * Updated `cloudkms_v1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `dataproc_v1beta2`
+  * Updated `dialogflow_v2beta1`
+  * Updated `dlp_v2beta2`
+  * Updated `drive_v2`
+  * Updated `drive_v3`
+  * Updated `firebaserules_v1`
+  * Updated `games_v1`
+  * Updated `iam_v1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `pagespeedonline_v1`
+  * Updated `pagespeedonline_v2`
+  * Updated `people_v1`
+  * Updated `pubsub_v1`
+  * Updated `pubsub_v1beta2`
+  * Updated `runtimeconfig_v1beta1`
+  * Updated `script_v1`
+  * Updated `serviceconsumermanagement_v1`
+  * Updated `sheets_v4`
+  * Updated `slides_v1`
+  * Updated `sourcerepo_v1`
+  * Updated `storagetransfer_v1`
+  * Updated `testing_v1`
+  * Updated `youtube_partner_v1`
+  * Updated `youtubereporting_v1`
+
+# 0.19.2
+* Backwards compatible changes:
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `androidmanagement_v1`
+  * Updated `androidpublisher_v2`
+  * Updated `appengine_v1`
+  * Updated `appengine_v1alpha`
+  * Updated `appengine_v1beta`
+  * Updated `appengine_v1beta4`
+  * Updated `appengine_v1beta5`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `books_v1`
+  * Updated `classroom_v1`
+  * Updated `cloudbuild_v1`
+  * Updated `cloudiot_v1`
+  * Updated `cloudiot_v1beta1`
+  * Updated `cloudresourcemanager_v1`
+  * Updated `cloudresourcemanager_v1beta1`
+  * Updated `cloudresourcemanager_v2beta1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `dataflow_v1b3`
+  * Updated `dataproc_v1`
+  * Updated `dataproc_v1beta2`
+  * Updated `dlp_v2beta1`
+  * Updated `dlp_v2beta2`
+  * Updated `firebasedynamiclinks_v1`
+  * Updated `iam_v1`
+  * Updated `plus_domains_v1`
+  * Updated `plus_v1`
+  * Updated `servicecontrol_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `storage_v1beta1`
+  * Updated `storage_v1beta2`
+  * Updated `vision_v1`
+  * Updated `vision_v1p1beta1`
+
+# 0.19.1
+* Backwards compatible changes:
+  * Updated `bigquery_v2`
+
+# 0.19.0
+* Breaking changes:
+  * Deleted `consumersurveys_v2`
+* Backwards compatible changes:
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `bigquery_v2`
+  * Updated `calendar_v3`
+  * Updated `cloudfunctions_v1`
+  * Updated `cloudfunctions_v1beta2`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `deploymentmanager_alpha`
+  * Updated `dialogflow_v2beta1`
+  * Updated `dlp_v2beta1`
+  * Updated `dlp_v2beta2`
+  * Updated `iam_v1`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `ml_v1`
+  * Updated `runtimeconfig_v1beta1`
+  * Updated `servicecontrol_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `sheets_v4`
+  * Updated `speech_v1`
+  * Updated `storage_v1`
+  * Updated `tpu_v1alpha1`
+  * Updated `youtube_partner_v1`
+
+# 0.18.1
+* Backwards compatible changes:
+  * Added `cloudshell_v1`
+  * Added `cloudshell_v1alpha1`
+  * Added `digitalassetlinks_v1`
+  * Added `dlp_v2beta2`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `admin_directory_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `androidpublisher_v1_1`
+  * Updated `androidpublisher_v2`
+  * Updated `appengine_v1`
+  * Updated `appengine_v1beta`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `calendar_v3`
+  * Updated `classroom_v1`
+  * Updated `cloudbuild_v1`
+  * Updated `cloudfunctions_v1`
+  * Updated `cloudresourcemanager_v1`
+  * Updated `cloudresourcemanager_v1beta1`
+  * Updated `cloudresourcemanager_v2beta1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `cloudtrace_v2`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `dialogflow_v2beta1`
+  * Updated `drive_v2`
+  * Updated `drive_v3`
+  * Updated `monitoring_v3`
+  * Updated `serviceconsumermanagement_v1`
+  * Updated `slides_v1`
+  * Updated `speech_v1`
+  * Updated `speech_v1beta1`
+  * Updated `streetviewpublish_v1`
+  * Updated `testing_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `youtube_v3`
+  * Updated `youtubereporting_v1`
+
+# 0.18.0
+* Breaking changes:
+  * Deleted `dfareporting_v2_7`
+* Backwards compatible changes:
+  * Added `abusiveexperiencereport_v1`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `admin_directory_v1`
+  * Updated `admin_reports_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `bigquery_v2`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `cloudiot_v1beta1`
+  * Updated `cloudresourcemanager_v1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `dataproc_v1`
+  * Updated `dataproc_v1beta2`
+  * Updated `deploymentmanager_alpha`
+  * Updated `deploymentmanager_v2`
+  * Updated `deploymentmanager_v2beta`
+  * Updated `dialogflow_v2beta1`
+  * Updated `dlp_v2beta1`
+  * Updated `ml_v1`
+  * Updated `poly_v1`
+  * Updated `safebrowsing_v4`
+  * Updated `streetviewpublish_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `youtube_partner_v1`
+
+# 0.17.4
+* Backwards compatible changes:
+  * Added `poly_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `cloudbuild_v1`
+  * Updated `cloudkms_v1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `dialogflow_v2beta1`
+  * Updated `firestore_v1beta1`
+  * Updated `fusiontables_v2`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `pubsub_v1`
+  * Updated `speech_v1`
+  * Updated `speech_v1beta1`
+  * Updated `testing_v1`
+  * Updated `youtube_partner_v1`
+  * Updated `youtube_v3`
+
+# 0.17.3
+* Backwards compatible changes:
+  * Added `oslogin_v1`
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `dlp_v2beta1`
+  * Updated `tpu_v1alpha1`
+  * Updated `vault_v1`
+
+# 0.17.2
+* Backwards compatible changes:
+  * Added `dialogflow_v2beta1`
+  * Added `serviceconsumermanagement_v1`
+  * Added `tpu_v1alpha1`
+  * Updated `admin_directory_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `appengine_v1`
+  * Updated `appengine_v1beta`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `cloudbuild_v1`
+  * Updated `cloudiot_v1`
+  * Updated `cloudkms_v1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `customsearch_v1`
+  * Updated `dlp_v2beta1`
+  * Updated `genomics_v1alpha2`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `monitoring_v3`
+  * Updated `proximitybeacon_v1beta1`
+  * Updated `script_v1`
+  * Updated `slides_v1`
+  * Updated `sourcerepo_v1`
+  * Updated `storagetransfer_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `youtube_partner_v1`
+
+# 0.17.1
+* Backwards compatible changes:
+  * Added `dfareporting_v3_0`
+  * Added `vision_v1p1beta1`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `analyticsreporting_v4`
+  * Updated `androidmanagement_v1`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `cloudtrace_v1`
+  * Updated `cloudtrace_v2`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `deploymentmanager_alpha`
+  * Updated `deploymentmanager_v2beta`
+  * Updated `dfareporting_v2_7`
+  * Updated `dfareporting_v2_8`
+  * Updated `firebasedynamiclinks_v1`
+  * Updated `firestore_v1beta1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `oslogin_v1alpha`
+  * Updated `oslogin_v1beta`
+  * Updated `people_v1`
+  * Updated `script_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `spanner_v1`
+  * Updated `tagmanager_v1`
+  * Updated `tagmanager_v2`
+  * Updated `vision_v1`
+  * Updated `youtube_partner_v1`
+
+# 0.17.0
+* Breaking changes:
+  * Deleted `cloudmonitoring_v2beta2`
+* Backwards compatible changes:
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `bigquery_v2`
+  * Updated `cloudfunctions_v1`
+  * Updated `cloudfunctions_v1beta2`
+  * Updated `container_v1beta1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `dataproc_v1`
+  * Updated `dataproc_v1beta2`
+  * Updated `videointelligence_v1beta1`
+  * Updated `vision_v1`
+  * Updated `youtube_partner_v1`
+  * Updated `youtube_v3`
+
+# 0.16.0
+* Breaking changes:
+  * Deleted `playmoviespartner_v1`
+  * Deleted `qpx_express_v1`
+* Backwards compatible changes:
+  * Added `dns_v1beta2`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `admin_directory_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `androidpublisher_v2`
+  * Updated `appengine_v1`
+  * Updated `appengine_v1alpha`
+  * Updated `appengine_v1beta`
+  * Updated `appengine_v1beta4`
+  * Updated `appengine_v1beta5`
+  * Updated `bigquery_v2`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `calendar_v3`
+  * Updated `classroom_v1`
+  * Updated `cloudbuild_v1`
+  * Updated `cloudfunctions_v1`
+  * Updated `cloudfunctions_v1beta2`
+  * Updated `cloudiot_v1`
+  * Updated `cloudiot_v1beta1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `cloudtrace_v2`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `container_v1beta1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `dataflow_v1b3`
+  * Updated `dataproc_v1beta2`
+  * Updated `datastore_v1`
+  * Updated `datastore_v1beta3`
+  * Updated `deploymentmanager_alpha`
+  * Updated `deploymentmanager_v2beta`
+  * Updated `dlp_v2beta1`
+  * Updated `drive_v2`
+  * Updated `drive_v3`
+  * Updated `firebasedynamiclinks_v1`
+  * Updated `firebaseremoteconfig_v1`
+  * Updated `firebaserules_v1`
+  * Updated `genomics_v1alpha2`
+  * Updated `iam_v1`
+  * Updated `language_v1`
+  * Updated `language_v1beta2`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `manufacturers_v1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `oslogin_v1alpha`
+  * Updated `oslogin_v1beta`
+  * Updated `partners_v2`
+  * Updated `proximitybeacon_v1beta1`
+  * Updated `runtimeconfig_v1beta1`
+  * Updated `script_v1`
+  * Updated `servicecontrol_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `sheets_v4`
+  * Updated `slides_v1`
+  * Updated `sourcerepo_v1`
+  * Updated `speech_v1`
+  * Updated `sqladmin_v1beta4`
+  * Updated `storage_v1`
+  * Updated `streetviewpublish_v1`
+  * Updated `testing_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `videointelligence_v1beta1`
+  * Updated `youtube_partner_v1`
+
+# 0.15.0
+* Breaking changes:
+  * Deleted `ml_v1beta1`
+* Backwards compatible changes:
+  * Added `firestore_v1beta1`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `androidenterprise_v1`
+  * Updated `bigquery_v2`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `classroom_v1`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `cloudtrace_v2`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `dataflow_v1b3`
+  * Updated `dataproc_v1beta2`
+  * Updated `identitytoolkit_v3`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `proximitybeacon_v1beta1`
+  * Updated `servicecontrol_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `sheets_v4`
+  * Updated `streetviewpublish_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `vision_v1`
+  * Updated `youtube_partner_v1`
+
+# 0.14.5
+* Backwards compatible changes:
+  * Added `cloudiot_v1`
+  * Added `cloudiot_v1beta1`
+  * Updated `analyticsreporting_v4`
+  * Updated `androidmanagement_v1`
+  * Updated `appengine_v1`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `classroom_v1`
+  * Updated `cloudfunctions_v1beta2`
+  * Updated `cloudtasks_v2beta2`
+  * Updated `cloudtrace_v1`
+  * Updated `cloudtrace_v2`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `dataflow_v1b3`
+  * Updated `dataproc_v1beta2`
+  * Updated `deploymentmanager_alpha`
+  * Updated `deploymentmanager_v2`
+  * Updated `deploymentmanager_v2beta`
+  * Updated `dlp_v2beta1`
+  * Updated `firebaserules_v1`
+  * Updated `fitness_v1`
+  * Updated `iam_v1`
+  * Updated `kgsearch_v1`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `ml_v1`
+  * Updated `oslogin_v1alpha`
+  * Updated `oslogin_v1beta`
+  * Updated `pubsub_v1`
+  * Updated `script_v1`
+  * Updated `servicecontrol_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `streetviewpublish_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `youtube_partner_v1`
+
+# 0.14.4
+* Backwards compatible changes:
+  * Updated `acceleratedmobilepageurl_v1`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `servicecontrol_v1`
+
+# 0.14.3
+
+# 0.14.2
+* Backwards compatible changes:
+  * Added `oslogin_v1beta`
+  * Added `testing_v1`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `adexperiencereport_v1`
+  * Updated `admin_directory_v1`
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `cloudbuild_v1`
+  * Updated `cloudtrace_v2`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `dataproc_v1beta2`
+  * Updated `deploymentmanager_alpha`
+  * Updated `deploymentmanager_v2`
+  * Updated `deploymentmanager_v2beta`
+  * Updated `dlp_v2beta1`
+  * Updated `genomics_v1`
+  * Updated `genomics_v1alpha2`
+  * Updated `gmail_v1`
+  * Updated `oslogin_v1alpha`
+  * Updated `sheets_v4`
+  * Updated `spanner_v1`
+  * Updated `storage_v1`
+  * Updated `storagetransfer_v1`
+  * Updated `streetviewpublish_v1`
+  * Updated `tagmanager_v2`
+  * Updated `videointelligence_v1beta1`
+  * Updated `youtube_partner_v1`
+  * Updated `youtube_v3`
+
+# 0.14.1
+* Retry on `Signet::AuthorizationError`. 
+
+# 0.14.0
+* Breaking changes:
+  * Deleted `toolresults_v1beta3firstparty`
+* Backwards compatible changes:
+  * Added `cloudtasks_v2beta2`
+  * Updated `adsense_v1_4`
+  * Updated `adsensehost_v4_1`
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `androidpublisher_v1`
+  * Updated `androidpublisher_v1_1`
+  * Updated `androidpublisher_v2`
+  * Updated `appstate_v1`
+  * Updated `bigquery_v2`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `calendar_v3`
+  * Updated `cloudbuild_v1`
+  * Updated `cloudfunctions_v1`
+  * Updated `cloudfunctions_v1beta2`
+  * Updated `cloudtrace_v2`
+  * Updated `compute_alpha`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `dataflow_v1b3`
+  * Updated `deploymentmanager_alpha`
+  * Updated `deploymentmanager_v2`
+  * Updated `deploymentmanager_v2beta`
+  * Updated `dlp_v2beta1`
+  * Updated `doubleclicksearch_v2`
+  * Updated `games_configuration_v1configuration`
+  * Updated `games_management_v1management`
+  * Updated `games_v1`
+  * Updated `gmail_v1`
+  * Updated `language_v1`
+  * Updated `language_v1beta1`
+  * Updated `language_v1beta2`
+  * Updated `ml_v1`
+  * Updated `people_v1`
+  * Updated `servicecontrol_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `sourcerepo_v1`
+  * Updated `storage_v1beta1`
+  * Updated `storage_v1beta2`
+  * Updated `streetviewpublish_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `youtube_analytics_v1`
+  * Updated `youtube_analytics_v1beta1`
+  * Updated `youtube_partner_v1`
+  * Updated `youtube_v3`
+
+# 0.13.6
+* Backwards compatible changes:
+  * Updated `adexchangebuyer_v1_2`
+  * Updated `adexchangebuyer_v1_3`
+  * Updated `adsense_v1_4`
+  * Updated `adsensehost_v4_1`
+  * Updated `analytics_v2_4`
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `androidmanagement_v1`
+  * Updated `androidpublisher_v1`
+  * Updated `appengine_v1`
+  * Updated `appengine_v1beta`
+  * Updated `appsactivity_v1`
+  * Updated `appstate_v1`
+  * Updated `bigquery_v2`
+  * Updated `bigquerydatatransfer_v1`
+  * Updated `calendar_v3`
+  * Updated `cloudfunctions_v1`
+  * Updated `cloudfunctions_v1beta2`
+  * Updated `cloudmonitoring_v2beta2`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `content_v2`
+  * Updated `content_v2sandbox`
+  * Updated `datastore_v1`
+  * Updated `datastore_v1beta1`
+  * Updated `datastore_v1beta3`
+  * Updated `dns_v1`
+  * Updated `dns_v2beta1`
+  * Updated `doubleclicksearch_v2`
+  * Updated `firebasedynamiclinks_v1`
+  * Updated `fitness_v1`
+  * Updated `games_configuration_v1configuration`
+  * Updated `games_v1`
+  * Updated `gmail_v1`
+  * Updated `identitytoolkit_v3`
+  * Updated `language_v1beta2`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `oauth2_v1`
+  * Updated `oauth2_v2`
+  * Updated `plus_domains_v1`
+  * Updated `plus_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `spanner_v1`
+  * Updated `storage_v1`
+  * Updated `storage_v1beta1`
+  * Updated `storage_v1beta2`
+  * Updated `toolresults_v1beta3`
+  * Updated `toolresults_v1beta3firstparty`
+  * Updated `videointelligence_v1beta1`
+  * Updated `webmasters_v3`
+  * Updated `youtube_analytics_v1`
+  * Updated `youtube_analytics_v1beta1`
+  * Updated `youtube_partner_v1`
+
+# 0.13.5
+* Backwards compatible changes:
+  * Added `datastore_v1beta1`
+  * Added `firebaseremoteconfig_v1`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `admin_directory_v1`
+  * Updated `adsensehost_v4_1`
+  * Updated `androiddeviceprovisioning_v1`
+  * Updated `androidenterprise_v1`
+  * Updated `androidpublisher_v1_1`
+  * Updated `androidpublisher_v2`
+  * Updated `bigquery_v2`
+  * Updated `cloudkms_v1`
+  * Updated `cloudresourcemanager_v1`
+  * Updated `cloudresourcemanager_v2beta1`
+  * Updated `cloudtrace_v2`
+  * Updated `container_v1`
+  * Updated `container_v1beta1`
+  * Updated `content_v2`
+  * Updated `dataflow_v1b3`
+  * Updated `dlp_v2beta1`
+  * Updated `dns_v2beta1`
+  * Updated `drive_v2`
+  * Updated `drive_v3`
+  * Updated `games_management_v1management`
+  * Updated `gmail_v1`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `people_v1`
+  * Updated `runtimeconfig_v1`
+  * Updated `runtimeconfig_v1beta1`
+  * Updated `servicecontrol_v1`
+  * Updated `slides_v1`
+  * Updated `speech_v1`
+  * Updated `speech_v1beta1`
+  * Updated `storagetransfer_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `toolresults_v1beta3firstparty`
+  * Updated `vault_v1`
+  * Updated `youtube_partner_v1`
+
+# 0.13.4
+* Backwards compatible changes:
+  * Updated `compute_alpha`
+  * Updated `content_v2`
+  * Updated `drive_v2`
+  * Updated `drive_v3`
+  * Updated `identitytoolkit_v3`
+  * Updated `youtube_partner_v1`
+
+# 0.13.3
+* Backwards compatible changes:
+  * Added `adexchangebuyer_v1_2`
+  * Added `adexchangebuyer_v1_3`
+  * Added `adexchangeseller_v1`
+  * Added `adexchangeseller_v1_1`
+  * Added `adexperiencereport_v1`
+  * Added `analytics_v2_4`
+  * Added `androiddeviceprovisioning_v1`
+  * Added `androidmanagement_v1`
+  * Added `androidpublisher_v1`
+  * Added `androidpublisher_v1_1`
+  * Added `appengine_v1alpha`
+  * Added `appengine_v1beta`
+  * Added `appengine_v1beta4`
+  * Added `appengine_v1beta5`
+  * Added `bigquerydatatransfer_v1`
+  * Added `blogger_v2`
+  * Added `cloudfunctions_v1beta2`
+  * Added `cloudresourcemanager_v2beta1`
+  * Added `cloudtrace_v2`
+  * Added `clouduseraccounts_alpha`
+  * Added `clouduseraccounts_vm_alpha`
+  * Added `clouduseraccounts_vm_beta`
+  * Added `compute_alpha`
+  * Added `consumersurveys_v2`
+  * Added `container_v1beta1`
+  * Added `content_v2sandbox`
+  * Added `dataproc_v1beta2`
+  * Added `datastore_v1beta3`
+  * Added `deploymentmanager_alpha`
+  * Added `deploymentmanager_v2beta`
+  * Added `dlp_v2beta1`
+  * Added `fusiontables_v1`
+  * Added `genomics_v1alpha2`
+  * Added `language_v1beta2`
+  * Added `ml_v1beta1`
+  * Added `oauth2_v1`
+  * Added `oslogin_v1alpha`
+  * Added `pagespeedonline_v1`
+  * Added `playcustomapp_v1`
+  * Added `playmoviespartner_v1`
+  * Added `prediction_v1_2`
+  * Added `prediction_v1_3`
+  * Added `prediction_v1_4`
+  * Added `prediction_v1_5`
+  * Added `pubsub_v1beta1a`
+  * Added `pubsub_v1beta2`
+  * Added `replicapool_v1beta1`
+  * Added `resourceviews_v1beta1`
+  * Added `runtimeconfig_v1beta1`
+  * Added `safebrowsing_v4`
+  * Added `spectrum_v1explorer`
+  * Added `speech_v1`
+  * Added `sqladmin_v1beta3`
+  * Added `storage_v1beta1`
+  * Added `storage_v1beta2`
+  * Added `streetviewpublish_v1`
+  * Added `taskqueue_v1beta1`
+  * Added `toolresults_v1beta3firstparty`
+  * Added `vault_v1`
+  * Added `videointelligence_v1beta1`
+  * Added `youtube_analytics_v1beta1`
+  * Updated `acceleratedmobilepageurl_v1`
+  * Updated `adexchangebuyer2_v2beta1`
+  * Updated `adexchangebuyer_v1_4`
+  * Updated `admin_directory_v1`
+  * Updated `adsense_v1_4`
+  * Updated `adsensehost_v4_1`
+  * Updated `analytics_v3`
+  * Updated `analyticsreporting_v4`
+  * Updated `androidenterprise_v1`
+  * Updated `androidpublisher_v2`
+  * Updated `appengine_v1`
+  * Updated `appsactivity_v1`
+  * Updated `appstate_v1`
+  * Updated `bigquery_v2`
+  * Updated `calendar_v3`
+  * Updated `classroom_v1`
+  * Updated `cloudbilling_v1`
+  * Updated `cloudbuild_v1`
+  * Updated `clouddebugger_v2`
+  * Updated `clouderrorreporting_v1beta1`
+  * Updated `cloudfunctions_v1`
+  * Updated `cloudkms_v1`
+  * Updated `cloudmonitoring_v2beta2`
+  * Updated `cloudresourcemanager_v1`
+  * Updated `cloudresourcemanager_v1beta1`
+  * Updated `cloudtrace_v1`
+  * Updated `compute_beta`
+  * Updated `compute_v1`
+  * Updated `container_v1`
+  * Updated `content_v2`
+  * Updated `dataflow_v1b3`
+  * Updated `dataproc_v1`
+  * Updated `datastore_v1`
+  * Updated `deploymentmanager_v2`
+  * Updated `dfareporting_v2_7`
+  * Updated `dfareporting_v2_8`
+  * Updated `dns_v1`
+  * Updated `dns_v2beta1`
+  * Updated `doubleclicksearch_v2`
+  * Updated `drive_v2`
+  * Updated `drive_v3`
+  * Updated `firebasedynamiclinks_v1`
+  * Updated `firebaserules_v1`
+  * Updated `fitness_v1`
+  * Updated `games_configuration_v1configuration`
+  * Updated `games_management_v1management`
+  * Updated `games_v1`
+  * Updated `genomics_v1`
+  * Updated `gmail_v1`
+  * Updated `iam_v1`
+  * Updated `identitytoolkit_v3`
+  * Updated `language_v1`
+  * Updated `language_v1beta1`
+  * Updated `logging_v2`
+  * Updated `logging_v2beta1`
+  * Updated `manufacturers_v1`
+  * Updated `ml_v1`
+  * Updated `monitoring_v3`
+  * Updated `oauth2_v2`
+  * Updated `partners_v2`
+  * Updated `people_v1`
+  * Updated `plus_domains_v1`
+  * Updated `plus_v1`
+  * Updated `proximitybeacon_v1beta1`
+  * Updated `pubsub_v1`
+  * Updated `runtimeconfig_v1`
+  * Updated `script_v1`
+  * Updated `searchconsole_v1`
+  * Updated `servicecontrol_v1`
+  * Updated `servicemanagement_v1`
+  * Updated `serviceuser_v1`
+  * Updated `sheets_v4`
+  * Updated `slides_v1`
+  * Updated `sourcerepo_v1`
+  * Updated `spanner_v1`
+  * Updated `speech_v1beta1`
+  * Updated `sqladmin_v1beta4`
+  * Updated `storage_v1`
+  * Updated `storagetransfer_v1`
+  * Updated `toolresults_v1beta3`
+  * Updated `vision_v1`
+  * Updated `webmasters_v3`
+  * Updated `youtube_analytics_v1`
+  * Updated `youtube_partner_v1`
+  * Updated `youtubereporting_v1`
+
+# 0.13.2
+* Light generator refactoring
+* Recover from non-Ranged responses without rewinding (#593)
+
+# 0.13.1
+* Regenerate APIs
+
+# 0.13.0
+* Regenerate APIs
+* Revert api\_names.yaml to an earlier revision to restore some manual name
+  overrides that were lost in 0.12.0
+  * For example, in `compute:v1`, `aggregated_address_list` has been reverted
+    to `list_aggregated_instances`.
+
+# 0.12.0
+* *Breaking change* - Change behavior of `fetch_all` to collect Hash responses
+  into a single collection.
+  For responses that return a Hash, `fetch_all` used to return an array of
+  Hashes in version 0.11.3 and below:
+  ```
+  items = service.fetch_all do |token|
+    service.aggregated_autoscaler_list(project, page_token: token)
+  end
+
+  items.each do |item|
+    item.each do |key, val|
+      puts String(key) + " => " + val.to_json
+    end
+  end
+  ```
+  The new behavior is to return an array of [ key, value ] arrays:
+  ```
+  items = service.fetch_all do |token|
+    service.foo(project, page_token: token)
+  end
+
+  items.each do |key, val|
+    puts String(key) + " => " + val.to_json
+  end
+  ```
+* Regenerate APIs
+* Remove non-discoverable APIs:
+  * adexchangebuyer:v1\_3
+  * appengine:v1beta4
+  * appengine:v1beta5
+  * autoscaler:v1beta2
+  * classroom:v1beta1
+  * cloudkms:v1beta1
+  * cloudlatencytest:v2
+  * container:v1beta1
+  * coordinate:v1
+  * datastore:v1beta2
+  * datastore:v1beta3
+  * deploymentmanager:v2beta2
+  * dfareporting:v2\_1
+  * dfareporting:v2\_3
+  * dfareporting:v2\_5
+  * dfareporting:v2\_6
+  * gan:v1beta1
+  * genomics:v1beta2
+  * logging:v1beta3
+  * manager:v1beta2
+  * pubsub:v1beta2
+  * tracing:v1
+
+# 0.11.3
+* Add `RequestOptions.api_format_version` to opt-in to receive v2 error messages
+* Fix `to_json` signature to allow args
+* Regenerate APIs
+
+# 0.11.2
+* Regenerate all APIs except `dataflow:v1b3`
+* Add `dfareporting:v2.8`
+
+# 0.11.1
+* Remove stray debug output
+
+# 0.11.0
+* *Breaking change* - Fix handling of large numbers during code generation. Previously the
+  uint64/int64 formats were passed through as strings. They are now coerced to/from Fixnum/Bignum types.
+  Affected APIs:
+* *Breaking change* - No longer normalize unicode strings in URI templates. Mostly affects
+  Cloud Storage, but other APIs with unicode strings in paths may be affected. Old behavior
+  can be restored using the `normalize_unicode` request option.
+* *Breaking change* -- Moved timeout options from `RequestOptions` to `ClientOptions`
+* Remove Hurley as dependency. May cause minor breaking changes if directly accessing the underlying
+  client connection.
+* Drop compatibility with Rails 3.x since that is no longer supported by the Rails community.
+* Upgrade mime-types to 3.0
+* Move Thor & ActiveSupport to development dependencies. Using the code gengerator
+  now requires using the Bundle file or install the gem with dev dependencies.
+* Treat 429 status codes as rate limit errors
+* Fix a potential download corruption if download interrupted and retried against a URL
+  that does not return partial content.
+* Updated dependencies
+* Regen APIs, add appsmarketplace:v2
+
+# 0.10.3
+* Regenerate APIs
+* Enable additional API:
+  * `acceleratedmobilepageurl:v1`
+  * `appengine:v1`
+  * `clouderrorreporting:v1beta1`
+  * `cloudfunctions:v1`
+  * `firebasedynamiclinks:v1`
+  * `firebaserules:v1`
+  * `language:v1`
+  * `logging:v2`
+  * `ml:v1`
+  * `runtimeconfig:v1`
+  * `searchconsole:v1`
+  * `servicecontrol:v1`
+  * `servicemanagement:v1`
+  * `serviceuser:v1`
+  * `sourcerepo:v1`
+  * `spanner:v1`
+  * `surveys:v2`
+  * `tagmanager:v2`
+  * `toolresults:v1beta3`
+  * `tracing:v1`
+  * `webfonts:v1`
+* Fix `teamdrives` inflection
+
+# 0.10.2
+* Regenerate APIs
+
+# 0.10.1
+* Regenerate APIs
+* Add `cloudkms:v1`
+
+# 0.10.0
+* Regenerate APIs
+* Some exceptions are more descriptive for specific errors
+* `representable` dependency bumped to `~> 3.0`
+  * Breaking change for `skip_undefined` option under `to_json`:
+
+    Should now pass `foo.to_json(user_options: { skip_undefined: true })`
+    instead of `foo.to_json(skip_undefined: true)`
+* `retriable` dependency bumped to `>= 2.0, < 4.0`
+
+# 0.9.28
+* Fix file permissions issue
+
+# 0.9.27
+* Allow abnormal page token cases for paging methods
+* Regenerate APIs
+
+# 0.9.26
+* Update gem to reflect changes in 0.9.25
+
+# 0.9.25
+* Regenerate APIs
+* Add `cloudkms:v1beta1`
+* Add `manufacturers:v1`
+
+# 0.9.24
+* Regenerate APIs
+* Add `dfareporting:v2.7`
+* Fix file permissions issue present in released gems for versions `0.9.21` through `0.9.23`
+
+# 0.9.23
+* Regenerate APIs
+* Add `dns:v2beta1`
+
+# 0.9.22
+* Regenerate APIs
+
+# 0.9.21
+* Regenerate APIs
+
 # 0.9.20
 * Regenerate APIs
 * Add Slides API
@@ -29,7 +1175,6 @@
 * Add datastore v1beta3, regenerate APIs
 * Reduce memory footprint used by mimetypes library
 * Fix bug with pagination when items collection is nil
-
 
 # 0.9.9
 * Add monitoring v3, regenerate APIs

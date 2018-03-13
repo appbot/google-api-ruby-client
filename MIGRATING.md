@@ -1,4 +1,50 @@
-# Migrating from version `0.8.x` to `0.9`
+# Migrating from version`0.10` to `0.11`
+
+## Unicode normalization
+
+The client no longer normalizes unicode strings in path parameters. This may affect
+some applications using multibyte strings that were previously normalized.:
+To restore the previous behavior, set the following option prior to creating a service.
+
+```ruby
+ClientOptions.default.normalize_unicode = true
+```
+
+## Type change for large numbers
+
+Previously, types declared as 64 bit numbers were mapped to strings. These are now mapped to
+`Fixednum`/`Bignum`.
+
+## Timeouts
+
+Timeout options have been moved from `RequestOptions` to `ClientOptions`.
+
+Old                               | New
+----------------------------------|-----------------
+`RequestOptions.open_timeout_sec` | `ClientOptions.open_timeout_sec`
+`RequestOptions.timeout_sec`      | `ClientOptions.read_timeout_sec`
+`RequestOptions.timeout_sec`      | `ClientOptions.send_timeout_sec`
+
+## Batch requests across services no longer supported
+
+It is no longer possible to combine multiple services (e.g. Gail & Drive)
+in a batch request. If batching requests that span services, group
+requests for each service in their own batch request.
+
+# Migrating from version `0.9.x` to `0.10`
+
+Only one minor breaking change was introduced in the `to_json` method due to a version bump for the `representable` gem from `2.3` to `3.0`. If you used the `skip_undefined` in `to_json`, you should replace that with `user_options: { skip_undefined: true }`.
+
+ex:
+```ruby
+foo.to_json(skip_undefined: true)
+```
+to
+```ruby
+foo.to_json(user_options: { skip_undefined: true })
+```
+
+# Migrating from version `0.8.x` to `0.9` or above
 
 Many changes and improvements have been made to the `google-api-ruby-client`
 library to bring it to `0.9`. If you are starting a new project or haven't used
@@ -60,6 +106,8 @@ are expected to be added by end of Q2 2015.
 
 The underlying [Signet](https://github.com/google/signet) is still used for authorization. OAuth 2 credentials obtained
 previously will continue to work with the `0.9` version. OAuth 1 is no longer supported.
+
+If you were using a PKCS12 file to authorize, we recommend you generate a new key for the service account using the JSON format ( client_secret.json) file with googleauth.
 
 ## Media uploads
 
@@ -125,15 +173,15 @@ client.execute(batch)
 In `0.9`, the equivalent code is:
 
 ```ruby
-require 'google/apis/urlshortner_v1'
+require 'google/apis/urlshortener_v1'
 
 urlshortener = Google::Apis::UrlshortenerV1::UrlshortenerService.new
 
 urlshortener.batch do |urlshortener|
-  urlshortner.insert_url({long_url: 'http://example.com/foo'}) do |res, err|
+  urlshortener.insert_url({long_url: 'http://example.com/foo'}) do |res, err|
     puts res
   end
-  urlshortner.insert_url({long_url: 'http://example.com/bar'}) do |res, err|
+  urlshortener.insert_url({long_url: 'http://example.com/bar'}) do |res, err|
     puts res
   end
 end
@@ -142,14 +190,14 @@ end
 Or if sharing the same block:
 
 ```ruby
-require 'google/apis/urlshortner_v1'
+require 'google/apis/urlshortener_v1'
 
 urlshortener = Google::Apis::UrlshortenerV1::UrlshortenerService.new
 
 callback = lambda { |res, err| puts res }
 urlshortener.batch do |urlshortener|
-  urlshortner.insert_url({long_url: 'http://example.com/foo'}, &callback)
-  urlshortner.insert_url({long_url: 'http://example.com/bar'}, &callback)
+  urlshortener.insert_url({long_url: 'http://example.com/foo'}, &callback)
+  urlshortener.insert_url({long_url: 'http://example.com/bar'}, &callback)
 end
 ```
 

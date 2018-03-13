@@ -192,12 +192,12 @@ module Google
           
             # Integral value of the parameter.
             # Corresponds to the JSON property `intValue`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :int_value
           
             # Multi-int value of the parameter.
             # Corresponds to the JSON property `multiIntValue`
-            # @return [Array<String>]
+            # @return [Array<Fixnum>]
             attr_accessor :multi_int_value
           
             # Multi-string value of the parameter.
@@ -252,7 +252,7 @@ module Google
         
           # Unique qualifier if multiple events have the same time.
           # Corresponds to the JSON property `uniqueQualifier`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :unique_qualifier
         
           def initialize(**args)
@@ -281,7 +281,7 @@ module Google
         # Date and time of notification channel expiration, expressed as a Unix
         # timestamp, in milliseconds. Optional.
         # Corresponds to the JSON property `expiration`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :expiration
       
         # A UUID or similar unique string that identifies this channel.
@@ -398,17 +398,23 @@ module Google
           # @return [String]
           attr_accessor :customer_id
         
+          # Object key. Only relevant if entity.type = "OBJECT" Note: external-facing name
+          # of report is "Entities" rather than "Objects".
+          # Corresponds to the JSON property `entityId`
+          # @return [String]
+          attr_accessor :entity_id
+        
           # Obfuscated user id for the record.
           # Corresponds to the JSON property `profileId`
           # @return [String]
           attr_accessor :profile_id
         
-          # The type of item, can be a customer or user.
+          # The type of item, can be customer, user, or entity (aka. object).
           # Corresponds to the JSON property `type`
           # @return [String]
           attr_accessor :type
         
-          # user's email.
+          # user's email. Only relevant if entity.type = "USER"
           # Corresponds to the JSON property `userEmail`
           # @return [String]
           attr_accessor :user_email
@@ -420,6 +426,7 @@ module Google
           # Update properties of this object
           def update!(**args)
             @customer_id = args[:customer_id] if args.key?(:customer_id)
+            @entity_id = args[:entity_id] if args.key?(:entity_id)
             @profile_id = args[:profile_id] if args.key?(:profile_id)
             @type = args[:type] if args.key?(:type)
             @user_email = args[:user_email] if args.key?(:user_email)
@@ -443,7 +450,7 @@ module Google
         
           # Integral value of the parameter.
           # Corresponds to the JSON property `intValue`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :int_value
         
           # Nested message value of the parameter.

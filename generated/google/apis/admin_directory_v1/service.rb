@@ -51,6 +51,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'admin/directory/v1/')
+          @batch_path = 'batch/admin/directory_v1'
         end
         
         # Delete an ASP issued by a user.
@@ -200,9 +201,9 @@ module Google
         
         # Take action on Chrome OS Device
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] resource_id
-        #   Immutable id of Chrome OS Device
+        #   Immutable ID of Chrome OS Device
         # @param [Google::Apis::AdminDirectoryV1::ChromeOsDeviceAction] chrome_os_device_action_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -239,9 +240,9 @@ module Google
         
         # Retrieve Chrome OS Device
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] device_id
-        #   Immutable id of Chrome OS Device
+        #   Immutable ID of Chrome OS Device
         # @param [String] projection
         #   Restrict information returned to a set of selected fields.
         # @param [String] fields
@@ -280,11 +281,13 @@ module Google
         
         # Retrieve all Chrome OS Devices of a customer (paginated)
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [Fixnum] max_results
         #   Maximum number of results to return. Default is 100
         # @param [String] order_by
         #   Column to use for sorting results
+        # @param [String] org_unit_path
+        #   Full path of the organizational unit or its ID
         # @param [String] page_token
         #   Token to specify next page in the list
         # @param [String] projection
@@ -316,13 +319,14 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_chrome_os_devices(customer_id, max_results: nil, order_by: nil, page_token: nil, projection: nil, query: nil, sort_order: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def list_chrome_os_devices(customer_id, max_results: nil, order_by: nil, org_unit_path: nil, page_token: nil, projection: nil, query: nil, sort_order: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'customer/{customerId}/devices/chromeos', options)
           command.response_representation = Google::Apis::AdminDirectoryV1::ChromeOsDevices::Representation
           command.response_class = Google::Apis::AdminDirectoryV1::ChromeOsDevices
           command.params['customerId'] = customer_id unless customer_id.nil?
           command.query['maxResults'] = max_results unless max_results.nil?
           command.query['orderBy'] = order_by unless order_by.nil?
+          command.query['orgUnitPath'] = org_unit_path unless org_unit_path.nil?
           command.query['pageToken'] = page_token unless page_token.nil?
           command.query['projection'] = projection unless projection.nil?
           command.query['query'] = query unless query.nil?
@@ -333,11 +337,50 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Move or insert multiple Chrome OS Devices to organizational unit
+        # @param [String] customer_id
+        #   Immutable ID of the G Suite account
+        # @param [String] org_unit_path
+        #   Full path of the target organizational unit or its ID
+        # @param [Google::Apis::AdminDirectoryV1::ChromeOsMoveDevicesToOu] chrome_os_move_devices_to_ou_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [NilClass] No result returned for this method
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [void]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def move_chromeosdevice_devices_to_ou(customer_id, org_unit_path, chrome_os_move_devices_to_ou_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'customer/{customerId}/devices/chromeos/moveDevicesToOu', options)
+          command.request_representation = Google::Apis::AdminDirectoryV1::ChromeOsMoveDevicesToOu::Representation
+          command.request_object = chrome_os_move_devices_to_ou_object
+          command.params['customerId'] = customer_id unless customer_id.nil?
+          command.query['orgUnitPath'] = org_unit_path unless org_unit_path.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Update Chrome OS Device. This method supports patch semantics.
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] device_id
-        #   Immutable id of Chrome OS Device
+        #   Immutable ID of Chrome OS Device
         # @param [Google::Apis::AdminDirectoryV1::ChromeOsDevice] chrome_os_device_object
         # @param [String] projection
         #   Restrict information returned to a set of selected fields.
@@ -379,9 +422,9 @@ module Google
         
         # Update Chrome OS Device
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] device_id
-        #   Immutable id of Chrome OS Device
+        #   Immutable ID of Chrome OS Device
         # @param [Google::Apis::AdminDirectoryV1::ChromeOsDevice] chrome_os_device_object
         # @param [String] projection
         #   Restrict information returned to a set of selected fields.
@@ -534,7 +577,7 @@ module Google
         
         # Deletes a Domain Alias of the customer.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] domain_alias_name
         #   Name of domain alias to be retrieved.
         # @param [String] fields
@@ -570,7 +613,7 @@ module Google
         
         # Retrieves a domain alias of the customer.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] domain_alias_name
         #   Name of domain alias to be retrieved.
         # @param [String] fields
@@ -608,7 +651,7 @@ module Google
         
         # Inserts a Domain alias of the customer.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [Google::Apis::AdminDirectoryV1::DomainAlias] domain_alias_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -646,7 +689,7 @@ module Google
         
         # Lists the domain aliases of the customer.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] parent_domain_name
         #   Name of the parent domain for which domain aliases are to be fetched.
         # @param [String] fields
@@ -684,7 +727,7 @@ module Google
         
         # Deletes a domain of the customer.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] domain_name
         #   Name of domain to be deleted
         # @param [String] fields
@@ -720,7 +763,7 @@ module Google
         
         # Retrieves a domain of the customer.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] domain_name
         #   Name of domain to be retrieved
         # @param [String] fields
@@ -758,7 +801,7 @@ module Google
         
         # Inserts a domain of the customer.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [Google::Apis::AdminDirectoryV1::Domains] domains_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -796,7 +839,7 @@ module Google
         
         # Lists the domains of the customer.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -831,7 +874,7 @@ module Google
         
         # Delete Group
         # @param [String] group_key
-        #   Email or immutable Id of the group
+        #   Email or immutable ID of the group
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -864,7 +907,7 @@ module Google
         
         # Retrieve Group
         # @param [String] group_key
-        #   Email or immutable Id of the group
+        #   Email or immutable ID of the group
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -934,7 +977,7 @@ module Google
         
         # Retrieve all groups in a domain (paginated)
         # @param [String] customer
-        #   Immutable id of the Google Apps account. In case of multi-domain, to fetch all
+        #   Immutable ID of the G Suite account. In case of multi-domain, to fetch all
         #   groups for a customer, fill this field instead of domain.
         # @param [String] domain
         #   Name of the domain. Fill this field to get groups from only this domain. To
@@ -944,8 +987,8 @@ module Google
         # @param [String] page_token
         #   Token to specify next page in the list
         # @param [String] user_key
-        #   Email or immutable Id of the user if only those groups are to be listed, the
-        #   given user is a member of. If Id, it should match with id of user object
+        #   Email or immutable ID of the user if only those groups are to be listed, the
+        #   given user is a member of. If ID, it should match with id of user object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -984,7 +1027,7 @@ module Google
         
         # Update Group. This method supports patch semantics.
         # @param [String] group_key
-        #   Email or immutable Id of the group. If Id, it should match with id of group
+        #   Email or immutable ID of the group. If ID, it should match with id of group
         #   object
         # @param [Google::Apis::AdminDirectoryV1::Group] group_object
         # @param [String] fields
@@ -1023,7 +1066,7 @@ module Google
         
         # Update Group
         # @param [String] group_key
-        #   Email or immutable Id of the group. If Id, it should match with id of group
+        #   Email or immutable ID of the group. If ID, it should match with id of group
         #   object
         # @param [Google::Apis::AdminDirectoryV1::Group] group_object
         # @param [String] fields
@@ -1062,7 +1105,7 @@ module Google
         
         # Remove a alias for the group
         # @param [String] group_key
-        #   Email or immutable Id of the group
+        #   Email or immutable ID of the group
         # @param [String] group_alias
         #   The alias to be removed
         # @param [String] fields
@@ -1098,7 +1141,7 @@ module Google
         
         # Add a alias for the group
         # @param [String] group_key
-        #   Email or immutable Id of the group
+        #   Email or immutable ID of the group
         # @param [Google::Apis::AdminDirectoryV1::Alias] alias_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1136,7 +1179,7 @@ module Google
         
         # List all aliases for a group
         # @param [String] group_key
-        #   Email or immutable Id of the group
+        #   Email or immutable ID of the group
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1171,9 +1214,9 @@ module Google
         
         # Remove membership.
         # @param [String] group_key
-        #   Email or immutable Id of the group
+        #   Email or immutable ID of the group
         # @param [String] member_key
-        #   Email or immutable Id of the member
+        #   Email or immutable ID of the member
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1207,9 +1250,9 @@ module Google
         
         # Retrieve Group Member
         # @param [String] group_key
-        #   Email or immutable Id of the group
+        #   Email or immutable ID of the group
         # @param [String] member_key
-        #   Email or immutable Id of the member
+        #   Email or immutable ID of the member
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1243,9 +1286,47 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Add user to the specified group.
+        # Checks Membership of an user within a Group
         # @param [String] group_key
         #   Email or immutable Id of the group
+        # @param [String] member_key
+        #   Email or immutable Id of the member
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::MembersHasMember] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::MembersHasMember]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def has_member_member(group_key, member_key, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'groups/{groupKey}/hasMember/{memberKey}', options)
+          command.response_representation = Google::Apis::AdminDirectoryV1::MembersHasMember::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::MembersHasMember
+          command.params['groupKey'] = group_key unless group_key.nil?
+          command.params['memberKey'] = member_key unless member_key.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Add user to the specified group.
+        # @param [String] group_key
+        #   Email or immutable ID of the group
         # @param [Google::Apis::AdminDirectoryV1::Member] member_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1283,7 +1364,7 @@ module Google
         
         # Retrieve all members in a group (paginated)
         # @param [String] group_key
-        #   Email or immutable Id of the group
+        #   Email or immutable ID of the group
         # @param [Fixnum] max_results
         #   Maximum number of results to return. Default is 200
         # @param [String] page_token
@@ -1328,10 +1409,10 @@ module Google
         # Update membership of a user in the specified group. This method supports patch
         # semantics.
         # @param [String] group_key
-        #   Email or immutable Id of the group. If Id, it should match with id of group
+        #   Email or immutable ID of the group. If ID, it should match with id of group
         #   object
         # @param [String] member_key
-        #   Email or immutable Id of the user. If Id, it should match with id of member
+        #   Email or immutable ID of the user. If ID, it should match with id of member
         #   object
         # @param [Google::Apis::AdminDirectoryV1::Member] member_object
         # @param [String] fields
@@ -1371,10 +1452,10 @@ module Google
         
         # Update membership of a user in the specified group.
         # @param [String] group_key
-        #   Email or immutable Id of the group. If Id, it should match with id of group
+        #   Email or immutable ID of the group. If ID, it should match with id of group
         #   object
         # @param [String] member_key
-        #   Email or immutable Id of the user. If Id, it should match with id of member
+        #   Email or immutable ID of the user. If ID, it should match with id of member
         #   object
         # @param [Google::Apis::AdminDirectoryV1::Member] member_object
         # @param [String] fields
@@ -1414,9 +1495,9 @@ module Google
         
         # Take action on Mobile Device
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] resource_id
-        #   Immutable id of Mobile Device
+        #   Immutable ID of Mobile Device
         # @param [Google::Apis::AdminDirectoryV1::MobileDeviceAction] mobile_device_action_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1453,9 +1534,9 @@ module Google
         
         # Delete Mobile Device
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] resource_id
-        #   Immutable id of Mobile Device
+        #   Immutable ID of Mobile Device
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1489,9 +1570,9 @@ module Google
         
         # Retrieve Mobile Device
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] resource_id
-        #   Immutable id of Mobile Device
+        #   Immutable ID of Mobile Device
         # @param [String] projection
         #   Restrict information returned to a set of selected fields.
         # @param [String] fields
@@ -1530,7 +1611,7 @@ module Google
         
         # Retrieve all Mobile Devices of a customer (paginated)
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [Fixnum] max_results
         #   Maximum number of results to return. Default is 100
         # @param [String] order_by
@@ -1585,7 +1666,7 @@ module Google
         
         # Deletes a notification
         # @param [String] customer
-        #   The unique ID for the customer's Google account. The customerId is also
+        #   The unique ID for the customer's G Suite account. The customerId is also
         #   returned as part of the Users resource.
         # @param [String] notification_id
         #   The unique ID of the notification.
@@ -1622,7 +1703,7 @@ module Google
         
         # Retrieves a notification.
         # @param [String] customer
-        #   The unique ID for the customer's Google account. The customerId is also
+        #   The unique ID for the customer's G Suite account. The customerId is also
         #   returned as part of the Users resource.
         # @param [String] notification_id
         #   The unique ID of the notification.
@@ -1661,7 +1742,7 @@ module Google
         
         # Retrieves a list of notifications.
         # @param [String] customer
-        #   The unique ID for the customer's Google account.
+        #   The unique ID for the customer's G Suite account.
         # @param [String] language
         #   The ISO 639-1 code of the language notifications are returned in. The default
         #   is English (en).
@@ -1706,7 +1787,7 @@ module Google
         
         # Updates a notification. This method supports patch semantics.
         # @param [String] customer
-        #   The unique ID for the customer's Google account.
+        #   The unique ID for the customer's G Suite account.
         # @param [String] notification_id
         #   The unique ID of the notification.
         # @param [Google::Apis::AdminDirectoryV1::Notification] notification_object
@@ -1747,7 +1828,7 @@ module Google
         
         # Updates a notification.
         # @param [String] customer
-        #   The unique ID for the customer's Google account.
+        #   The unique ID for the customer's G Suite account.
         # @param [String] notification_id
         #   The unique ID of the notification.
         # @param [Google::Apis::AdminDirectoryV1::Notification] notification_object
@@ -1786,11 +1867,11 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Remove Organization Unit
+        # Remove organizational unit
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [Array<String>, String] org_unit_path
-        #   Full path of the organization unit or its Id
+        #   Full path of the organizational unit or its ID
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1822,11 +1903,11 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Retrieve Organization Unit
+        # Retrieve organizational unit
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [Array<String>, String] org_unit_path
-        #   Full path of the organization unit or its Id
+        #   Full path of the organizational unit or its ID
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -1860,9 +1941,9 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Add Organization Unit
+        # Add organizational unit
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [Google::Apis::AdminDirectoryV1::OrgUnit] org_unit_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1898,11 +1979,11 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Retrieve all Organization Units
+        # Retrieve all organizational units
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] org_unit_path
-        #   the URL-encoded organization unit's path or its Id
+        #   the URL-encoded organizational unit's path or its ID
         # @param [String] type
         #   Whether to return all sub-organizations or just immediate children
         # @param [String] fields
@@ -1939,11 +2020,11 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Update Organization Unit. This method supports patch semantics.
+        # Update organizational unit. This method supports patch semantics.
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [Array<String>, String] org_unit_path
-        #   Full path of the organization unit or its Id
+        #   Full path of the organizational unit or its ID
         # @param [Google::Apis::AdminDirectoryV1::OrgUnit] org_unit_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -1980,11 +2061,11 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
-        # Update Organization Unit
+        # Update organizational unit
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [Array<String>, String] org_unit_path
-        #   Full path of the organization unit or its Id
+        #   Full path of the organizational unit or its ID
         # @param [Google::Apis::AdminDirectoryV1::OrgUnit] org_unit_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -2023,7 +2104,7 @@ module Google
         
         # Retrieves a paginated list of all privileges for a customer.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2056,9 +2137,308 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Retrieves resolved app access settings of the logged in user.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::AppAccessCollections] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::AppAccessCollections]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def get_resolved_app_access_setting_settings(fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'resolvedappaccesssettings', options)
+          command.response_representation = Google::Apis::AdminDirectoryV1::AppAccessCollections::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::AppAccessCollections
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Retrieves the list of apps trusted by the admin of the logged in user.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::TrustedApps] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::TrustedApps]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def list_resolved_app_access_setting_trusted_apps(fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'trustedapps', options)
+          command.response_representation = Google::Apis::AdminDirectoryV1::TrustedApps::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::TrustedApps
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Deletes a building.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] building_id
+        #   The ID of the building to delete.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [NilClass] No result returned for this method
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [void]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def delete_resource_building(customer, building_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:delete, 'customer/{customer}/resources/buildings/{buildingId}', options)
+          command.params['customer'] = customer unless customer.nil?
+          command.params['buildingId'] = building_id unless building_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Retrieves a building.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] building_id
+        #   The unique ID of the building to retrieve.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Building] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Building]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def get_resource_building(customer, building_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'customer/{customer}/resources/buildings/{buildingId}', options)
+          command.response_representation = Google::Apis::AdminDirectoryV1::Building::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Building
+          command.params['customer'] = customer unless customer.nil?
+          command.params['buildingId'] = building_id unless building_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Inserts a building.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [Google::Apis::AdminDirectoryV1::Building] building_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Building] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Building]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def insert_resource_building(customer, building_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'customer/{customer}/resources/buildings', options)
+          command.request_representation = Google::Apis::AdminDirectoryV1::Building::Representation
+          command.request_object = building_object
+          command.response_representation = Google::Apis::AdminDirectoryV1::Building::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Building
+          command.params['customer'] = customer unless customer.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Retrieves a list of buildings for an account.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Buildings] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Buildings]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def list_resource_buildings(customer, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'customer/{customer}/resources/buildings', options)
+          command.response_representation = Google::Apis::AdminDirectoryV1::Buildings::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Buildings
+          command.params['customer'] = customer unless customer.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Updates a building. This method supports patch semantics.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] building_id
+        #   The ID of the building to update.
+        # @param [Google::Apis::AdminDirectoryV1::Building] building_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Building] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Building]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def patch_resource_building(customer, building_id, building_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:patch, 'customer/{customer}/resources/buildings/{buildingId}', options)
+          command.request_representation = Google::Apis::AdminDirectoryV1::Building::Representation
+          command.request_object = building_object
+          command.response_representation = Google::Apis::AdminDirectoryV1::Building::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Building
+          command.params['customer'] = customer unless customer.nil?
+          command.params['buildingId'] = building_id unless building_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Updates a building.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] building_id
+        #   The ID of the building to update.
+        # @param [Google::Apis::AdminDirectoryV1::Building] building_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Building] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Building]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def update_resource_building(customer, building_id, building_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:put, 'customer/{customer}/resources/buildings/{buildingId}', options)
+          command.request_representation = Google::Apis::AdminDirectoryV1::Building::Representation
+          command.request_object = building_object
+          command.response_representation = Google::Apis::AdminDirectoryV1::Building::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Building
+          command.params['customer'] = customer unless customer.nil?
+          command.params['buildingId'] = building_id unless building_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Deletes a calendar resource.
         # @param [String] customer
-        #   The unique ID for the customer's Google account. As an account administrator,
+        #   The unique ID for the customer's G Suite account. As an account administrator,
         #   you can also use the my_customer alias to represent your account's customer ID.
         # @param [String] calendar_resource_id
         #   The unique ID of the calendar resource to delete.
@@ -2095,7 +2475,7 @@ module Google
         
         # Retrieves a calendar resource.
         # @param [String] customer
-        #   The unique ID for the customer's Google account. As an account administrator,
+        #   The unique ID for the customer's G Suite account. As an account administrator,
         #   you can also use the my_customer alias to represent your account's customer ID.
         # @param [String] calendar_resource_id
         #   The unique ID of the calendar resource to retrieve.
@@ -2134,7 +2514,7 @@ module Google
         
         # Inserts a calendar resource.
         # @param [String] customer
-        #   The unique ID for the customer's Google account. As an account administrator,
+        #   The unique ID for the customer's G Suite account. As an account administrator,
         #   you can also use the my_customer alias to represent your account's customer ID.
         # @param [Google::Apis::AdminDirectoryV1::CalendarResource] calendar_resource_object
         # @param [String] fields
@@ -2173,12 +2553,25 @@ module Google
         
         # Retrieves a list of calendar resources for an account.
         # @param [String] customer
-        #   The unique ID for the customer's Google account. As an account administrator,
+        #   The unique ID for the customer's G Suite account. As an account administrator,
         #   you can also use the my_customer alias to represent your account's customer ID.
         # @param [Fixnum] max_results
         #   Maximum number of results to return.
+        # @param [String] order_by
+        #   Field(s) to sort results by in either ascending or descending order. Supported
+        #   fields include resourceId, resourceName, capacity, buildingId, and floorName.
+        #   If no order is specified, defaults to ascending. Should be of the form "field [
+        #   asc|desc], field [asc|desc], ...". For example buildingId, capacity desc would
+        #   return results sorted first by buildingId in ascending order then by capacity
+        #   in descending order.
         # @param [String] page_token
         #   Token to specify the next page in the list.
+        # @param [String] query
+        #   String query used to filter results. Should be of the form "field operator
+        #   value" where field can be any of supported fields and operators can be any of
+        #   supported operations. Operators include '=' for exact match and ':' for prefix
+        #   match where applicable. For prefix match, the value should always be followed
+        #   by a *.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2200,22 +2593,27 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_calendar_resources(customer, max_results: nil, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def list_calendar_resources(customer, max_results: nil, order_by: nil, page_token: nil, query: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'customer/{customer}/resources/calendars', options)
           command.response_representation = Google::Apis::AdminDirectoryV1::CalendarResources::Representation
           command.response_class = Google::Apis::AdminDirectoryV1::CalendarResources
           command.params['customer'] = customer unless customer.nil?
           command.query['maxResults'] = max_results unless max_results.nil?
+          command.query['orderBy'] = order_by unless order_by.nil?
           command.query['pageToken'] = page_token unless page_token.nil?
+          command.query['query'] = query unless query.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
           execute_or_queue_command(command, &block)
         end
         
-        # Updates a calendar resource. This method supports patch semantics.
+        # Updates a calendar resource.
+        # This method supports patch semantics, meaning you only need to include the
+        # fields you wish to update. Fields that are not present in the request will be
+        # preserved. This method supports patch semantics.
         # @param [String] customer
-        #   The unique ID for the customer's Google account. As an account administrator,
+        #   The unique ID for the customer's G Suite account. As an account administrator,
         #   you can also use the my_customer alias to represent your account's customer ID.
         # @param [String] calendar_resource_id
         #   The unique ID of the calendar resource to update.
@@ -2256,8 +2654,11 @@ module Google
         end
         
         # Updates a calendar resource.
+        # This method supports patch semantics, meaning you only need to include the
+        # fields you wish to update. Fields that are not present in the request will be
+        # preserved.
         # @param [String] customer
-        #   The unique ID for the customer's Google account. As an account administrator,
+        #   The unique ID for the customer's G Suite account. As an account administrator,
         #   you can also use the my_customer alias to represent your account's customer ID.
         # @param [String] calendar_resource_id
         #   The unique ID of the calendar resource to update.
@@ -2297,9 +2698,287 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Deletes a feature.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] feature_key
+        #   The unique ID of the feature to delete.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [NilClass] No result returned for this method
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [void]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def delete_resource_feature(customer, feature_key, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:delete, 'customer/{customer}/resources/features/{featureKey}', options)
+          command.params['customer'] = customer unless customer.nil?
+          command.params['featureKey'] = feature_key unless feature_key.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Retrieves a feature.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] feature_key
+        #   The unique ID of the feature to retrieve.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Feature] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Feature]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def get_resource_feature(customer, feature_key, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'customer/{customer}/resources/features/{featureKey}', options)
+          command.response_representation = Google::Apis::AdminDirectoryV1::Feature::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Feature
+          command.params['customer'] = customer unless customer.nil?
+          command.params['featureKey'] = feature_key unless feature_key.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Inserts a feature.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [Google::Apis::AdminDirectoryV1::Feature] feature_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Feature] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Feature]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def insert_resource_feature(customer, feature_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'customer/{customer}/resources/features', options)
+          command.request_representation = Google::Apis::AdminDirectoryV1::Feature::Representation
+          command.request_object = feature_object
+          command.response_representation = Google::Apis::AdminDirectoryV1::Feature::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Feature
+          command.params['customer'] = customer unless customer.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Retrieves a list of features for an account.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] page_token
+        #   Token to specify the next page in the list.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Features] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Features]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def list_resource_features(customer, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'customer/{customer}/resources/features', options)
+          command.response_representation = Google::Apis::AdminDirectoryV1::Features::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Features
+          command.params['customer'] = customer unless customer.nil?
+          command.query['pageToken'] = page_token unless page_token.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Updates a feature. This method supports patch semantics.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] feature_key
+        #   The unique ID of the feature to update.
+        # @param [Google::Apis::AdminDirectoryV1::Feature] feature_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Feature] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Feature]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def patch_resource_feature(customer, feature_key, feature_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:patch, 'customer/{customer}/resources/features/{featureKey}', options)
+          command.request_representation = Google::Apis::AdminDirectoryV1::Feature::Representation
+          command.request_object = feature_object
+          command.response_representation = Google::Apis::AdminDirectoryV1::Feature::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Feature
+          command.params['customer'] = customer unless customer.nil?
+          command.params['featureKey'] = feature_key unless feature_key.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Renames a feature.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] old_name
+        #   The unique ID of the feature to rename.
+        # @param [Google::Apis::AdminDirectoryV1::FeatureRename] feature_rename_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [NilClass] No result returned for this method
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [void]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def rename_resource_feature(customer, old_name, feature_rename_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'customer/{customer}/resources/features/{oldName}/rename', options)
+          command.request_representation = Google::Apis::AdminDirectoryV1::FeatureRename::Representation
+          command.request_object = feature_rename_object
+          command.params['customer'] = customer unless customer.nil?
+          command.params['oldName'] = old_name unless old_name.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Updates a feature.
+        # @param [String] customer
+        #   The unique ID for the customer's G Suite account. As an account administrator,
+        #   you can also use the my_customer alias to represent your account's customer ID.
+        # @param [String] feature_key
+        #   The unique ID of the feature to update.
+        # @param [Google::Apis::AdminDirectoryV1::Feature] feature_object
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::AdminDirectoryV1::Feature] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::AdminDirectoryV1::Feature]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def update_resource_feature(customer, feature_key, feature_object = nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:put, 'customer/{customer}/resources/features/{featureKey}', options)
+          command.request_representation = Google::Apis::AdminDirectoryV1::Feature::Representation
+          command.request_object = feature_object
+          command.response_representation = Google::Apis::AdminDirectoryV1::Feature::Representation
+          command.response_class = Google::Apis::AdminDirectoryV1::Feature
+          command.params['customer'] = customer unless customer.nil?
+          command.params['featureKey'] = feature_key unless feature_key.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Deletes a role assignment.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] role_assignment_id
         #   Immutable ID of the role assignment.
         # @param [String] fields
@@ -2335,7 +3014,7 @@ module Google
         
         # Retrieve a role assignment.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] role_assignment_id
         #   Immutable ID of the role assignment.
         # @param [String] fields
@@ -2373,7 +3052,7 @@ module Google
         
         # Creates a role assignment.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [Google::Apis::AdminDirectoryV1::RoleAssignment] role_assignment_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -2411,7 +3090,7 @@ module Google
         
         # Retrieves a paginated list of all roleAssignments.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [Fixnum] max_results
         #   Maximum number of results to return.
         # @param [String] page_token
@@ -2460,7 +3139,7 @@ module Google
         
         # Deletes a role.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] role_id
         #   Immutable ID of the role.
         # @param [String] fields
@@ -2496,7 +3175,7 @@ module Google
         
         # Retrieves a role.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] role_id
         #   Immutable ID of the role.
         # @param [String] fields
@@ -2534,7 +3213,7 @@ module Google
         
         # Creates a role.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [Google::Apis::AdminDirectoryV1::Role] role_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -2572,7 +3251,7 @@ module Google
         
         # Retrieves a paginated list of all the roles in a domain.
         # @param [String] customer
-        #   Immutable id of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [Fixnum] max_results
         #   Maximum number of results to return.
         # @param [String] page_token
@@ -2613,7 +3292,7 @@ module Google
         
         # Updates a role. This method supports patch semantics.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] role_id
         #   Immutable ID of the role.
         # @param [Google::Apis::AdminDirectoryV1::Role] role_object
@@ -2654,7 +3333,7 @@ module Google
         
         # Updates a role.
         # @param [String] customer
-        #   Immutable ID of the Google Apps account.
+        #   Immutable ID of the G Suite account.
         # @param [String] role_id
         #   Immutable ID of the role.
         # @param [Google::Apis::AdminDirectoryV1::Role] role_object
@@ -2695,9 +3374,9 @@ module Google
         
         # Delete schema
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] schema_key
-        #   Name or immutable Id of the schema
+        #   Name or immutable ID of the schema
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2731,9 +3410,9 @@ module Google
         
         # Retrieve schema
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] schema_key
-        #   Name or immutable Id of the schema
+        #   Name or immutable ID of the schema
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2769,7 +3448,7 @@ module Google
         
         # Create schema.
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [Google::Apis::AdminDirectoryV1::Schema] schema_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -2807,7 +3486,7 @@ module Google
         
         # Retrieve all schemas for a customer
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -2842,9 +3521,9 @@ module Google
         
         # Update schema. This method supports patch semantics.
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] schema_key
-        #   Name or immutable Id of the schema.
+        #   Name or immutable ID of the schema.
         # @param [Google::Apis::AdminDirectoryV1::Schema] schema_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -2883,9 +3562,9 @@ module Google
         
         # Update schema
         # @param [String] customer_id
-        #   Immutable id of the Google Apps account
+        #   Immutable ID of the G Suite account
         # @param [String] schema_key
-        #   Name or immutable Id of the schema.
+        #   Name or immutable ID of the schema.
         # @param [Google::Apis::AdminDirectoryV1::Schema] schema_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -3036,7 +3715,7 @@ module Google
         
         # Delete user
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -3069,7 +3748,7 @@ module Google
         
         # retrieve user
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [String] custom_field_mask
         #   Comma-separated list of schema names. All fields from these schemas are
         #   fetched. This should only be set when projection=custom.
@@ -3152,7 +3831,7 @@ module Google
         #   Comma-separated list of schema names. All fields from these schemas are
         #   fetched. This should only be set when projection=custom.
         # @param [String] customer
-        #   Immutable id of the Google Apps account. In case of multi-domain, to fetch all
+        #   Immutable ID of the G Suite account. In case of multi-domain, to fetch all
         #   users for a customer, fill this field instead of domain.
         # @param [String] domain
         #   Name of the domain. Fill this field to get users from only this domain. To
@@ -3221,7 +3900,7 @@ module Google
         
         # change admin status of a user
         # @param [String] user_key
-        #   Email or immutable Id of the user as admin
+        #   Email or immutable ID of the user as admin
         # @param [Google::Apis::AdminDirectoryV1::UserMakeAdmin] user_make_admin_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -3257,7 +3936,7 @@ module Google
         
         # update user. This method supports patch semantics.
         # @param [String] user_key
-        #   Email or immutable Id of the user. If Id, it should match with id of user
+        #   Email or immutable ID of the user. If ID, it should match with id of user
         #   object
         # @param [Google::Apis::AdminDirectoryV1::User] user_object
         # @param [String] fields
@@ -3332,7 +4011,7 @@ module Google
         
         # update user
         # @param [String] user_key
-        #   Email or immutable Id of the user. If Id, it should match with id of user
+        #   Email or immutable ID of the user. If ID, it should match with id of user
         #   object
         # @param [Google::Apis::AdminDirectoryV1::User] user_object
         # @param [String] fields
@@ -3375,7 +4054,7 @@ module Google
         #   Comma-separated list of schema names. All fields from these schemas are
         #   fetched. This should only be set when projection=custom.
         # @param [String] customer
-        #   Immutable id of the Google Apps account. In case of multi-domain, to fetch all
+        #   Immutable ID of the G Suite account. In case of multi-domain, to fetch all
         #   users for a customer, fill this field instead of domain.
         # @param [String] domain
         #   Name of the domain. Fill this field to get users from only this domain. To
@@ -3446,7 +4125,7 @@ module Google
         
         # Remove a alias for the user
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [String] user_alias
         #   The alias to be removed
         # @param [String] fields
@@ -3482,7 +4161,7 @@ module Google
         
         # Add a alias for the user
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [Google::Apis::AdminDirectoryV1::Alias] alias_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -3520,7 +4199,7 @@ module Google
         
         # List all aliases for a user
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [String] event
         #   Event on which subscription is intended (if subscribing)
         # @param [String] fields
@@ -3558,7 +4237,7 @@ module Google
         
         # Watch for changes in user aliases list
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [Google::Apis::AdminDirectoryV1::Channel] channel_object
         # @param [String] event
         #   Event on which subscription is intended (if subscribing)
@@ -3599,7 +4278,7 @@ module Google
         
         # Remove photos for the user
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -3632,7 +4311,7 @@ module Google
         
         # Retrieve photo of a user
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -3667,7 +4346,7 @@ module Google
         
         # Add a photo for the user. This method supports patch semantics.
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [Google::Apis::AdminDirectoryV1::UserPhoto] user_photo_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -3705,7 +4384,7 @@ module Google
         
         # Add a photo for the user
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [Google::Apis::AdminDirectoryV1::UserPhoto] user_photo_object
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -3743,7 +4422,7 @@ module Google
         
         # Generate new backup verification codes for the user.
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -3776,7 +4455,7 @@ module Google
         
         # Invalidate the current backup verification codes for the user.
         # @param [String] user_key
-        #   Email or immutable Id of the user
+        #   Email or immutable ID of the user
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user

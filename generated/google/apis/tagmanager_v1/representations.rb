@@ -325,7 +325,7 @@ module Google
         class Representation < Google::Apis::Core::JsonRepresentation
           property :account_id, as: 'accountId'
           property :authorization_code, as: 'authorizationCode'
-          property :authorization_timestamp_ms, as: 'authorizationTimestampMs'
+          property :authorization_timestamp_ms, :numeric_string => true, as: 'authorizationTimestampMs'
           property :container_id, as: 'containerId'
           property :container_version_id, as: 'containerVersionId'
           property :description, as: 'description'
@@ -449,8 +449,8 @@ module Google
           collection :parameter, as: 'parameter', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
           property :parent_folder_id, as: 'parentFolderId'
-          property :schedule_end_ms, as: 'scheduleEndMs'
-          property :schedule_start_ms, as: 'scheduleStartMs'
+          property :schedule_end_ms, :numeric_string => true, as: 'scheduleEndMs'
+          property :schedule_start_ms, :numeric_string => true, as: 'scheduleStartMs'
           property :type, as: 'type'
         end
       end
@@ -515,10 +515,11 @@ module Google
           collection :parameter, as: 'parameter', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
           property :parent_folder_id, as: 'parentFolderId'
+          property :paused, as: 'paused'
           property :priority, as: 'priority', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
-          property :schedule_end_ms, as: 'scheduleEndMs'
-          property :schedule_start_ms, as: 'scheduleStartMs'
+          property :schedule_end_ms, :numeric_string => true, as: 'scheduleEndMs'
+          property :schedule_start_ms, :numeric_string => true, as: 'scheduleStartMs'
           collection :setup_tag, as: 'setupTag', class: Google::Apis::TagmanagerV1::SetupTag, decorator: Google::Apis::TagmanagerV1::SetupTag::Representation
       
           property :tag_firing_option, as: 'tagFiringOption'
@@ -546,26 +547,44 @@ module Google
           property :check_validation, as: 'checkValidation', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
           property :container_id, as: 'containerId'
-          collection :custom_event_filter, as: 'customEventFilter', class: Google::Apis::TagmanagerV1::Condition, decorator: Google::Apis::TagmanagerV1::Condition::Representation
+          property :continuous_time_min_milliseconds, as: 'continuousTimeMinMilliseconds', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
-          property :enable_all_videos, as: 'enableAllVideos', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+          collection :custom_event_filter, as: 'customEventFilter', class: Google::Apis::TagmanagerV1::Condition, decorator: Google::Apis::TagmanagerV1::Condition::Representation
       
           property :event_name, as: 'eventName', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
           collection :filter, as: 'filter', class: Google::Apis::TagmanagerV1::Condition, decorator: Google::Apis::TagmanagerV1::Condition::Representation
       
           property :fingerprint, as: 'fingerprint'
+          property :horizontal_scroll_percentage_list, as: 'horizontalScrollPercentageList', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
           property :interval, as: 'interval', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
+          property :interval_seconds, as: 'intervalSeconds', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
           property :limit, as: 'limit', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
+          property :max_timer_length_seconds, as: 'maxTimerLengthSeconds', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
           property :name, as: 'name'
+          collection :parameter, as: 'parameter', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
           property :parent_folder_id, as: 'parentFolderId'
+          property :selector, as: 'selector', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
+          property :total_time_min_milliseconds, as: 'totalTimeMinMilliseconds', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
           property :trigger_id, as: 'triggerId'
           property :type, as: 'type'
           property :unique_trigger_id, as: 'uniqueTriggerId', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
-          property :video_percentage_list, as: 'videoPercentageList', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+          property :vertical_scroll_percentage_list, as: 'verticalScrollPercentageList', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
+          property :visibility_selector, as: 'visibilitySelector', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
+          property :visible_percentage_max, as: 'visiblePercentageMax', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
+      
+          property :visible_percentage_min, as: 'visiblePercentageMin', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
           property :wait_for_tags, as: 'waitForTags', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
@@ -600,8 +619,8 @@ module Google
           collection :parameter, as: 'parameter', class: Google::Apis::TagmanagerV1::Parameter, decorator: Google::Apis::TagmanagerV1::Parameter::Representation
       
           property :parent_folder_id, as: 'parentFolderId'
-          property :schedule_end_ms, as: 'scheduleEndMs'
-          property :schedule_start_ms, as: 'scheduleStartMs'
+          property :schedule_end_ms, :numeric_string => true, as: 'scheduleEndMs'
+          property :schedule_start_ms, :numeric_string => true, as: 'scheduleStartMs'
           property :type, as: 'type'
           property :variable_id, as: 'variableId'
         end

@@ -18,15 +18,14 @@ require 'google/apis/people_v1/representations.rb'
 
 module Google
   module Apis
-    # Google People API
+    # People API
     #
-    # The Google People API service gives access to information about profiles and
-    # contacts.
+    # Provides access to information about profiles and contacts.
     #
     # @see https://developers.google.com/people/
     module PeopleV1
       VERSION = 'V1'
-      REVISION = '20160210'
+      REVISION = '20180303'
 
       # Manage your contacts
       AUTH_CONTACTS = 'https://www.googleapis.com/auth/contacts'
@@ -34,7 +33,7 @@ module Google
       # View your contacts
       AUTH_CONTACTS_READONLY = 'https://www.googleapis.com/auth/contacts.readonly'
 
-      # Know your basic profile info and list of people in your circles.
+      # Know the list of people in your circles, your age range, and language
       AUTH_PLUS_LOGIN = 'https://www.googleapis.com/auth/plus.login'
 
       # View your street addresses

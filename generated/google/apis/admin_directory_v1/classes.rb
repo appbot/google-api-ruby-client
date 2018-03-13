@@ -96,6 +96,73 @@ module Google
         end
       end
       
+      # JSON template for App Access Collections Resource object in Directory API.
+      class AppAccessCollections
+        include Google::Apis::Core::Hashable
+      
+        # List of blocked api access buckets.
+        # Corresponds to the JSON property `blockedApiAccessBuckets`
+        # @return [Array<String>]
+        attr_accessor :blocked_api_access_buckets
+      
+        # Boolean to indicate whether to enforce app access settings on Android Drive or
+        # not.
+        # Corresponds to the JSON property `enforceSettingsForAndroidDrive`
+        # @return [Boolean]
+        attr_accessor :enforce_settings_for_android_drive
+        alias_method :enforce_settings_for_android_drive?, :enforce_settings_for_android_drive
+      
+        # Error message provided by the Admin that will be shown to the user when an app
+        # is blocked.
+        # Corresponds to the JSON property `errorMessage`
+        # @return [String]
+        attr_accessor :error_message
+      
+        # ETag of the resource.
+        # Corresponds to the JSON property `etag`
+        # @return [String]
+        attr_accessor :etag
+      
+        # Identifies the resource as an app access collection. Value: admin#directory#
+        # appaccesscollection
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # Unique ID of app access collection. (Readonly)
+        # Corresponds to the JSON property `resourceId`
+        # @return [Fixnum]
+        attr_accessor :resource_id
+      
+        # Resource name given by the customer while creating/updating. Should be unique
+        # under given customer.
+        # Corresponds to the JSON property `resourceName`
+        # @return [String]
+        attr_accessor :resource_name
+      
+        # Boolean that indicates whether to trust domain owned apps.
+        # Corresponds to the JSON property `trustDomainOwnedApps`
+        # @return [Boolean]
+        attr_accessor :trust_domain_owned_apps
+        alias_method :trust_domain_owned_apps?, :trust_domain_owned_apps
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @blocked_api_access_buckets = args[:blocked_api_access_buckets] if args.key?(:blocked_api_access_buckets)
+          @enforce_settings_for_android_drive = args[:enforce_settings_for_android_drive] if args.key?(:enforce_settings_for_android_drive)
+          @error_message = args[:error_message] if args.key?(:error_message)
+          @etag = args[:etag] if args.key?(:etag)
+          @kind = args[:kind] if args.key?(:kind)
+          @resource_id = args[:resource_id] if args.key?(:resource_id)
+          @resource_name = args[:resource_name] if args.key?(:resource_name)
+          @trust_domain_owned_apps = args[:trust_domain_owned_apps] if args.key?(:trust_domain_owned_apps)
+        end
+      end
+      
       # The template that returns individual ASP (Access Code) data.
       class Asp
         include Google::Apis::Core::Hashable
@@ -107,7 +174,7 @@ module Google
       
         # The time when the ASP was created. Expressed in Unix time format.
         # Corresponds to the JSON property `creationTime`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :creation_time
       
         # ETag of the ASP.
@@ -122,7 +189,7 @@ module Google
       
         # The time when the ASP was last used. Expressed in Unix time format.
         # Corresponds to the JSON property `lastTimeUsed`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :last_time_used
       
         # The name of the application that the user, represented by their userId,
@@ -183,14 +250,167 @@ module Google
         end
       end
       
-      # JSON template for Calendar Resource object in Directory API.
-      class CalendarResource
+      # JSON template for Building object in Directory API.
+      class Building
         include Google::Apis::Core::Hashable
+      
+        # Unique identifier for the building. The maximum length is 100 characters.
+        # Corresponds to the JSON property `buildingId`
+        # @return [String]
+        attr_accessor :building_id
+      
+        # The building name as seen by users in Calendar. Must be unique for the
+        # customer. For example, "NYC-CHEL". The maximum length is 100 characters.
+        # Corresponds to the JSON property `buildingName`
+        # @return [String]
+        attr_accessor :building_name
+      
+        # JSON template for coordinates of a building in Directory API.
+        # Corresponds to the JSON property `coordinates`
+        # @return [Google::Apis::AdminDirectoryV1::BuildingCoordinates]
+        attr_accessor :coordinates
+      
+        # A brief description of the building. For example, "Chelsea Market".
+        # Corresponds to the JSON property `description`
+        # @return [String]
+        attr_accessor :description
       
         # ETag of the resource.
         # Corresponds to the JSON property `etags`
         # @return [String]
         attr_accessor :etags
+      
+        # The display names for all floors in this building. The floors are expected to
+        # be sorted in ascending order, from lowest floor to highest floor. For example,
+        # ["B2", "B1", "L", "1", "2", "2M", "3", "PH"] Must contain at least one entry.
+        # Corresponds to the JSON property `floorNames`
+        # @return [Array<String>]
+        attr_accessor :floor_names
+      
+        # Kind of resource this is.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @building_id = args[:building_id] if args.key?(:building_id)
+          @building_name = args[:building_name] if args.key?(:building_name)
+          @coordinates = args[:coordinates] if args.key?(:coordinates)
+          @description = args[:description] if args.key?(:description)
+          @etags = args[:etags] if args.key?(:etags)
+          @floor_names = args[:floor_names] if args.key?(:floor_names)
+          @kind = args[:kind] if args.key?(:kind)
+        end
+      end
+      
+      # JSON template for coordinates of a building in Directory API.
+      class BuildingCoordinates
+        include Google::Apis::Core::Hashable
+      
+        # Latitude in decimal degrees.
+        # Corresponds to the JSON property `latitude`
+        # @return [Float]
+        attr_accessor :latitude
+      
+        # Longitude in decimal degrees.
+        # Corresponds to the JSON property `longitude`
+        # @return [Float]
+        attr_accessor :longitude
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @latitude = args[:latitude] if args.key?(:latitude)
+          @longitude = args[:longitude] if args.key?(:longitude)
+        end
+      end
+      
+      # JSON template for Building List Response object in Directory API.
+      class Buildings
+        include Google::Apis::Core::Hashable
+      
+        # The Buildings in this page of results.
+        # Corresponds to the JSON property `buildings`
+        # @return [Array<Google::Apis::AdminDirectoryV1::Building>]
+        attr_accessor :buildings
+      
+        # ETag of the resource.
+        # Corresponds to the JSON property `etag`
+        # @return [String]
+        attr_accessor :etag
+      
+        # Kind of resource this is.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The continuation token, used to page through large result sets. Provide this
+        # value in a subsequent request to return the next page of results.
+        # Corresponds to the JSON property `nextPageToken`
+        # @return [String]
+        attr_accessor :next_page_token
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @buildings = args[:buildings] if args.key?(:buildings)
+          @etag = args[:etag] if args.key?(:etag)
+          @kind = args[:kind] if args.key?(:kind)
+          @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
+        end
+      end
+      
+      # JSON template for Calendar Resource object in Directory API.
+      class CalendarResource
+        include Google::Apis::Core::Hashable
+      
+        # Unique ID for the building a resource is located in.
+        # Corresponds to the JSON property `buildingId`
+        # @return [String]
+        attr_accessor :building_id
+      
+        # Capacity of a resource, number of seats in a room.
+        # Corresponds to the JSON property `capacity`
+        # @return [Fixnum]
+        attr_accessor :capacity
+      
+        # ETag of the resource.
+        # Corresponds to the JSON property `etags`
+        # @return [String]
+        attr_accessor :etags
+      
+        # 
+        # Corresponds to the JSON property `featureInstances`
+        # @return [Object]
+        attr_accessor :feature_instances
+      
+        # Name of the floor a resource is located on.
+        # Corresponds to the JSON property `floorName`
+        # @return [String]
+        attr_accessor :floor_name
+      
+        # Name of the section within a floor a resource is located in.
+        # Corresponds to the JSON property `floorSection`
+        # @return [String]
+        attr_accessor :floor_section
+      
+        # The read-only auto-generated name of the calendar resource which includes
+        # metadata about the resource such as building name, floor, capacity, etc. For
+        # example, "NYC-2-Training Room 1A (16)".
+        # Corresponds to the JSON property `generatedResourceName`
+        # @return [String]
+        attr_accessor :generated_resource_name
       
         # The type of the resource. For calendar resources, the value is admin#directory#
         # resources#calendars#CalendarResource.
@@ -198,13 +418,19 @@ module Google
         # @return [String]
         attr_accessor :kind
       
-        # The brief description of the calendar resource.
+        # The category of the calendar resource. Either CONFERENCE_ROOM or OTHER. Legacy
+        # data is set to CATEGORY_UNKNOWN.
+        # Corresponds to the JSON property `resourceCategory`
+        # @return [String]
+        attr_accessor :resource_category
+      
+        # Description of the resource, visible only to admins.
         # Corresponds to the JSON property `resourceDescription`
         # @return [String]
         attr_accessor :resource_description
       
-        # The read-only email ID for the calendar resource. Generated as part of
-        # creating a new calendar resource.
+        # The read-only email for the calendar resource. Generated as part of creating a
+        # new calendar resource.
         # Corresponds to the JSON property `resourceEmail`
         # @return [String]
         attr_accessor :resource_email
@@ -214,16 +440,20 @@ module Google
         # @return [String]
         attr_accessor :resource_id
       
-        # The name of the calendar resource. For example, Training Room 1A
+        # The name of the calendar resource. For example, "Training Room 1A".
         # Corresponds to the JSON property `resourceName`
         # @return [String]
         attr_accessor :resource_name
       
-        # The type of the calendar resource. Used for grouping resources in the calendar
-        # user interface.
+        # The type of the calendar resource, intended for non-room resources.
         # Corresponds to the JSON property `resourceType`
         # @return [String]
         attr_accessor :resource_type
+      
+        # Description of the resource, visible to users and admins.
+        # Corresponds to the JSON property `userVisibleDescription`
+        # @return [String]
+        attr_accessor :user_visible_description
       
         def initialize(**args)
            update!(**args)
@@ -231,13 +461,21 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @building_id = args[:building_id] if args.key?(:building_id)
+          @capacity = args[:capacity] if args.key?(:capacity)
           @etags = args[:etags] if args.key?(:etags)
+          @feature_instances = args[:feature_instances] if args.key?(:feature_instances)
+          @floor_name = args[:floor_name] if args.key?(:floor_name)
+          @floor_section = args[:floor_section] if args.key?(:floor_section)
+          @generated_resource_name = args[:generated_resource_name] if args.key?(:generated_resource_name)
           @kind = args[:kind] if args.key?(:kind)
+          @resource_category = args[:resource_category] if args.key?(:resource_category)
           @resource_description = args[:resource_description] if args.key?(:resource_description)
           @resource_email = args[:resource_email] if args.key?(:resource_email)
           @resource_id = args[:resource_id] if args.key?(:resource_id)
           @resource_name = args[:resource_name] if args.key?(:resource_name)
           @resource_type = args[:resource_type] if args.key?(:resource_type)
+          @user_visible_description = args[:user_visible_description] if args.key?(:user_visible_description)
         end
       end
       
@@ -292,7 +530,7 @@ module Google
         # Date and time of notification channel expiration, expressed as a Unix
         # timestamp, in milliseconds. Optional.
         # Corresponds to the JSON property `expiration`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :expiration
       
         # A UUID or similar unique string that identifies this channel.
@@ -387,6 +625,11 @@ module Google
         # @return [String]
         attr_accessor :boot_mode
       
+        # List of device files to download (Read-only)
+        # Corresponds to the JSON property `deviceFiles`
+        # @return [Array<Google::Apis::AdminDirectoryV1::ChromeOsDevice::DeviceFile>]
+        attr_accessor :device_files
+      
         # Unique identifier of Chrome OS Device (Read-only)
         # Corresponds to the JSON property `deviceId`
         # @return [String]
@@ -418,7 +661,7 @@ module Google
         attr_accessor :last_enrollment_time
       
         # Date and time the device was last synchronized with the policy settings in the
-        # Google Apps administrator control panel (Read-only)
+        # G Suite administrator control panel (Read-only)
         # Corresponds to the JSON property `lastSync`
         # @return [DateTime]
         attr_accessor :last_sync
@@ -484,6 +727,11 @@ module Google
         # @return [DateTime]
         attr_accessor :support_end_date
       
+        # 
+        # Corresponds to the JSON property `tpmVersionInfo`
+        # @return [Google::Apis::AdminDirectoryV1::ChromeOsDevice::TpmVersionInfo]
+        attr_accessor :tpm_version_info
+      
         # Will Chromebook auto renew after support end date (Read-only)
         # Corresponds to the JSON property `willAutoRenew`
         # @return [Boolean]
@@ -501,6 +749,7 @@ module Google
           @annotated_location = args[:annotated_location] if args.key?(:annotated_location)
           @annotated_user = args[:annotated_user] if args.key?(:annotated_user)
           @boot_mode = args[:boot_mode] if args.key?(:boot_mode)
+          @device_files = args[:device_files] if args.key?(:device_files)
           @device_id = args[:device_id] if args.key?(:device_id)
           @etag = args[:etag] if args.key?(:etag)
           @ethernet_mac_address = args[:ethernet_mac_address] if args.key?(:ethernet_mac_address)
@@ -520,6 +769,7 @@ module Google
           @serial_number = args[:serial_number] if args.key?(:serial_number)
           @status = args[:status] if args.key?(:status)
           @support_end_date = args[:support_end_date] if args.key?(:support_end_date)
+          @tpm_version_info = args[:tpm_version_info] if args.key?(:tpm_version_info)
           @will_auto_renew = args[:will_auto_renew] if args.key?(:will_auto_renew)
         end
         
@@ -549,6 +799,43 @@ module Google
         end
         
         # 
+        class DeviceFile
+          include Google::Apis::Core::Hashable
+        
+          # Date and time the file was created
+          # Corresponds to the JSON property `createTime`
+          # @return [DateTime]
+          attr_accessor :create_time
+        
+          # File downlod URL
+          # Corresponds to the JSON property `downloadUrl`
+          # @return [String]
+          attr_accessor :download_url
+        
+          # File name
+          # Corresponds to the JSON property `name`
+          # @return [String]
+          attr_accessor :name
+        
+          # File type
+          # Corresponds to the JSON property `type`
+          # @return [String]
+          attr_accessor :type
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @create_time = args[:create_time] if args.key?(:create_time)
+            @download_url = args[:download_url] if args.key?(:download_url)
+            @name = args[:name] if args.key?(:name)
+            @type = args[:type] if args.key?(:type)
+          end
+        end
+        
+        # 
         class RecentUser
           include Google::Apis::Core::Hashable
         
@@ -570,6 +857,55 @@ module Google
           def update!(**args)
             @email = args[:email] if args.key?(:email)
             @type = args[:type] if args.key?(:type)
+          end
+        end
+        
+        # 
+        class TpmVersionInfo
+          include Google::Apis::Core::Hashable
+        
+          # 
+          # Corresponds to the JSON property `family`
+          # @return [String]
+          attr_accessor :family
+        
+          # 
+          # Corresponds to the JSON property `firmwareVersion`
+          # @return [String]
+          attr_accessor :firmware_version
+        
+          # 
+          # Corresponds to the JSON property `manufacturer`
+          # @return [String]
+          attr_accessor :manufacturer
+        
+          # 
+          # Corresponds to the JSON property `specLevel`
+          # @return [String]
+          attr_accessor :spec_level
+        
+          # 
+          # Corresponds to the JSON property `tpmModel`
+          # @return [String]
+          attr_accessor :tpm_model
+        
+          # 
+          # Corresponds to the JSON property `vendorSpecific`
+          # @return [String]
+          attr_accessor :vendor_specific
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @family = args[:family] if args.key?(:family)
+            @firmware_version = args[:firmware_version] if args.key?(:firmware_version)
+            @manufacturer = args[:manufacturer] if args.key?(:manufacturer)
+            @spec_level = args[:spec_level] if args.key?(:spec_level)
+            @tpm_model = args[:tpm_model] if args.key?(:tpm_model)
+            @vendor_specific = args[:vendor_specific] if args.key?(:vendor_specific)
           end
         end
       end
@@ -637,6 +973,26 @@ module Google
         end
       end
       
+      # JSON request template for moving ChromeOs Device to given OU in Directory
+      # Devices API.
+      class ChromeOsMoveDevicesToOu
+        include Google::Apis::Core::Hashable
+      
+        # ChromeOs Devices to be moved to OU
+        # Corresponds to the JSON property `deviceIds`
+        # @return [Array<String>]
+        attr_accessor :device_ids
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @device_ids = args[:device_ids] if args.key?(:device_ids)
+        end
+      end
+      
       # JSON template for Customer Resource object in Directory API.
       class Customer
         include Google::Apis::Core::Hashable
@@ -663,7 +1019,7 @@ module Google
         # @return [String]
         attr_accessor :etag
       
-        # The unique ID for the customer's Google account. (Readonly)
+        # The unique ID for the customer's G Suite account. (Readonly)
         # Corresponds to the JSON property `id`
         # @return [String]
         attr_accessor :id
@@ -785,7 +1141,7 @@ module Google
       
         # The creation time of the domain alias. (Read-only).
         # Corresponds to the JSON property `creationTime`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :creation_time
       
         # The domain alias name.
@@ -867,7 +1223,7 @@ module Google
       
         # Creation time of the domain. (Read-only).
         # Corresponds to the JSON property `creationTime`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :creation_time
       
         # List of domain alias objects. (Read-only)
@@ -949,6 +1305,113 @@ module Google
         end
       end
       
+      # JSON template for Feature object in Directory API.
+      class Feature
+        include Google::Apis::Core::Hashable
+      
+        # ETag of the resource.
+        # Corresponds to the JSON property `etags`
+        # @return [String]
+        attr_accessor :etags
+      
+        # Kind of resource this is.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The name of the feature.
+        # Corresponds to the JSON property `name`
+        # @return [String]
+        attr_accessor :name
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @etags = args[:etags] if args.key?(:etags)
+          @kind = args[:kind] if args.key?(:kind)
+          @name = args[:name] if args.key?(:name)
+        end
+      end
+      
+      # JSON template for a "feature instance".
+      class FeatureInstance
+        include Google::Apis::Core::Hashable
+      
+        # JSON template for Feature object in Directory API.
+        # Corresponds to the JSON property `feature`
+        # @return [Google::Apis::AdminDirectoryV1::Feature]
+        attr_accessor :feature
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @feature = args[:feature] if args.key?(:feature)
+        end
+      end
+      
+      # JSON request template for renaming a feature.
+      class FeatureRename
+        include Google::Apis::Core::Hashable
+      
+        # New name of the feature.
+        # Corresponds to the JSON property `newName`
+        # @return [String]
+        attr_accessor :new_name
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @new_name = args[:new_name] if args.key?(:new_name)
+        end
+      end
+      
+      # JSON template for Feature List Response object in Directory API.
+      class Features
+        include Google::Apis::Core::Hashable
+      
+        # ETag of the resource.
+        # Corresponds to the JSON property `etag`
+        # @return [String]
+        attr_accessor :etag
+      
+        # The Features in this page of results.
+        # Corresponds to the JSON property `features`
+        # @return [Array<Google::Apis::AdminDirectoryV1::Feature>]
+        attr_accessor :features
+      
+        # Kind of resource this is.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The continuation token, used to page through large result sets. Provide this
+        # value in a subsequent request to return the next page of results.
+        # Corresponds to the JSON property `nextPageToken`
+        # @return [String]
+        attr_accessor :next_page_token
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @etag = args[:etag] if args.key?(:etag)
+          @features = args[:features] if args.key?(:features)
+          @kind = args[:kind] if args.key?(:kind)
+          @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
+        end
+      end
+      
       # JSON template for Group resource in Directory API.
       class Group
         include Google::Apis::Core::Hashable
@@ -971,7 +1434,7 @@ module Google
       
         # Group direct members count
         # Corresponds to the JSON property `directMembersCount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :direct_members_count
       
         # Email of Group
@@ -1153,6 +1616,26 @@ module Google
         end
       end
       
+      # JSON template for Has Member response in Directory API.
+      class MembersHasMember
+        include Google::Apis::Core::Hashable
+      
+        # Identifies whether given user is a member or not.
+        # Corresponds to the JSON property `isMember`
+        # @return [Boolean]
+        attr_accessor :is_member
+        alias_method :is_member?, :is_member
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @is_member = args[:is_member] if args.key?(:is_member)
+        end
+      end
+      
       # JSON template for Mobile Device resource in Directory API.
       class MobileDevice
         include Google::Apis::Core::Hashable
@@ -1230,7 +1713,7 @@ module Google
         attr_accessor :etag
       
         # Date and time the device was first synchronized with the policy settings in
-        # the Google Apps administrator control panel (Read-only)
+        # the G Suite administrator control panel (Read-only)
         # Corresponds to the JSON property `firstSync`
         # @return [DateTime]
         attr_accessor :first_sync
@@ -1261,7 +1744,7 @@ module Google
         attr_accessor :kind
       
         # Date and time the device was last synchronized with the policy settings in the
-        # Google Apps administrator control panel (Read-only)
+        # G Suite administrator control panel (Read-only)
         # Corresponds to the JSON property `lastSync`
         # @return [DateTime]
         attr_accessor :last_sync
@@ -1325,7 +1808,7 @@ module Google
       
         # Mobile Device Security patch level (Read-only)
         # Corresponds to the JSON property `securityPatchLevel`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :security_patch_level
       
         # Mobile Device SSN or Serial Number (Read-only)
@@ -1840,7 +2323,7 @@ module Google
       
         # ID of the role.
         # Corresponds to the JSON property `roleId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :role_id
       
         # Name of the role.
@@ -1922,12 +2405,12 @@ module Google
       
         # ID of this roleAssignment.
         # Corresponds to the JSON property `roleAssignmentId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :role_assignment_id
       
         # The ID of the role that is assigned.
         # Corresponds to the JSON property `roleId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :role_id
       
         # The scope in which this role is assigned. Possible values are:
@@ -2300,6 +2783,86 @@ module Google
         end
       end
       
+      # JSON template for Trusted App Ids Resource object in Directory API.
+      class TrustedAppId
+        include Google::Apis::Core::Hashable
+      
+        # Android package name.
+        # Corresponds to the JSON property `androidPackageName`
+        # @return [String]
+        attr_accessor :android_package_name
+      
+        # SHA1 signature of the app certificate.
+        # Corresponds to the JSON property `certificateHashSHA1`
+        # @return [String]
+        attr_accessor :certificate_hash_sha1
+      
+        # SHA256 signature of the app certificate.
+        # Corresponds to the JSON property `certificateHashSHA256`
+        # @return [String]
+        attr_accessor :certificate_hash_sha256
+      
+        # 
+        # Corresponds to the JSON property `etag`
+        # @return [String]
+        attr_accessor :etag
+      
+        # Identifies the resource as a trusted AppId.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @android_package_name = args[:android_package_name] if args.key?(:android_package_name)
+          @certificate_hash_sha1 = args[:certificate_hash_sha1] if args.key?(:certificate_hash_sha1)
+          @certificate_hash_sha256 = args[:certificate_hash_sha256] if args.key?(:certificate_hash_sha256)
+          @etag = args[:etag] if args.key?(:etag)
+          @kind = args[:kind] if args.key?(:kind)
+        end
+      end
+      
+      # JSON template for Trusted Apps response object of a user in Directory API.
+      class TrustedApps
+        include Google::Apis::Core::Hashable
+      
+        # ETag of the resource.
+        # Corresponds to the JSON property `etag`
+        # @return [String]
+        attr_accessor :etag
+      
+        # Identifies the resource as trusted apps response.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # 
+        # Corresponds to the JSON property `nextPageToken`
+        # @return [String]
+        attr_accessor :next_page_token
+      
+        # Trusted Apps list.
+        # Corresponds to the JSON property `trustedApps`
+        # @return [Array<Google::Apis::AdminDirectoryV1::TrustedAppId>]
+        attr_accessor :trusted_apps
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @etag = args[:etag] if args.key?(:etag)
+          @kind = args[:kind] if args.key?(:kind)
+          @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
+          @trusted_apps = args[:trusted_apps] if args.key?(:trusted_apps)
+        end
+      end
+      
       # JSON template for User object in Directory API.
       class User
         include Google::Apis::Core::Hashable
@@ -2326,7 +2889,7 @@ module Google
         attr_accessor :change_password_at_next_login
         alias_method :change_password_at_next_login?, :change_password_at_next_login
       
-        # User's Google account creation time. (Read-only)
+        # User's G Suite account creation time. (Read-only)
         # Corresponds to the JSON property `creationTime`
         # @return [DateTime]
         attr_accessor :creation_time
@@ -2360,6 +2923,11 @@ module Google
         # Corresponds to the JSON property `externalIds`
         # @return [Object]
         attr_accessor :external_ids
+      
+        # 
+        # Corresponds to the JSON property `gender`
+        # @return [Object]
+        attr_accessor :gender
       
         # Hash function name for password. Supported are MD5, SHA-1 and crypt
         # Corresponds to the JSON property `hashFunction`
@@ -2400,21 +2968,48 @@ module Google
         attr_accessor :is_delegated_admin
         alias_method :is_delegated_admin?, :is_delegated_admin
       
+        # Is 2-step verification enforced (Read-only)
+        # Corresponds to the JSON property `isEnforcedIn2Sv`
+        # @return [Boolean]
+        attr_accessor :is_enforced_in2_sv
+        alias_method :is_enforced_in2_sv?, :is_enforced_in2_sv
+      
+        # Is enrolled in 2-step verification (Read-only)
+        # Corresponds to the JSON property `isEnrolledIn2Sv`
+        # @return [Boolean]
+        attr_accessor :is_enrolled_in2_sv
+        alias_method :is_enrolled_in2_sv?, :is_enrolled_in2_sv
+      
         # Is mailbox setup (Read-only)
         # Corresponds to the JSON property `isMailboxSetup`
         # @return [Boolean]
         attr_accessor :is_mailbox_setup
         alias_method :is_mailbox_setup?, :is_mailbox_setup
       
+        # 
+        # Corresponds to the JSON property `keywords`
+        # @return [Object]
+        attr_accessor :keywords
+      
         # Kind of resource this is.
         # Corresponds to the JSON property `kind`
         # @return [String]
         attr_accessor :kind
       
+        # 
+        # Corresponds to the JSON property `languages`
+        # @return [Object]
+        attr_accessor :languages
+      
         # User's last login time. (Read-only)
         # Corresponds to the JSON property `lastLoginTime`
         # @return [DateTime]
         attr_accessor :last_login_time
+      
+        # 
+        # Corresponds to the JSON property `locations`
+        # @return [Object]
+        attr_accessor :locations
       
         # JSON template for name of a user in Directory API.
         # Corresponds to the JSON property `name`
@@ -2451,6 +3046,11 @@ module Google
         # @return [Object]
         attr_accessor :phones
       
+        # 
+        # Corresponds to the JSON property `posixAccounts`
+        # @return [Object]
+        attr_accessor :posix_accounts
+      
         # username of User
         # Corresponds to the JSON property `primaryEmail`
         # @return [String]
@@ -2460,6 +3060,11 @@ module Google
         # Corresponds to the JSON property `relations`
         # @return [Object]
         attr_accessor :relations
+      
+        # 
+        # Corresponds to the JSON property `sshPublicKeys`
+        # @return [Object]
+        attr_accessor :ssh_public_keys
       
         # Indicates if user is suspended
         # Corresponds to the JSON property `suspended`
@@ -2504,6 +3109,7 @@ module Google
           @emails = args[:emails] if args.key?(:emails)
           @etag = args[:etag] if args.key?(:etag)
           @external_ids = args[:external_ids] if args.key?(:external_ids)
+          @gender = args[:gender] if args.key?(:gender)
           @hash_function = args[:hash_function] if args.key?(:hash_function)
           @id = args[:id] if args.key?(:id)
           @ims = args[:ims] if args.key?(:ims)
@@ -2511,9 +3117,14 @@ module Google
           @ip_whitelisted = args[:ip_whitelisted] if args.key?(:ip_whitelisted)
           @is_admin = args[:is_admin] if args.key?(:is_admin)
           @is_delegated_admin = args[:is_delegated_admin] if args.key?(:is_delegated_admin)
+          @is_enforced_in2_sv = args[:is_enforced_in2_sv] if args.key?(:is_enforced_in2_sv)
+          @is_enrolled_in2_sv = args[:is_enrolled_in2_sv] if args.key?(:is_enrolled_in2_sv)
           @is_mailbox_setup = args[:is_mailbox_setup] if args.key?(:is_mailbox_setup)
+          @keywords = args[:keywords] if args.key?(:keywords)
           @kind = args[:kind] if args.key?(:kind)
+          @languages = args[:languages] if args.key?(:languages)
           @last_login_time = args[:last_login_time] if args.key?(:last_login_time)
+          @locations = args[:locations] if args.key?(:locations)
           @name = args[:name] if args.key?(:name)
           @non_editable_aliases = args[:non_editable_aliases] if args.key?(:non_editable_aliases)
           @notes = args[:notes] if args.key?(:notes)
@@ -2521,8 +3132,10 @@ module Google
           @organizations = args[:organizations] if args.key?(:organizations)
           @password = args[:password] if args.key?(:password)
           @phones = args[:phones] if args.key?(:phones)
+          @posix_accounts = args[:posix_accounts] if args.key?(:posix_accounts)
           @primary_email = args[:primary_email] if args.key?(:primary_email)
           @relations = args[:relations] if args.key?(:relations)
+          @ssh_public_keys = args[:ssh_public_keys] if args.key?(:ssh_public_keys)
           @suspended = args[:suspended] if args.key?(:suspended)
           @suspension_reason = args[:suspension_reason] if args.key?(:suspension_reason)
           @thumbnail_photo_etag = args[:thumbnail_photo_etag] if args.key?(:thumbnail_photo_etag)
@@ -2727,6 +3340,38 @@ module Google
         end
       end
       
+      # 
+      class UserGender
+        include Google::Apis::Core::Hashable
+      
+        # AddressMeAs. A human-readable string containing the proper way to refer to the
+        # profile owner by humans, for example "he/him/his" or "they/them/their".
+        # Corresponds to the JSON property `addressMeAs`
+        # @return [String]
+        attr_accessor :address_me_as
+      
+        # Custom gender.
+        # Corresponds to the JSON property `customGender`
+        # @return [String]
+        attr_accessor :custom_gender
+      
+        # Gender.
+        # Corresponds to the JSON property `type`
+        # @return [String]
+        attr_accessor :type
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @address_me_as = args[:address_me_as] if args.key?(:address_me_as)
+          @custom_gender = args[:custom_gender] if args.key?(:custom_gender)
+          @type = args[:type] if args.key?(:type)
+        end
+      end
+      
       # JSON template for instant messenger of an user.
       class UserIm
         include Google::Apis::Core::Hashable
@@ -2778,6 +3423,130 @@ module Google
           @im = args[:im] if args.key?(:im)
           @primary = args[:primary] if args.key?(:primary)
           @protocol = args[:protocol] if args.key?(:protocol)
+          @type = args[:type] if args.key?(:type)
+        end
+      end
+      
+      # JSON template for a keyword entry.
+      class UserKeyword
+        include Google::Apis::Core::Hashable
+      
+        # Custom Type.
+        # Corresponds to the JSON property `customType`
+        # @return [String]
+        attr_accessor :custom_type
+      
+        # Each entry can have a type which indicates standard type of that entry. For
+        # example, keyword could be of type occupation or outlook. In addition to the
+        # standard type, an entry can have a custom type and can give it any name. Such
+        # types should have the CUSTOM value as type and also have a customType value.
+        # Corresponds to the JSON property `type`
+        # @return [String]
+        attr_accessor :type
+      
+        # Keyword.
+        # Corresponds to the JSON property `value`
+        # @return [String]
+        attr_accessor :value
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @custom_type = args[:custom_type] if args.key?(:custom_type)
+          @type = args[:type] if args.key?(:type)
+          @value = args[:value] if args.key?(:value)
+        end
+      end
+      
+      # JSON template for a language entry.
+      class UserLanguage
+        include Google::Apis::Core::Hashable
+      
+        # Other language. User can provide own language name if there is no
+        # corresponding Google III language code. If this is set LanguageCode can't be
+        # set
+        # Corresponds to the JSON property `customLanguage`
+        # @return [String]
+        attr_accessor :custom_language
+      
+        # Language Code. Should be used for storing Google III LanguageCode string
+        # representation for language. Illegal values cause SchemaException.
+        # Corresponds to the JSON property `languageCode`
+        # @return [String]
+        attr_accessor :language_code
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @custom_language = args[:custom_language] if args.key?(:custom_language)
+          @language_code = args[:language_code] if args.key?(:language_code)
+        end
+      end
+      
+      # JSON template for a location entry.
+      class UserLocation
+        include Google::Apis::Core::Hashable
+      
+        # Textual location. This is most useful for display purposes to concisely
+        # describe the location. For example, "Mountain View, CA", "Near Seattle", "US-
+        # NYC-9TH 9A209A".
+        # Corresponds to the JSON property `area`
+        # @return [String]
+        attr_accessor :area
+      
+        # Building Identifier.
+        # Corresponds to the JSON property `buildingId`
+        # @return [String]
+        attr_accessor :building_id
+      
+        # Custom Type.
+        # Corresponds to the JSON property `customType`
+        # @return [String]
+        attr_accessor :custom_type
+      
+        # Most specific textual code of individual desk location.
+        # Corresponds to the JSON property `deskCode`
+        # @return [String]
+        attr_accessor :desk_code
+      
+        # Floor name/number.
+        # Corresponds to the JSON property `floorName`
+        # @return [String]
+        attr_accessor :floor_name
+      
+        # Floor section. More specific location within the floor. For example, if a
+        # floor is divided into sections "A", "B", and "C", this field would identify
+        # one of those values.
+        # Corresponds to the JSON property `floorSection`
+        # @return [String]
+        attr_accessor :floor_section
+      
+        # Each entry can have a type which indicates standard types of that entry. For
+        # example location could be of types default and desk. In addition to standard
+        # type, an entry can have a custom type and can give it any name. Such types
+        # should have "custom" as type and also have a customType value.
+        # Corresponds to the JSON property `type`
+        # @return [String]
+        attr_accessor :type
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @area = args[:area] if args.key?(:area)
+          @building_id = args[:building_id] if args.key?(:building_id)
+          @custom_type = args[:custom_type] if args.key?(:custom_type)
+          @desk_code = args[:desk_code] if args.key?(:desk_code)
+          @floor_name = args[:floor_name] if args.key?(:floor_name)
+          @floor_section = args[:floor_section] if args.key?(:floor_section)
           @type = args[:type] if args.key?(:type)
         end
       end
@@ -2863,6 +3632,11 @@ module Google
         # @return [String]
         attr_accessor :domain
       
+        # The full-time equivalent percent within the organization (100000 = 100%).
+        # Corresponds to the JSON property `fullTimeEquivalent`
+        # @return [Fixnum]
+        attr_accessor :full_time_equivalent
+      
         # Location of the organization. This need not be fully qualified address.
         # Corresponds to the JSON property `location`
         # @return [String]
@@ -2908,6 +3682,7 @@ module Google
           @department = args[:department] if args.key?(:department)
           @description = args[:description] if args.key?(:description)
           @domain = args[:domain] if args.key?(:domain)
+          @full_time_equivalent = args[:full_time_equivalent] if args.key?(:full_time_equivalent)
           @location = args[:location] if args.key?(:location)
           @name = args[:name] if args.key?(:name)
           @primary = args[:primary] if args.key?(:primary)
@@ -2989,6 +3764,7 @@ module Google
       
         # Base64 encoded photo data
         # Corresponds to the JSON property `photoData`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :photo_data
       
@@ -3016,6 +3792,75 @@ module Google
           @photo_data = args[:photo_data] if args.key?(:photo_data)
           @primary_email = args[:primary_email] if args.key?(:primary_email)
           @width = args[:width] if args.key?(:width)
+        end
+      end
+      
+      # JSON template for a POSIX account entry. Description of the field family: go/
+      # fbs-posix.
+      class UserPosixAccount
+        include Google::Apis::Core::Hashable
+      
+        # A POSIX account field identifier. (Read-only)
+        # Corresponds to the JSON property `accountId`
+        # @return [String]
+        attr_accessor :account_id
+      
+        # The GECOS (user information) for this account.
+        # Corresponds to the JSON property `gecos`
+        # @return [String]
+        attr_accessor :gecos
+      
+        # The default group ID.
+        # Corresponds to the JSON property `gid`
+        # @return [Fixnum]
+        attr_accessor :gid
+      
+        # The path to the home directory for this account.
+        # Corresponds to the JSON property `homeDirectory`
+        # @return [String]
+        attr_accessor :home_directory
+      
+        # If this is user's primary account within the SystemId.
+        # Corresponds to the JSON property `primary`
+        # @return [Boolean]
+        attr_accessor :primary
+        alias_method :primary?, :primary
+      
+        # The path to the login shell for this account.
+        # Corresponds to the JSON property `shell`
+        # @return [String]
+        attr_accessor :shell
+      
+        # System identifier for which account Username or Uid apply to.
+        # Corresponds to the JSON property `systemId`
+        # @return [String]
+        attr_accessor :system_id
+      
+        # The POSIX compliant user ID.
+        # Corresponds to the JSON property `uid`
+        # @return [Fixnum]
+        attr_accessor :uid
+      
+        # The username of the account.
+        # Corresponds to the JSON property `username`
+        # @return [String]
+        attr_accessor :username
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @account_id = args[:account_id] if args.key?(:account_id)
+          @gecos = args[:gecos] if args.key?(:gecos)
+          @gid = args[:gid] if args.key?(:gid)
+          @home_directory = args[:home_directory] if args.key?(:home_directory)
+          @primary = args[:primary] if args.key?(:primary)
+          @shell = args[:shell] if args.key?(:shell)
+          @system_id = args[:system_id] if args.key?(:system_id)
+          @uid = args[:uid] if args.key?(:uid)
+          @username = args[:username] if args.key?(:username)
         end
       end
       
@@ -3048,6 +3893,37 @@ module Google
           @custom_type = args[:custom_type] if args.key?(:custom_type)
           @type = args[:type] if args.key?(:type)
           @value = args[:value] if args.key?(:value)
+        end
+      end
+      
+      # JSON template for a POSIX account entry.
+      class UserSshPublicKey
+        include Google::Apis::Core::Hashable
+      
+        # An expiration time in microseconds since epoch.
+        # Corresponds to the JSON property `expirationTimeUsec`
+        # @return [Fixnum]
+        attr_accessor :expiration_time_usec
+      
+        # A SHA-256 fingerprint of the SSH public key. (Read-only)
+        # Corresponds to the JSON property `fingerprint`
+        # @return [String]
+        attr_accessor :fingerprint
+      
+        # An SSH public key.
+        # Corresponds to the JSON property `key`
+        # @return [String]
+        attr_accessor :key
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @expiration_time_usec = args[:expiration_time_usec] if args.key?(:expiration_time_usec)
+          @fingerprint = args[:fingerprint] if args.key?(:fingerprint)
+          @key = args[:key] if args.key?(:key)
         end
       end
       

@@ -338,6 +338,218 @@ module Google
         end
       end
       
+      # JSON template for an Analytics account tree requests. The account tree request
+      # is used in the provisioning api to create an account, property, and view (
+      # profile). It contains the basic information required to make these fields.
+      class AccountTreeRequest
+        include Google::Apis::Core::Hashable
+      
+        # 
+        # Corresponds to the JSON property `accountName`
+        # @return [String]
+        attr_accessor :account_name
+      
+        # 
+        # Corresponds to the JSON property `accountSettings`
+        # @return [Google::Apis::AnalyticsV3::AccountTreeRequest::AccountSettings]
+        attr_accessor :account_settings
+      
+        # Resource type for account ticket.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # 
+        # Corresponds to the JSON property `profileName`
+        # @return [String]
+        attr_accessor :profile_name
+      
+        # 
+        # Corresponds to the JSON property `timezone`
+        # @return [String]
+        attr_accessor :timezone
+      
+        # 
+        # Corresponds to the JSON property `webpropertyName`
+        # @return [String]
+        attr_accessor :webproperty_name
+      
+        # 
+        # Corresponds to the JSON property `websiteUrl`
+        # @return [String]
+        attr_accessor :website_url
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @account_name = args[:account_name] if args.key?(:account_name)
+          @account_settings = args[:account_settings] if args.key?(:account_settings)
+          @kind = args[:kind] if args.key?(:kind)
+          @profile_name = args[:profile_name] if args.key?(:profile_name)
+          @timezone = args[:timezone] if args.key?(:timezone)
+          @webproperty_name = args[:webproperty_name] if args.key?(:webproperty_name)
+          @website_url = args[:website_url] if args.key?(:website_url)
+        end
+        
+        # 
+        class AccountSettings
+          include Google::Apis::Core::Hashable
+        
+          # 
+          # Corresponds to the JSON property `admobReporting`
+          # @return [Boolean]
+          attr_accessor :admob_reporting
+          alias_method :admob_reporting?, :admob_reporting
+        
+          # 
+          # Corresponds to the JSON property `sharingWithGoogleAnySales`
+          # @return [Boolean]
+          attr_accessor :sharing_with_google_any_sales
+          alias_method :sharing_with_google_any_sales?, :sharing_with_google_any_sales
+        
+          # 
+          # Corresponds to the JSON property `sharingWithGoogleProducts`
+          # @return [Boolean]
+          attr_accessor :sharing_with_google_products
+          alias_method :sharing_with_google_products?, :sharing_with_google_products
+        
+          # 
+          # Corresponds to the JSON property `sharingWithGoogleSales`
+          # @return [Boolean]
+          attr_accessor :sharing_with_google_sales
+          alias_method :sharing_with_google_sales?, :sharing_with_google_sales
+        
+          # 
+          # Corresponds to the JSON property `sharingWithGoogleSupport`
+          # @return [Boolean]
+          attr_accessor :sharing_with_google_support
+          alias_method :sharing_with_google_support?, :sharing_with_google_support
+        
+          # 
+          # Corresponds to the JSON property `sharingWithOthers`
+          # @return [Boolean]
+          attr_accessor :sharing_with_others
+          alias_method :sharing_with_others?, :sharing_with_others
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @admob_reporting = args[:admob_reporting] if args.key?(:admob_reporting)
+            @sharing_with_google_any_sales = args[:sharing_with_google_any_sales] if args.key?(:sharing_with_google_any_sales)
+            @sharing_with_google_products = args[:sharing_with_google_products] if args.key?(:sharing_with_google_products)
+            @sharing_with_google_sales = args[:sharing_with_google_sales] if args.key?(:sharing_with_google_sales)
+            @sharing_with_google_support = args[:sharing_with_google_support] if args.key?(:sharing_with_google_support)
+            @sharing_with_others = args[:sharing_with_others] if args.key?(:sharing_with_others)
+          end
+        end
+      end
+      
+      # JSON template for an Analytics account tree response. The account tree
+      # response is used in the provisioning api to return the result of creating an
+      # account, property, and view (profile).
+      class AccountTreeResponse
+        include Google::Apis::Core::Hashable
+      
+        # JSON template for Analytics account entry.
+        # Corresponds to the JSON property `account`
+        # @return [Google::Apis::AnalyticsV3::Account]
+        attr_accessor :account
+      
+        # 
+        # Corresponds to the JSON property `accountSettings`
+        # @return [Google::Apis::AnalyticsV3::AccountTreeResponse::AccountSettings]
+        attr_accessor :account_settings
+      
+        # Resource type for account ticket.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # JSON template for an Analytics view (profile).
+        # Corresponds to the JSON property `profile`
+        # @return [Google::Apis::AnalyticsV3::Profile]
+        attr_accessor :profile
+      
+        # JSON template for an Analytics web property.
+        # Corresponds to the JSON property `webproperty`
+        # @return [Google::Apis::AnalyticsV3::Webproperty]
+        attr_accessor :webproperty
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @account = args[:account] if args.key?(:account)
+          @account_settings = args[:account_settings] if args.key?(:account_settings)
+          @kind = args[:kind] if args.key?(:kind)
+          @profile = args[:profile] if args.key?(:profile)
+          @webproperty = args[:webproperty] if args.key?(:webproperty)
+        end
+        
+        # 
+        class AccountSettings
+          include Google::Apis::Core::Hashable
+        
+          # 
+          # Corresponds to the JSON property `admobReporting`
+          # @return [Boolean]
+          attr_accessor :admob_reporting
+          alias_method :admob_reporting?, :admob_reporting
+        
+          # 
+          # Corresponds to the JSON property `sharingWithGoogleAnySales`
+          # @return [Boolean]
+          attr_accessor :sharing_with_google_any_sales
+          alias_method :sharing_with_google_any_sales?, :sharing_with_google_any_sales
+        
+          # 
+          # Corresponds to the JSON property `sharingWithGoogleProducts`
+          # @return [Boolean]
+          attr_accessor :sharing_with_google_products
+          alias_method :sharing_with_google_products?, :sharing_with_google_products
+        
+          # 
+          # Corresponds to the JSON property `sharingWithGoogleSales`
+          # @return [Boolean]
+          attr_accessor :sharing_with_google_sales
+          alias_method :sharing_with_google_sales?, :sharing_with_google_sales
+        
+          # 
+          # Corresponds to the JSON property `sharingWithGoogleSupport`
+          # @return [Boolean]
+          attr_accessor :sharing_with_google_support
+          alias_method :sharing_with_google_support?, :sharing_with_google_support
+        
+          # 
+          # Corresponds to the JSON property `sharingWithOthers`
+          # @return [Boolean]
+          attr_accessor :sharing_with_others
+          alias_method :sharing_with_others?, :sharing_with_others
+        
+          def initialize(**args)
+             update!(**args)
+          end
+        
+          # Update properties of this object
+          def update!(**args)
+            @admob_reporting = args[:admob_reporting] if args.key?(:admob_reporting)
+            @sharing_with_google_any_sales = args[:sharing_with_google_any_sales] if args.key?(:sharing_with_google_any_sales)
+            @sharing_with_google_products = args[:sharing_with_google_products] if args.key?(:sharing_with_google_products)
+            @sharing_with_google_sales = args[:sharing_with_google_sales] if args.key?(:sharing_with_google_sales)
+            @sharing_with_google_support = args[:sharing_with_google_support] if args.key?(:sharing_with_google_support)
+            @sharing_with_others = args[:sharing_with_others] if args.key?(:sharing_with_others)
+          end
+        end
+      end
+      
       # An account collection provides a list of Analytics accounts to which a user
       # has access. The account collection is the entry point to all management
       # information. Each resource in the collection corresponds to a single Analytics
@@ -589,6 +801,11 @@ module Google
         # @return [Array<String>]
         attr_accessor :profiles_linked
       
+        # Collection of schema headers of the custom data source.
+        # Corresponds to the JSON property `schema`
+        # @return [Array<String>]
+        attr_accessor :schema
+      
         # Link for this Analytics custom data source.
         # Corresponds to the JSON property `selfLink`
         # @return [String]
@@ -604,7 +821,7 @@ module Google
         # @return [DateTime]
         attr_accessor :updated
       
-        # 
+        # Upload type of the custom data source.
         # Corresponds to the JSON property `uploadType`
         # @return [String]
         attr_accessor :upload_type
@@ -631,6 +848,7 @@ module Google
           @name = args[:name] if args.key?(:name)
           @parent_link = args[:parent_link] if args.key?(:parent_link)
           @profiles_linked = args[:profiles_linked] if args.key?(:profiles_linked)
+          @schema = args[:schema] if args.key?(:schema)
           @self_link = args[:self_link] if args.key?(:self_link)
           @type = args[:type] if args.key?(:type)
           @updated = args[:updated] if args.key?(:updated)
@@ -2415,7 +2633,7 @@ module Google
       
         # The last refreshed time in seconds for Analytics data.
         # Corresponds to the JSON property `dataLastRefreshed`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :data_last_refreshed
       
         # 
@@ -2469,12 +2687,12 @@ module Google
       
         # The number of samples used to calculate the result.
         # Corresponds to the JSON property `sampleSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :sample_size
       
         # Total size of the sample space from which the samples were selected.
         # Corresponds to the JSON property `sampleSpace`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :sample_space
       
         # Link to this page.
@@ -2936,7 +3154,7 @@ module Google
           
             # Value used for this comparison.
             # Corresponds to the JSON property `comparisonValue`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :comparison_value
           
             # Expression used for this match.
@@ -3085,7 +3303,7 @@ module Google
         
           # Value used for this comparison.
           # Corresponds to the JSON property `comparisonValue`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :comparison_value
         
           def initialize(**args)
@@ -3110,7 +3328,7 @@ module Google
         
           # Value used for this comparison.
           # Corresponds to the JSON property `comparisonValue`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :comparison_value
         
           def initialize(**args)
@@ -3288,7 +3506,8 @@ module Google
         # @return [String]
         attr_accessor :status
       
-        # The type of the foreign account. For example `ADWORDS_LINKS`.
+        # The type of the foreign account. For example, `ADWORDS_LINKS`, `DBM_LINKS`, `
+        # MCC_LINKS` or `OPTIMIZE`.
         # Corresponds to the JSON property `type`
         # @return [String]
         attr_accessor :type
@@ -3380,12 +3599,12 @@ module Google
       
         # The number of samples used to calculate the result.
         # Corresponds to the JSON property `sampleSize`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :sample_size
       
         # Total size of the sample space from which the samples were selected.
         # Corresponds to the JSON property `sampleSpace`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :sample_space
       
         # Link to this page.
@@ -5025,7 +5244,7 @@ module Google
       
         # Account Id to which this upload belongs.
         # Corresponds to the JSON property `accountId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :account_id
       
         # Custom data source Id to which this data import belongs.
@@ -5053,6 +5272,11 @@ module Google
         # @return [String]
         attr_accessor :status
       
+        # Time this file is uploaded.
+        # Corresponds to the JSON property `uploadTime`
+        # @return [DateTime]
+        attr_accessor :upload_time
+      
         def initialize(**args)
            update!(**args)
         end
@@ -5065,6 +5289,7 @@ module Google
           @id = args[:id] if args.key?(:id)
           @kind = args[:kind] if args.key?(:kind)
           @status = args[:status] if args.key?(:status)
+          @upload_time = args[:upload_time] if args.key?(:upload_time)
         end
       end
       
@@ -5363,7 +5588,7 @@ module Google
       
         # Default view (profile) ID.
         # Corresponds to the JSON property `defaultProfileId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :default_profile_id
       
         # Web property ID of the form UA-XXXXX-YY.

@@ -18,17 +18,16 @@ require 'google/apis/cloudtrace_v1/representations.rb'
 
 module Google
   module Apis
-    # Google Cloud Trace API
+    # Stackdriver Trace API
     #
-    # Send and retrieve trace data from Google Cloud Trace. Data is generated and
-    # available by default for all App Engine applications. Data from other
-    # applications can be written to Cloud Trace for display, reporting, and
-    # analysis.
+    # Sends application trace data to Stackdriver Trace for viewing. Trace data is
+    # collected for all App Engine applications by default. Trace data from other
+    # applications can be provided using this API.
     #
-    # @see https://cloud.google.com/tools/cloud-trace
+    # @see https://cloud.google.com/trace
     module CloudtraceV1
       VERSION = 'V1'
-      REVISION = '20160518'
+      REVISION = '20171106'
 
       # View and manage your data across Google Cloud Platform services
       AUTH_CLOUD_PLATFORM = 'https://www.googleapis.com/auth/cloud-platform'

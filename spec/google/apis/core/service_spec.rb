@@ -16,8 +16,6 @@ require 'spec_helper'
 require 'google/apis/options'
 require 'google/apis/core/base_service'
 require 'google/apis/core/json_representation'
-require 'hurley/test'
-require 'ostruct'
 
 RSpec.describe Google::Apis::Core::BaseService do
   include TestHelpers
@@ -92,6 +90,18 @@ RSpec.describe Google::Apis::Core::BaseService do
         expect(a_request(:post, 'https://www.googleapis.com/zoo/animals')
           .with(body: 'hello')).to have_been_made
       end
+    end
+  end
+
+  context 'with proxy' do
+
+    after(:example) do
+      Google::Apis::ClientOptions.default.proxy_url = nil
+    end
+
+    it 'should allow proxy URLs as strings' do
+      Google::Apis::ClientOptions.default.proxy_url = 'http://gateway.example.com:1234'
+      service.client
     end
   end
 
@@ -186,10 +196,26 @@ EOF
         end
       end.to raise_error(Google::Apis::ClientError)
     end
+
+    it 'should prevent mixing services in batch' do
+      expect do |b|
+        service.batch do |service|
+          command = service.send(:make_simple_command, :get, 'zoo/animals', {})
+          service.send(:execute_or_queue_command, command, &b)
+
+          service2 = service.dup
+          command2 = service.send(:make_simple_command, :get, 'zoo/animals', {})
+          service2.send(:execute_or_queue_command, command2, &b)
+        end
+      end.to raise_error
+
+    end
   end
 
   context 'with batch uploads' do
     before(:example) do
+      allow(SecureRandom).to receive(:uuid).and_return('b1981e17-f622-49af-b2eb-203308b1b17d')
+      allow(Digest::SHA1).to receive(:hexdigest).and_return('outer', 'inner')
       response = <<EOF.gsub(/\n/, "\r\n")
 --batch123
 Content-Type: application/http
@@ -227,6 +253,44 @@ EOF
       end.to yield_with_args('Hello', nil)
     end
 
+    it 'should send nested multipart' do
+      service.batch_upload do |service|
+        command = service.send(:make_upload_command, :post, 'zoo/animals', {})
+        command.upload_source = StringIO.new('test')
+        command.upload_content_type = 'text/plain'
+        service.send(:execute_or_queue_command, command)
+      end
+      expected_body = <<EOF.gsub(/\n/, "\r\n")
+--outer
+Content-Type: application/http
+Content-Id: <b1981e17-f622-49af-b2eb-203308b1b17d+0>
+Content-Length: 303
+Content-Transfer-Encoding: binary
+
+POST /upload/zoo/animals? HTTP/1.1
+Content-Type: multipart/related; boundary=inner
+X-Goog-Upload-Protocol: multipart
+Host: www.googleapis.com
+
+--inner
+Content-Type: application/json
+
+
+--inner
+Content-Type: text/plain
+Content-Length: 4
+Content-Transfer-Encoding: binary
+
+test
+--inner--
+
+
+--outer--
+
+EOF
+      expect(a_request(:put, 'https://www.googleapis.com/upload/').with(body: expected_body)).to have_been_made
+    end
+
     it 'should disallow downloads in batch' do
       expect do |b|
         service.batch_upload do |service|
@@ -248,9 +312,12 @@ EOF
     context 'with fetch_all' do
       let(:responses) do
         data = {}
-        data[nil] = OpenStruct.new(next_page_token: 'p1', items: ['a', 'b', 'c'], alt_items: [1, 2 , 3], singular: 'foo')
-        data['p1'] = OpenStruct.new(next_page_token: 'p2', items: ['d', 'e', 'f'], alt_items: [4, 5, 6], singular: 'bar')
-        data['p2'] = OpenStruct.new(next_page_token: nil, items: ['g', 'h', 'i'], alt_items: [7,8, 9], singular: 'baz')
+        data[nil] = OpenStruct.new(
+          next_page_token: 'p1', alt_page_token: 'p2', items: ['a', 'b', 'c'], alt_items: [1, 2, 3], singular: 'foo', hash_: { 'foo' => 1, 'bar' => 2 })
+        data['p1'] = OpenStruct.new(
+          next_page_token: 'p2', items: ['d', 'e', 'f'], alt_items: [4, 5, 6], singular: 'bar', hash_: nil)
+        data['p2'] = OpenStruct.new(
+          next_page_token: nil, alt_page_token: nil, items: ['g', 'h', 'i'], alt_items: [7, 8, 9], singular: 'baz', hash_: { 'baz' => 3 })
         data
       end
 
@@ -265,6 +332,11 @@ EOF
         expect(items).to contain_exactly('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')
       end
 
+      it 'should allow selecting another field for response page token' do
+        expect(service.fetch_all(response_page_token: :alt_page_token) { |token| responses[token] }
+              ).to contain_exactly('a', 'b', 'c', 'g', 'h', 'i')
+      end
+
       it 'should ignore nil collections' do
         responses['p1'].items = nil
         expect(items).to contain_exactly('a', 'b', 'c', 'g', 'h', 'i')
@@ -276,6 +348,10 @@ EOF
 
       it 'should allow iterating over singular items' do
         expect(service.fetch_all(items: :singular) { |token| responses[token] } ).to contain_exactly('foo', 'bar', 'baz')
+      end
+
+      it 'should collate hash entries' do
+        expect(service.fetch_all(items: :hash_) { |token| responses[token] } ).to contain_exactly(['foo', 1], ['bar', 2], ['baz', 3])
       end
 
       it 'should allow limiting the number of items to fetch' do

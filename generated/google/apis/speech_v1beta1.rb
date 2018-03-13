@@ -20,12 +20,12 @@ module Google
   module Apis
     # Google Cloud Speech API
     #
-    # Google Cloud Speech API.
+    # Converts audio to text by applying powerful neural network models.
     #
     # @see https://cloud.google.com/speech/
     module SpeechV1beta1
       VERSION = 'V1beta1'
-      REVISION = '20161031'
+      REVISION = '20180116'
 
       # View and manage your data across Google Cloud Platform services
       AUTH_CLOUD_PLATFORM = 'https://www.googleapis.com/auth/cloud-platform'

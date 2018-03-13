@@ -50,6 +50,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'books/v1/')
+          @batch_path = 'batch/books/v1'
         end
         
         # Retrieves metadata for a specific bookshelf for the specified user.
@@ -321,6 +322,121 @@ module Google
           command.response_representation = Google::Apis::BooksV1::Metadata::Representation
           command.response_class = Google::Apis::BooksV1::Metadata
           command.query['cpksver'] = cpksver unless cpksver.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Gets information regarding the family that the user is part of.
+        # @param [String] source
+        #   String to identify the originator of this request.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::BooksV1::FamilyInfo] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::BooksV1::FamilyInfo]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def get_familysharing_family_info(source: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'familysharing/getFamilyInfo', options)
+          command.response_representation = Google::Apis::BooksV1::FamilyInfo::Representation
+          command.response_class = Google::Apis::BooksV1::FamilyInfo
+          command.query['source'] = source unless source.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Initiates sharing of the content with the user's family. Empty response
+        # indicates success.
+        # @param [String] doc_id
+        #   The docid to share.
+        # @param [String] source
+        #   String to identify the originator of this request.
+        # @param [String] volume_id
+        #   The volume to share.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [NilClass] No result returned for this method
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [void]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def share_familysharing(doc_id: nil, source: nil, volume_id: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'familysharing/share', options)
+          command.query['docId'] = doc_id unless doc_id.nil?
+          command.query['source'] = source unless source.nil?
+          command.query['volumeId'] = volume_id unless volume_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Initiates revoking content that has already been shared with the user's family.
+        # Empty response indicates success.
+        # @param [String] doc_id
+        #   The docid to unshare.
+        # @param [String] source
+        #   String to identify the originator of this request.
+        # @param [String] volume_id
+        #   The volume to unshare.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [NilClass] No result returned for this method
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [void]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def unshare_familysharing(doc_id: nil, source: nil, volume_id: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:post, 'familysharing/unshare', options)
+          command.query['docId'] = doc_id unless doc_id.nil?
+          command.query['source'] = source unless source.nil?
+          command.query['volumeId'] = volume_id unless volume_id.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -946,6 +1062,8 @@ module Google
         
         # Inserts a new annotation.
         # @param [Google::Apis::BooksV1::Annotation] annotation_object
+        # @param [String] annotation_id
+        #   The ID for the annotation to insert.
         # @param [String] country
         #   ISO-3166-1 code to override the IP-based location.
         # @param [Boolean] show_only_summary_in_response
@@ -974,12 +1092,13 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def insert_my_library_annotation(annotation_object = nil, country: nil, show_only_summary_in_response: nil, source: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def insert_my_library_annotation(annotation_object = nil, annotation_id: nil, country: nil, show_only_summary_in_response: nil, source: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:post, 'mylibrary/annotations', options)
           command.request_representation = Google::Apis::BooksV1::Annotation::Representation
           command.request_object = annotation_object
           command.response_representation = Google::Apis::BooksV1::Annotation::Representation
           command.response_class = Google::Apis::BooksV1::Annotation
+          command.query['annotationId'] = annotation_id unless annotation_id.nil?
           command.query['country'] = country unless country.nil?
           command.query['showOnlySummaryInResponse'] = show_only_summary_in_response unless show_only_summary_in_response.nil?
           command.query['source'] = source unless source.nil?

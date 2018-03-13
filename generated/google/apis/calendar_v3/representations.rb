@@ -88,6 +88,60 @@ module Google
         include Google::Apis::Core::JsonObjectSupport
       end
       
+      class ConferenceData
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ConferenceParameters
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ConferenceParametersAddOnParameters
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ConferenceProperties
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ConferenceRequestStatus
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ConferenceSolution
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class ConferenceSolutionKey
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class CreateConferenceRequest
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
+      class EntryPoint
+        class Representation < Google::Apis::Core::JsonRepresentation; end
+      
+        include Google::Apis::Core::JsonObjectSupport
+      end
+      
       class Error
         class Representation < Google::Apis::Core::JsonRepresentation; end
       
@@ -249,6 +303,8 @@ module Google
       class Calendar
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
+          property :conference_properties, as: 'conferenceProperties', class: Google::Apis::CalendarV3::ConferenceProperties, decorator: Google::Apis::CalendarV3::ConferenceProperties::Representation
+      
           property :description, as: 'description'
           property :etag, as: 'etag'
           property :id, as: 'id'
@@ -277,6 +333,8 @@ module Google
           property :access_role, as: 'accessRole'
           property :background_color, as: 'backgroundColor'
           property :color_id, as: 'colorId'
+          property :conference_properties, as: 'conferenceProperties', class: Google::Apis::CalendarV3::ConferenceProperties, decorator: Google::Apis::CalendarV3::ConferenceProperties::Representation
+      
           collection :default_reminders, as: 'defaultReminders', class: Google::Apis::CalendarV3::EventReminder, decorator: Google::Apis::CalendarV3::EventReminder::Representation
       
           property :deleted, as: 'deleted'
@@ -317,7 +375,7 @@ module Google
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
           property :address, as: 'address'
-          property :expiration, as: 'expiration'
+          property :expiration, :numeric_string => true, as: 'expiration'
           property :id, as: 'id'
           property :kind, as: 'kind'
           hash :params, as: 'params'
@@ -350,6 +408,94 @@ module Google
         end
       end
       
+      class ConferenceData
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :conference_id, as: 'conferenceId'
+          property :conference_solution, as: 'conferenceSolution', class: Google::Apis::CalendarV3::ConferenceSolution, decorator: Google::Apis::CalendarV3::ConferenceSolution::Representation
+      
+          property :create_request, as: 'createRequest', class: Google::Apis::CalendarV3::CreateConferenceRequest, decorator: Google::Apis::CalendarV3::CreateConferenceRequest::Representation
+      
+          collection :entry_points, as: 'entryPoints', class: Google::Apis::CalendarV3::EntryPoint, decorator: Google::Apis::CalendarV3::EntryPoint::Representation
+      
+          property :notes, as: 'notes'
+          property :parameters, as: 'parameters', class: Google::Apis::CalendarV3::ConferenceParameters, decorator: Google::Apis::CalendarV3::ConferenceParameters::Representation
+      
+          property :signature, as: 'signature'
+        end
+      end
+      
+      class ConferenceParameters
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :add_on_parameters, as: 'addOnParameters', class: Google::Apis::CalendarV3::ConferenceParametersAddOnParameters, decorator: Google::Apis::CalendarV3::ConferenceParametersAddOnParameters::Representation
+      
+        end
+      end
+      
+      class ConferenceParametersAddOnParameters
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          hash :parameters, as: 'parameters'
+        end
+      end
+      
+      class ConferenceProperties
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          collection :allowed_conference_solution_types, as: 'allowedConferenceSolutionTypes'
+        end
+      end
+      
+      class ConferenceRequestStatus
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :status_code, as: 'statusCode'
+        end
+      end
+      
+      class ConferenceSolution
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :icon_uri, as: 'iconUri'
+          property :key, as: 'key', class: Google::Apis::CalendarV3::ConferenceSolutionKey, decorator: Google::Apis::CalendarV3::ConferenceSolutionKey::Representation
+      
+          property :name, as: 'name'
+        end
+      end
+      
+      class ConferenceSolutionKey
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :type, as: 'type'
+        end
+      end
+      
+      class CreateConferenceRequest
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :conference_solution_key, as: 'conferenceSolutionKey', class: Google::Apis::CalendarV3::ConferenceSolutionKey, decorator: Google::Apis::CalendarV3::ConferenceSolutionKey::Representation
+      
+          property :request_id, as: 'requestId'
+          property :status, as: 'status', class: Google::Apis::CalendarV3::ConferenceRequestStatus, decorator: Google::Apis::CalendarV3::ConferenceRequestStatus::Representation
+      
+        end
+      end
+      
+      class EntryPoint
+        # @private
+        class Representation < Google::Apis::Core::JsonRepresentation
+          property :access_code, as: 'accessCode'
+          property :entry_point_type, as: 'entryPointType'
+          property :label, as: 'label'
+          property :meeting_code, as: 'meetingCode'
+          property :passcode, as: 'passcode'
+          property :password, as: 'password'
+          property :pin, as: 'pin'
+          property :uri, as: 'uri'
+        end
+      end
+      
       class Error
         # @private
         class Representation < Google::Apis::Core::JsonRepresentation
@@ -368,6 +514,8 @@ module Google
       
           property :attendees_omitted, as: 'attendeesOmitted'
           property :color_id, as: 'colorId'
+          property :conference_data, as: 'conferenceData', class: Google::Apis::CalendarV3::ConferenceData, decorator: Google::Apis::CalendarV3::ConferenceData::Representation
+      
           property :created, as: 'created', type: DateTime
       
           property :creator, as: 'creator', class: Google::Apis::CalendarV3::Event::Creator, decorator: Google::Apis::CalendarV3::Event::Creator::Representation

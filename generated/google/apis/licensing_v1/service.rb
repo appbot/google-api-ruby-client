@@ -22,7 +22,7 @@ module Google
     module LicensingV1
       # Enterprise License Manager API
       #
-      # Licensing API to view and manage license for your domain.
+      # Views and manages licenses for your domain.
       #
       # @example
       #    require 'google/apis/licensing_v1'
@@ -50,6 +50,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'apps/licensing/v1/product/')
+          @batch_path = 'batch/licensing/v1'
         end
         
         # Revoke License.

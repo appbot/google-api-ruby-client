@@ -483,6 +483,77 @@ module Google
       end
       
       # 
+      class AssetShare
+        include Google::Apis::Core::Hashable
+      
+        # The type of the API resource. For this resource, the value is youtubePartner#
+        # assetShare.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # A value that YouTube assigns and uses to uniquely identify the asset share.
+        # Corresponds to the JSON property `shareId`
+        # @return [String]
+        attr_accessor :share_id
+      
+        # A value that YouTube assigns and uses to uniquely identify the asset view.
+        # Corresponds to the JSON property `viewId`
+        # @return [String]
+        attr_accessor :view_id
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @share_id = args[:share_id] if args.key?(:share_id)
+          @view_id = args[:view_id] if args.key?(:view_id)
+        end
+      end
+      
+      # 
+      class AssetShareListResponse
+        include Google::Apis::Core::Hashable
+      
+        # An assetShare resource that matches the request criteria.
+        # Corresponds to the JSON property `items`
+        # @return [Array<Google::Apis::YoutubePartnerV1::AssetShare>]
+        attr_accessor :items
+      
+        # The type of the API response. For this operation, the value is youtubePartner#
+        # assetShareList.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The token that can be used as the value of the pageToken parameter to retrieve
+        # the next page of results.
+        # Corresponds to the JSON property `nextPageToken`
+        # @return [String]
+        attr_accessor :next_page_token
+      
+        # The pageInfo object encapsulates paging information for the result set.
+        # Corresponds to the JSON property `pageInfo`
+        # @return [Google::Apis::YoutubePartnerV1::PageInfo]
+        attr_accessor :page_info
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @items = args[:items] if args.key?(:items)
+          @kind = args[:kind] if args.key?(:kind)
+          @next_page_token = args[:next_page_token] if args.key?(:next_page_token)
+          @page_info = args[:page_info] if args.key?(:page_info)
+        end
+      end
+      
+      # 
       class AssetSnippet
         include Google::Apis::Core::Hashable
       
@@ -872,17 +943,17 @@ module Google
           
             # The duration of the longest match between the reference and the user video.
             # Corresponds to the JSON property `durationSecs`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :duration_secs
           
             # The offset in seconds into the reference at which the longest match began.
             # Corresponds to the JSON property `referenceOffset`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :reference_offset
           
             # The offset in seconds into the user video at which the longest match began.
             # Corresponds to the JSON property `userVideoOffset`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :user_video_offset
           
             def initialize(**args)
@@ -906,13 +977,13 @@ module Google
             # The total amount of content in the reference which matched the user video in
             # seconds.
             # Corresponds to the JSON property `referenceDurationSecs`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :reference_duration_secs
           
             # The total amount of content in the user video which matched the reference in
             # seconds.
             # Corresponds to the JSON property `userVideoDurationSecs`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :user_video_duration_secs
           
             def initialize(**args)
@@ -1267,7 +1338,7 @@ module Google
       
         # Number of views for the claimed video.
         # Corresponds to the JSON property `videoViews`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :video_views
       
         def initialize(**args)
@@ -1620,7 +1691,7 @@ module Google
         # Note: If your broadcast had a testing phase, the offset is measured from the
         # time that the testing phase began.
         # Corresponds to the JSON property `offsetTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :offset_time_ms
       
         # This value specifies the wall clock time at which the cuepoint should be
@@ -2539,6 +2610,131 @@ module Google
       end
       
       # 
+      class Package
+        include Google::Apis::Core::Hashable
+      
+        # The package's metadata file contents.
+        # Corresponds to the JSON property `content`
+        # @return [String]
+        attr_accessor :content
+      
+        # The list of customer IDs.
+        # Corresponds to the JSON property `customIds`
+        # @return [Array<String>]
+        attr_accessor :custom_ids
+      
+        # An ID that YouTube assigns and uses to uniquely identify the package.
+        # Corresponds to the JSON property `id`
+        # @return [String]
+        attr_accessor :id
+      
+        # The type of the API resource. For package resources, this value is
+        # youtubePartner#package.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The desired locale of the error messages as defined in BCP 47 (http://tools.
+        # ietf.org/html/bcp47). For example, "en-US" or "de". If not specified we will
+        # return the error messages in English ("en").
+        # Corresponds to the JSON property `locale`
+        # @return [String]
+        attr_accessor :locale
+      
+        # The package name.
+        # Corresponds to the JSON property `name`
+        # @return [String]
+        attr_accessor :name
+      
+        # The package status.
+        # Corresponds to the JSON property `status`
+        # @return [String]
+        attr_accessor :status
+      
+        # The package status reports.
+        # Corresponds to the JSON property `statusReports`
+        # @return [Array<Google::Apis::YoutubePartnerV1::StatusReport>]
+        attr_accessor :status_reports
+      
+        # The package creation time. The value is specified in RFC 3339 (YYYY-MM-DDThh:
+        # mm:ss.000Z) format.
+        # Corresponds to the JSON property `timeCreated`
+        # @return [DateTime]
+        attr_accessor :time_created
+      
+        # The package type.
+        # Corresponds to the JSON property `type`
+        # @return [String]
+        attr_accessor :type
+      
+        # The uploader name.
+        # Corresponds to the JSON property `uploaderName`
+        # @return [String]
+        attr_accessor :uploader_name
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @content = args[:content] if args.key?(:content)
+          @custom_ids = args[:custom_ids] if args.key?(:custom_ids)
+          @id = args[:id] if args.key?(:id)
+          @kind = args[:kind] if args.key?(:kind)
+          @locale = args[:locale] if args.key?(:locale)
+          @name = args[:name] if args.key?(:name)
+          @status = args[:status] if args.key?(:status)
+          @status_reports = args[:status_reports] if args.key?(:status_reports)
+          @time_created = args[:time_created] if args.key?(:time_created)
+          @type = args[:type] if args.key?(:type)
+          @uploader_name = args[:uploader_name] if args.key?(:uploader_name)
+        end
+      end
+      
+      # 
+      class PackageInsertResponse
+        include Google::Apis::Core::Hashable
+      
+        # The list of errors and/or warnings.
+        # Corresponds to the JSON property `errors`
+        # @return [Array<Google::Apis::YoutubePartnerV1::ValidateError>]
+        attr_accessor :errors
+      
+        # The type of the API response. For this operation, the value is youtubePartner#
+        # packageInsert.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The package resource.
+        # Corresponds to the JSON property `resource`
+        # @return [Google::Apis::YoutubePartnerV1::Package]
+        attr_accessor :resource
+      
+        # The package insert status. Indicates whether the insert operation completed
+        # successfully or identifies the general cause of failure. For most cases where
+        # the insert operation failed, the errors are described in the API response's
+        # errors object. However, if the operation failed because the package contained
+        # non-metadata files, the errors object is not included in the response.
+        # Corresponds to the JSON property `status`
+        # @return [String]
+        attr_accessor :status
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @errors = args[:errors] if args.key?(:errors)
+          @kind = args[:kind] if args.key?(:kind)
+          @resource = args[:resource] if args.key?(:resource)
+          @status = args[:status] if args.key?(:status)
+        end
+      end
+      
+      # 
       class PageInfo
         include Google::Apis::Core::Hashable
       
@@ -2840,7 +3036,8 @@ module Google
         attr_accessor :content_type
       
         # The ID that uniquely identifies the reference that this reference duplicates.
-        # This field is only present if the reference's status is duplicate_on_hold.
+        # This field is only present if the reference's status is inactive with reason
+        # REASON_DUPLICATE_FOR_OWNERS.
         # Corresponds to the JSON property `duplicateLeader`
         # @return [String]
         attr_accessor :duplicate_leader
@@ -3053,17 +3250,17 @@ module Google
       
         # Conflicting reference offset in milliseconds.
         # Corresponds to the JSON property `conflicting_reference_offset_ms`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :conflicting_reference_offset_ms
       
         # Match length in milliseconds.
         # Corresponds to the JSON property `length_ms`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :length_ms
       
         # Original reference offset in milliseconds.
         # Corresponds to the JSON property `original_reference_offset_ms`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :original_reference_offset_ms
       
         # The referenceConflictMatch's type.
@@ -3275,7 +3472,7 @@ module Google
       
         # The duration of the segment in milliseconds.
         # Corresponds to the JSON property `duration`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :duration
       
         # The type of the API resource. For segment resources, the value is
@@ -3286,7 +3483,7 @@ module Google
       
         # The start time of the segment, measured in milliseconds from the beginning.
         # Corresponds to the JSON property `start`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :start
       
         def initialize(**args)
@@ -3339,6 +3536,83 @@ module Google
       end
       
       # 
+      class SpreadsheetTemplate
+        include Google::Apis::Core::Hashable
+      
+        # The type of the API resource. For spreadsheet template resources, the value is
+        # youtubePartner#spreadsheetTemplate.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The template status.
+        # Corresponds to the JSON property `status`
+        # @return [String]
+        attr_accessor :status
+      
+        # The template content.
+        # Corresponds to the JSON property `templateContent`
+        # @return [String]
+        attr_accessor :template_content
+      
+        # The template name.
+        # Corresponds to the JSON property `templateName`
+        # @return [String]
+        attr_accessor :template_name
+      
+        # The template type.
+        # Corresponds to the JSON property `templateType`
+        # @return [String]
+        attr_accessor :template_type
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @status = args[:status] if args.key?(:status)
+          @template_content = args[:template_content] if args.key?(:template_content)
+          @template_name = args[:template_name] if args.key?(:template_name)
+          @template_type = args[:template_type] if args.key?(:template_type)
+        end
+      end
+      
+      # 
+      class SpreadsheetTemplateListResponse
+        include Google::Apis::Core::Hashable
+      
+        # A list of spreadsheet templates (youtubePartner#spreadsheetTemplate) resources
+        # that match the request criteria.
+        # Corresponds to the JSON property `items`
+        # @return [Array<Google::Apis::YoutubePartnerV1::SpreadsheetTemplate>]
+        attr_accessor :items
+      
+        # The type of the API response. For this operation, the value is youtubePartner#
+        # spreadsheetTemplateList.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The status of the API response.
+        # Corresponds to the JSON property `status`
+        # @return [String]
+        attr_accessor :status
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @items = args[:items] if args.key?(:items)
+          @kind = args[:kind] if args.key?(:kind)
+          @status = args[:status] if args.key?(:status)
+        end
+      end
+      
+      # 
       class StateCompleted
         include Google::Apis::Core::Hashable
       
@@ -3349,7 +3623,7 @@ module Google
       
         # The time that the state transition occurred.
         # Corresponds to the JSON property `timeCompleted`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :time_completed
       
         def initialize(**args)
@@ -3360,6 +3634,31 @@ module Google
         def update!(**args)
           @state = args[:state] if args.key?(:state)
           @time_completed = args[:time_completed] if args.key?(:time_completed)
+        end
+      end
+      
+      # 
+      class StatusReport
+        include Google::Apis::Core::Hashable
+      
+        # The content of the report message. Used only in Hybrid.
+        # Corresponds to the JSON property `statusContent`
+        # @return [String]
+        attr_accessor :status_content
+      
+        # Status file name. Used only in Hybrid.
+        # Corresponds to the JSON property `statusFileName`
+        # @return [String]
+        attr_accessor :status_file_name
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @status_content = args[:status_content] if args.key?(:status_content)
+          @status_file_name = args[:status_file_name] if args.key?(:status_file_name)
         end
       end
       
@@ -3464,6 +3763,123 @@ module Google
           @ratio = args[:ratio] if args.key?(:ratio)
           @territories = args[:territories] if args.key?(:territories)
           @type = args[:type] if args.key?(:type)
+        end
+      end
+      
+      # 
+      class Uploader
+        include Google::Apis::Core::Hashable
+      
+        # The type of the API resource. For uploader resources, the value is
+        # youtubePartner#uploader.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The uploader name.
+        # Corresponds to the JSON property `uploaderName`
+        # @return [String]
+        attr_accessor :uploader_name
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @uploader_name = args[:uploader_name] if args.key?(:uploader_name)
+        end
+      end
+      
+      # 
+      class UploaderListResponse
+        include Google::Apis::Core::Hashable
+      
+        # A list of uploader (youtubePartner#uploader) resources that match the request
+        # criteria.
+        # Corresponds to the JSON property `items`
+        # @return [Array<Google::Apis::YoutubePartnerV1::Uploader>]
+        attr_accessor :items
+      
+        # The type of the API response. For this operation, the value is youtubePartner#
+        # uploaderList.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @items = args[:items] if args.key?(:items)
+          @kind = args[:kind] if args.key?(:kind)
+        end
+      end
+      
+      # 
+      class ValidateAsyncRequest
+        include Google::Apis::Core::Hashable
+      
+        # The metadata file contents.
+        # Corresponds to the JSON property `content`
+        # @return [String]
+        attr_accessor :content
+      
+        # The type of the API resource. For this operation, the value is youtubePartner#
+        # validateAsyncRequest.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The uploader name.
+        # Corresponds to the JSON property `uploaderName`
+        # @return [String]
+        attr_accessor :uploader_name
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @content = args[:content] if args.key?(:content)
+          @kind = args[:kind] if args.key?(:kind)
+          @uploader_name = args[:uploader_name] if args.key?(:uploader_name)
+        end
+      end
+      
+      # 
+      class ValidateAsyncResponse
+        include Google::Apis::Core::Hashable
+      
+        # The type of the API resource. For this operation, the value is youtubePartner#
+        # validateAsyncResponse.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The validation status.
+        # Corresponds to the JSON property `status`
+        # @return [String]
+        attr_accessor :status
+      
+        # The validation ID.
+        # Corresponds to the JSON property `validationId`
+        # @return [String]
+        attr_accessor :validation_id
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @status = args[:status] if args.key?(:status)
+          @validation_id = args[:validation_id] if args.key?(:validation_id)
         end
       end
       
@@ -3583,6 +3999,79 @@ module Google
         # Update properties of this object
         def update!(**args)
           @errors = args[:errors] if args.key?(:errors)
+          @kind = args[:kind] if args.key?(:kind)
+          @status = args[:status] if args.key?(:status)
+        end
+      end
+      
+      # 
+      class ValidateStatusRequest
+        include Google::Apis::Core::Hashable
+      
+        # The type of the API resource. For this operation, the value is youtubePartner#
+        # validateStatusRequest.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The desired locale of the error messages as defined in BCP 47 (http://tools.
+        # ietf.org/html/bcp47). For example, "en-US" or "de". If not specified we will
+        # return the error messages in English ("en").
+        # Corresponds to the JSON property `locale`
+        # @return [String]
+        attr_accessor :locale
+      
+        # The validation ID.
+        # Corresponds to the JSON property `validationId`
+        # @return [String]
+        attr_accessor :validation_id
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @kind = args[:kind] if args.key?(:kind)
+          @locale = args[:locale] if args.key?(:locale)
+          @validation_id = args[:validation_id] if args.key?(:validation_id)
+        end
+      end
+      
+      # 
+      class ValidateStatusResponse
+        include Google::Apis::Core::Hashable
+      
+        # The list of errors and/or warnings.
+        # Corresponds to the JSON property `errors`
+        # @return [Array<Google::Apis::YoutubePartnerV1::ValidateError>]
+        attr_accessor :errors
+      
+        # If this is a metadata-only package.
+        # Corresponds to the JSON property `isMetadataOnly`
+        # @return [Boolean]
+        attr_accessor :is_metadata_only
+        alias_method :is_metadata_only?, :is_metadata_only
+      
+        # The type of the API resource. For this operation, the value is youtubePartner#
+        # validateStatusResponse.
+        # Corresponds to the JSON property `kind`
+        # @return [String]
+        attr_accessor :kind
+      
+        # The validation status.
+        # Corresponds to the JSON property `status`
+        # @return [String]
+        attr_accessor :status
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @errors = args[:errors] if args.key?(:errors)
+          @is_metadata_only = args[:is_metadata_only] if args.key?(:is_metadata_only)
           @kind = args[:kind] if args.key?(:kind)
           @status = args[:status] if args.key?(:status)
         end

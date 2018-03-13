@@ -18,18 +18,23 @@ require 'google/apis/dataflow_v1b3/representations.rb'
 
 module Google
   module Apis
-    # Google Dataflow API
+    # Dataflow API
     #
-    # Develops and executes data processing patterns like ETL, batch computation,
-    # and continuous computation.
+    # Manages Google Cloud Dataflow projects on Google Cloud Platform.
     #
     # @see https://cloud.google.com/dataflow
     module DataflowV1b3
       VERSION = 'V1b3'
-      REVISION = '20160928'
+      REVISION = '20180220'
 
       # View and manage your data across Google Cloud Platform services
       AUTH_CLOUD_PLATFORM = 'https://www.googleapis.com/auth/cloud-platform'
+
+      # View and manage your Google Compute Engine resources
+      AUTH_COMPUTE = 'https://www.googleapis.com/auth/compute'
+
+      # View your Google Compute Engine resources
+      AUTH_COMPUTE_READONLY = 'https://www.googleapis.com/auth/compute.readonly'
 
       # View your email address
       AUTH_USERINFO_EMAIL = 'https://www.googleapis.com/auth/userinfo.email'

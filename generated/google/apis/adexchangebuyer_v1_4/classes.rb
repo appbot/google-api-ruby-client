@@ -26,6 +26,15 @@ module Google
       class Account
         include Google::Apis::Core::Hashable
       
+        # When this is false, bid requests that include a deal ID for a private auction
+        # or preferred deal are always sent to your bidder. When true, all active
+        # pretargeting configs will be applied to private auctions and preferred deals.
+        # Programmatic Guaranteed deals (when enabled) are always sent to your bidder.
+        # Corresponds to the JSON property `applyPretargetingToNonGuaranteedDeals`
+        # @return [Boolean]
+        attr_accessor :apply_pretargeting_to_non_guaranteed_deals
+        alias_method :apply_pretargeting_to_non_guaranteed_deals?, :apply_pretargeting_to_non_guaranteed_deals
+      
         # Your bidder locations that have distinct URLs.
         # Corresponds to the JSON property `bidderLocation`
         # @return [Array<Google::Apis::AdexchangebuyerV1_4::Account::BidderLocation>]
@@ -77,6 +86,7 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @apply_pretargeting_to_non_guaranteed_deals = args[:apply_pretargeting_to_non_guaranteed_deals] if args.key?(:apply_pretargeting_to_non_guaranteed_deals)
           @bidder_location = args[:bidder_location] if args.key?(:bidder_location)
           @cookie_matching_nid = args[:cookie_matching_nid] if args.key?(:cookie_matching_nid)
           @cookie_matching_url = args[:cookie_matching_url] if args.key?(:cookie_matching_url)
@@ -91,15 +101,17 @@ module Google
         class BidderLocation
           include Google::Apis::Core::Hashable
         
-          # The protocol that the bidder endpoint is using. By default, OpenRTB protocols
-          # use JSON, except PROTOCOL_OPENRTB_PROTOBUF. PROTOCOL_OPENRTB_PROTOBUF uses
-          # protobuf encoding over the latest OpenRTB protocol version, which is 2.4 right
-          # now. Allowed values:
+          # The protocol that the bidder endpoint is using. OpenRTB protocols with prefix
+          # PROTOCOL_OPENRTB_PROTOBUF use proto buffer, otherwise use JSON.  Allowed
+          # values:
           # - PROTOCOL_ADX
           # - PROTOCOL_OPENRTB_2_2
           # - PROTOCOL_OPENRTB_2_3
           # - PROTOCOL_OPENRTB_2_4
-          # - PROTOCOL_OPENRTB_PROTOBUF
+          # - PROTOCOL_OPENRTB_2_5
+          # - PROTOCOL_OPENRTB_PROTOBUF_2_3
+          # - PROTOCOL_OPENRTB_PROTOBUF_2_4
+          # - PROTOCOL_OPENRTB_PROTOBUF_2_5
           # Corresponds to the JSON property `bidProtocol`
           # @return [String]
           attr_accessor :bid_protocol
@@ -176,7 +188,7 @@ module Google
       
         # The last known proposal revision number.
         # Corresponds to the JSON property `proposalRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :proposal_revision_number
       
         # Indicates an optional action to take on the proposal
@@ -207,7 +219,7 @@ module Google
       
         # The updated revision number for the proposal.
         # Corresponds to the JSON property `proposalRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :proposal_revision_number
       
         def initialize(**args)
@@ -330,19 +342,19 @@ module Google
       
         # The id of the account. This is required for get and update requests.
         # Corresponds to the JSON property `accountId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :account_id
       
         # The billing id to determine which adgroup to provide budget information for.
         # This is required for get and update requests.
         # Corresponds to the JSON property `billingId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :billing_id
       
         # The daily budget amount in unit amount of the account currency to apply for
         # the billingId provided. This is required for update requests.
         # Corresponds to the JSON property `budgetAmount`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :budget_amount
       
         # The currency code for the buyer. This cannot be altered here.
@@ -468,7 +480,7 @@ module Google
         include Google::Apis::Core::Hashable
       
         # The HTML snippet that displays the ad when inserted in the web page. If set,
-        # videoURL should not be set.
+        # videoURL, videoVastXML, and nativeAd should not be set.
         # Corresponds to the JSON property `HTMLSnippet`
         # @return [String]
         attr_accessor :html_snippet
@@ -486,17 +498,18 @@ module Google
         # Detected advertiser id, if any. Read-only. This field should not be set in
         # requests.
         # Corresponds to the JSON property `advertiserId`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :advertiser_id
       
-        # The name of the company being advertised in the creative.
+        # The name of the company being advertised in the creative. The value provided
+        # must exist in the advertisers.txt file.
         # Corresponds to the JSON property `advertiserName`
         # @return [String]
         attr_accessor :advertiser_name
       
         # The agency id for this creative.
         # Corresponds to the JSON property `agencyId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :agency_id
       
         # The last upload timestamp of this creative if it was uploaded via API. Read-
@@ -506,7 +519,9 @@ module Google
         # @return [DateTime]
         attr_accessor :api_upload_timestamp
       
-        # All attributes for the ads that may be shown from this snippet.
+        # List of buyer selectable attributes for the ads that may be shown from this
+        # snippet. Each attribute is represented by an integer as defined in  buyer-
+        # declarable-creative-attributes.txt.
         # Corresponds to the JSON property `attribute`
         # @return [Array<Fixnum>]
         attr_accessor :attribute
@@ -569,8 +584,8 @@ module Google
         # @return [Array<String>]
         attr_accessor :languages
       
-        # If nativeAd is set, HTMLSnippet and the videoURL outside of nativeAd should
-        # not be set. (The videoURL inside nativeAd can be set.)
+        # If nativeAd is set, HTMLSnippet, videoVastXML, and the videoURL outside of
+        # nativeAd should not be set. (The videoURL inside nativeAd can be set.)
         # Corresponds to the JSON property `nativeAd`
         # @return [Google::Apis::AdexchangebuyerV1_4::Creative::NativeAd]
         attr_accessor :native_ad
@@ -584,19 +599,23 @@ module Google
         # @return [String]
         attr_accessor :open_auction_status
       
-        # Detected product categories, if any. Read-only. This field should not be set
-        # in requests.
+        # Detected product categories, if any. Each category is represented by an
+        # integer as defined in  ad-product-categories.txt. Read-only. This field should
+        # not be set in requests.
         # Corresponds to the JSON property `productCategories`
         # @return [Array<Fixnum>]
         attr_accessor :product_categories
       
         # All restricted categories for the ads that may be shown from this snippet.
+        # Each category is represented by an integer as defined in the  ad-restricted-
+        # categories.txt.
         # Corresponds to the JSON property `restrictedCategories`
         # @return [Array<Fixnum>]
         attr_accessor :restricted_categories
       
-        # Detected sensitive categories, if any. Read-only. This field should not be set
-        # in requests.
+        # Detected sensitive categories, if any. Each category is represented by an
+        # integer as defined in  ad-sensitive-categories.txt. Read-only. This field
+        # should not be set in requests.
         # Corresponds to the JSON property `sensitiveCategories`
         # @return [Array<Fixnum>]
         attr_accessor :sensitive_categories
@@ -604,12 +623,14 @@ module Google
         # The granular status of this ad in specific contexts. A context here relates to
         # where something ultimately serves (for example, a physical location, a
         # platform, an HTTPS vs HTTP request, or the type of auction). Read-only. This
-        # field should not be set in requests.
+        # field should not be set in requests. See the examples in the Creatives guide
+        # for more details.
         # Corresponds to the JSON property `servingRestrictions`
         # @return [Array<Google::Apis::AdexchangebuyerV1_4::Creative::ServingRestriction>]
         attr_accessor :serving_restrictions
       
-        # All vendor types for the ads that may be shown from this snippet.
+        # List of vendor types for the ads that may be shown from this snippet. Each
+        # vendor type is represented by an integer as defined in vendors.txt.
         # Corresponds to the JSON property `vendorType`
         # @return [Array<Fixnum>]
         attr_accessor :vendor_type
@@ -620,11 +641,19 @@ module Google
         # @return [Fixnum]
         attr_accessor :version
       
-        # The URL to fetch a video ad. If set, HTMLSnippet and the nativeAd should not
-        # be set. Note, this is different from resource.native_ad.video_url above.
+        # The URL to fetch a video ad. If set, HTMLSnippet, videoVastXML, and nativeAd
+        # should not be set. Note, this is different from resource.native_ad.video_url
+        # above.
         # Corresponds to the JSON property `videoURL`
         # @return [String]
         attr_accessor :video_url
+      
+        # The contents of a VAST document for a video ad. This document should conform
+        # to the VAST 2.0 or 3.0 standard. If set, HTMLSnippet, videoURL, and nativeAd
+        # and should not be set.
+        # Corresponds to the JSON property `videoVastXML`
+        # @return [String]
+        attr_accessor :video_vast_xml
       
         # Ad width.
         # Corresponds to the JSON property `width`
@@ -664,6 +693,7 @@ module Google
           @vendor_type = args[:vendor_type] if args.key?(:vendor_type)
           @version = args[:version] if args.key?(:version)
           @video_url = args[:video_url] if args.key?(:video_url)
+          @video_vast_xml = args[:video_vast_xml] if args.key?(:video_vast_xml)
           @width = args[:width] if args.key?(:width)
         end
         
@@ -771,11 +801,10 @@ module Google
             # The number of times the creative was filtered for the status. The count is
             # aggregated across all publishers on the exchange.
             # Corresponds to the JSON property `filteringCount`
-            # @return [String]
+            # @return [Fixnum]
             attr_accessor :filtering_count
           
-            # The filtering status code. Please refer to the creative-status-codes.txt file
-            # for different statuses.
+            # The filtering status code as defined in  creative-status-codes.txt.
             # Corresponds to the JSON property `filteringStatus`
             # @return [Fixnum]
             attr_accessor :filtering_status
@@ -792,8 +821,8 @@ module Google
           end
         end
         
-        # If nativeAd is set, HTMLSnippet and the videoURL outside of nativeAd should
-        # not be set. (The videoURL inside nativeAd can be set.)
+        # If nativeAd is set, HTMLSnippet, videoVastXML, and the videoURL outside of
+        # nativeAd should not be set. (The videoURL inside nativeAd can be set.)
         class NativeAd
           include Google::Apis::Core::Hashable
         
@@ -1035,7 +1064,8 @@ module Google
             attr_accessor :context_type
           
             # Only set when contextType=LOCATION. Represents the geo criterias this
-            # restriction applies to.
+            # restriction applies to. Impressions are considered to match a context if
+            # either the user location or publisher location matches a given geoCriteriaId.
             # Corresponds to the JSON property `geoCriteriaId`
             # @return [Array<Fixnum>]
             attr_accessor :geo_criteria_id
@@ -1121,7 +1151,7 @@ module Google
         
           # External deal ID.
           # Corresponds to the JSON property `dealId`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :deal_id
         
           # Publisher ID.
@@ -1180,6 +1210,14 @@ module Google
       class DealServingMetadata
         include Google::Apis::Core::Hashable
       
+        # True if alcohol ads are allowed for this deal (read-only). This field is only
+        # populated when querying for finalized orders using the method
+        # GetFinalizedOrderDeals
+        # Corresponds to the JSON property `alcoholAdsAllowed`
+        # @return [Boolean]
+        attr_accessor :alcohol_ads_allowed
+        alias_method :alcohol_ads_allowed?, :alcohol_ads_allowed
+      
         # Tracks which parties (if any) have paused a deal. The deal is considered
         # paused if has_buyer_paused || has_seller_paused. Each of the has_buyer_paused
         # or the has_seller_paused bits can be set independently.
@@ -1193,6 +1231,7 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @alcohol_ads_allowed = args[:alcohol_ads_allowed] if args.key?(:alcohol_ads_allowed)
           @deal_pause_status = args[:deal_pause_status] if args.key?(:deal_pause_status)
         end
       end
@@ -1274,7 +1313,7 @@ module Google
         # Non-binding estimate of the impressions served per day Can be set by buyer or
         # seller.
         # Corresponds to the JSON property `estimatedImpressionsPerDay`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :estimated_impressions_per_day
       
         # The terms for guaranteed fixed price deals.
@@ -1340,19 +1379,19 @@ module Google
         # Guaranteed impressions as a percentage. This is the percentage of guaranteed
         # looks that the buyer is guaranteeing to buy.
         # Corresponds to the JSON property `guaranteedImpressions`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :guaranteed_impressions
       
         # Count of guaranteed looks. Required for deal, optional for product. For CPD
         # deals, buyer changes to guaranteed_looks will be ignored.
         # Corresponds to the JSON property `guaranteedLooks`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :guaranteed_looks
       
         # Count of minimum daily looks for a CPD deal. For CPD deals, buyer should
         # negotiate on this field instead of guaranteed_looks.
         # Corresponds to the JSON property `minimumDailyLooks`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :minimum_daily_looks
       
         def initialize(**args)
@@ -1375,15 +1414,15 @@ module Google
       
         # The timestamp (in ms since epoch) when the original reservation price for the
         # deal was first converted to DFP currency. This is used to convert the
-        # contracted price into advertiser's currency without discrepancy.
+        # contracted price into buyer's currency without discrepancy.
         # Corresponds to the JSON property `currencyConversionTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :currency_conversion_time_ms
       
         # The DFP line item id associated with this deal. For features like CPD, buyers
         # can retrieve the DFP line item for billing reconciliation.
         # Corresponds to the JSON property `dfpLineItemId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :dfp_line_item_id
       
         # The original contracted quantity (# impressions) for this deal. To ensure
@@ -1391,7 +1430,7 @@ module Google
         # such that guaranteed_looks is greater than the contracted quantity. However
         # clients are billed using the original contracted quantity.
         # Corresponds to the JSON property `originalContractedQuantity`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :original_contracted_quantity
       
         # The original reservation price for the deal, if the currency code is different
@@ -1495,7 +1534,7 @@ module Google
       
         # The last known proposal revision number.
         # Corresponds to the JSON property `proposalRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :proposal_revision_number
       
         # Indicates an optional action to take on the proposal
@@ -1526,7 +1565,7 @@ module Google
       
         # The updated revision number for the proposal.
         # Corresponds to the JSON property `proposalRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :proposal_revision_number
       
         def initialize(**args)
@@ -1695,7 +1734,7 @@ module Google
       
         # The last known revision number for the proposal.
         # Corresponds to the JSON property `proposalRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :proposal_revision_number
       
         # Indicates an optional action to take on the proposal
@@ -1727,7 +1766,7 @@ module Google
       
         # The latest revision number after the update has been applied.
         # Corresponds to the JSON property `orderRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :order_revision_number
       
         def initialize(**args)
@@ -1851,7 +1890,7 @@ module Google
       
         # The time (ms since epoch) of the deal creation. (readonly)
         # Corresponds to the JSON property `creationTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :creation_time_ms
       
         # Specifies the creative pre-approval policy (buyer-readonly)
@@ -1892,16 +1931,16 @@ module Google
         # Proposed flight end time of the deal (ms since epoch) This will generally be
         # stored in a granularity of a second. (updatable)
         # Corresponds to the JSON property `flightEndTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :flight_end_time_ms
       
         # Proposed flight start time of the deal (ms since epoch) This will generally be
         # stored in a granularity of a second. (updatable)
         # Corresponds to the JSON property `flightStartTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :flight_start_time_ms
       
-        # Description for the deal terms. (updatable)
+        # Description for the deal terms. (buyer-readonly)
         # Corresponds to the JSON property `inventoryDescription`
         # @return [String]
         attr_accessor :inventory_description
@@ -1913,6 +1952,13 @@ module Google
         attr_accessor :is_rfp_template
         alias_method :is_rfp_template?, :is_rfp_template
       
+        # True, if the buyside inventory setup is complete for this deal. (readonly,
+        # except via OrderSetupCompleted action)
+        # Corresponds to the JSON property `isSetupComplete`
+        # @return [Boolean]
+        attr_accessor :is_setup_complete
+        alias_method :is_setup_complete?, :is_setup_complete
+      
         # Identifies what kind of resource this is. Value: the fixed string "
         # adexchangebuyer#marketplaceDeal".
         # Corresponds to the JSON property `kind`
@@ -1921,7 +1967,7 @@ module Google
       
         # The time (ms since epoch) when the deal was last updated. (readonly)
         # Corresponds to the JSON property `lastUpdateTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :last_update_time_ms
       
         # The name of the deal. (updatable)
@@ -1937,7 +1983,7 @@ module Google
         # The revision number of the product that the deal was created from (readonly,
         # except on create)
         # Corresponds to the JSON property `productRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :product_revision_number
       
         # Specifies the creative source for programmatic deals, PUBLISHER means creative
@@ -1996,6 +2042,7 @@ module Google
           @flight_start_time_ms = args[:flight_start_time_ms] if args.key?(:flight_start_time_ms)
           @inventory_description = args[:inventory_description] if args.key?(:inventory_description)
           @is_rfp_template = args[:is_rfp_template] if args.key?(:is_rfp_template)
+          @is_setup_complete = args[:is_setup_complete] if args.key?(:is_setup_complete)
           @kind = args[:kind] if args.key?(:kind)
           @last_update_time_ms = args[:last_update_time_ms] if args.key?(:last_update_time_ms)
           @name = args[:name] if args.key?(:name)
@@ -2049,7 +2096,7 @@ module Google
       
         # The creation time (in ms since epoch) for the label.
         # Corresponds to the JSON property `createTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :create_time_ms
       
         # Information about the party that created the label.
@@ -2114,12 +2161,12 @@ module Google
         # If the note is associated with a proposal revision number, then store that
         # here. (readonly, except on create)
         # Corresponds to the JSON property `proposalRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :proposal_revision_number
       
         # The timestamp (ms since epoch) that this note was created. (readonly)
         # Corresponds to the JSON property `timestampMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :timestamp_ms
       
         def initialize(**args)
@@ -2252,7 +2299,7 @@ module Google
       
         # The unix timestamp of the starting time of this performance data.
         # Corresponds to the JSON property `timestamp`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :timestamp
       
         # The number of bid responses that were unsuccessful due to timeouts, incorrect
@@ -2324,13 +2371,13 @@ module Google
         # The id for billing purposes, provided for reference. Leave this field blank
         # for insert requests; the id will be generated automatically.
         # Corresponds to the JSON property `billingId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :billing_id
       
         # The config id; generated automatically. Leave this field blank for insert
         # requests.
         # Corresponds to the JSON property `configId`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :config_id
       
         # The name of the config. Must be unique. Required for all requests.
@@ -2353,12 +2400,12 @@ module Google
         # Requests with any of these content labels will not match. Values are from
         # content-labels.txt in the downloadable files section.
         # Corresponds to the JSON property `excludedContentLabels`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :excluded_content_labels
       
         # Requests containing any of these geo criteria ids will not match.
         # Corresponds to the JSON property `excludedGeoCriteriaIds`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :excluded_geo_criteria_ids
       
         # Requests containing any of these placements will not match.
@@ -2368,18 +2415,18 @@ module Google
       
         # Requests containing any of these users list ids will not match.
         # Corresponds to the JSON property `excludedUserLists`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :excluded_user_lists
       
         # Requests containing any of these vertical ids will not match. Values are from
         # the publisher-verticals.txt file in the downloadable files section.
         # Corresponds to the JSON property `excludedVerticals`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :excluded_verticals
       
         # Requests containing any of these geo criteria ids will match.
         # Corresponds to the JSON property `geoCriteriaIds`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :geo_criteria_ids
       
         # Whether this config is active. Required for all requests.
@@ -2398,22 +2445,30 @@ module Google
         # @return [Array<String>]
         attr_accessor :languages
       
+        # Requests where the predicted viewability is below the specified decile will
+        # not match. E.g. if the buyer sets this value to 5, requests from slots where
+        # the predicted viewability is below 50% will not match. If the predicted
+        # viewability is unknown this field will be ignored.
+        # Corresponds to the JSON property `minimumViewabilityDecile`
+        # @return [Fixnum]
+        attr_accessor :minimum_viewability_decile
+      
         # Requests containing any of these mobile carrier ids will match. Values are
         # from mobile-carriers.csv in the downloadable files section.
         # Corresponds to the JSON property `mobileCarriers`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :mobile_carriers
       
         # Requests containing any of these mobile device ids will match. Values are from
         # mobile-devices.csv in the downloadable files section.
         # Corresponds to the JSON property `mobileDevices`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :mobile_devices
       
         # Requests containing any of these mobile operating system version ids will
         # match. Values are from mobile-os.csv in the downloadable files section.
         # Corresponds to the JSON property `mobileOperatingSystemVersions`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :mobile_operating_system_versions
       
         # Requests containing any of these placements will match.
@@ -2432,7 +2487,7 @@ module Google
         # this pretargeting configuration have that creative attribute. Values are from
         # pretargetable-creative-attributes.txt in the downloadable files section.
         # Corresponds to the JSON property `supportedCreativeAttributes`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :supported_creative_attributes
       
         # Requests containing the specified type of user data will match. Possible
@@ -2445,18 +2500,18 @@ module Google
       
         # Requests containing any of these user list ids will match.
         # Corresponds to the JSON property `userLists`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :user_lists
       
         # Requests that allow any of these vendor ids will match. Values are from
         # vendors.txt in the downloadable files section.
         # Corresponds to the JSON property `vendorTypes`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :vendor_types
       
         # Requests containing any of these vertical ids will match.
         # Corresponds to the JSON property `verticals`
-        # @return [Array<String>]
+        # @return [Array<Fixnum>]
         attr_accessor :verticals
       
         # Video requests satisfying any of these player size constraints will match.
@@ -2484,6 +2539,7 @@ module Google
           @is_active = args[:is_active] if args.key?(:is_active)
           @kind = args[:kind] if args.key?(:kind)
           @languages = args[:languages] if args.key?(:languages)
+          @minimum_viewability_decile = args[:minimum_viewability_decile] if args.key?(:minimum_viewability_decile)
           @mobile_carriers = args[:mobile_carriers] if args.key?(:mobile_carriers)
           @mobile_devices = args[:mobile_devices] if args.key?(:mobile_devices)
           @mobile_operating_system_versions = args[:mobile_operating_system_versions] if args.key?(:mobile_operating_system_versions)
@@ -2503,12 +2559,12 @@ module Google
         
           # Height in pixels.
           # Corresponds to the JSON property `height`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :height
         
           # Width in pixels.
           # Corresponds to the JSON property `width`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :width
         
           def initialize(**args)
@@ -2588,13 +2644,13 @@ module Google
           # The minimum player height in pixels. Leave this field blank to match any
           # player height.
           # Corresponds to the JSON property `minHeight`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :min_height
         
           # The minimum player width in pixels. Leave this field blank to match any player
           # width.
           # Corresponds to the JSON property `minWidth`
-          # @return [String]
+          # @return [Fixnum]
           attr_accessor :min_width
         
           def initialize(**args)
@@ -2672,12 +2728,11 @@ module Google
         end
       end
       
-      # Used to specify pricing rules for buyers/advertisers. Each PricePerBuyer in an
-      # product can become [0,1] deals. To check if there is a PricePerBuyer for a
-      # particular buyer or buyer/advertiser pair, we look for the most specific
-      # matching rule - we first look for a rule matching the buyer and advertiser,
-      # next a rule with the buyer but an empty advertiser list, and otherwise look
-      # for a matching rule where no buyer is set.
+      # Used to specify pricing rules for buyers. Each PricePerBuyer in a product can
+      # become [0,1] deals. To check if there is a PricePerBuyer for a particular
+      # buyer we look for the most specific matching rule - we first look for a rule
+      # matching the buyer and otherwise look for a matching rule where no buyer is
+      # set.
       class PricePerBuyer
         include Google::Apis::Core::Hashable
       
@@ -2685,6 +2740,11 @@ module Google
         # Corresponds to the JSON property `auctionTier`
         # @return [String]
         attr_accessor :auction_tier
+      
+        # Reference to the buyer that will get billed.
+        # Corresponds to the JSON property `billedBuyer`
+        # @return [Google::Apis::AdexchangebuyerV1_4::Buyer]
+        attr_accessor :billed_buyer
       
         # The buyer who will pay this price. If unset, all buyers can pay this price (if
         # the advertisers match, and there's no more specific rule matching the buyer).
@@ -2704,6 +2764,7 @@ module Google
         # Update properties of this object
         def update!(**args)
           @auction_tier = args[:auction_tier] if args.key?(:auction_tier)
+          @billed_buyer = args[:billed_buyer] if args.key?(:billed_buyer)
           @buyer = args[:buyer] if args.key?(:buyer)
           @price = args[:price] if args.key?(:price)
         end
@@ -2720,6 +2781,7 @@ module Google
       
         # 
         # Corresponds to the JSON property `referencePayload`
+        # NOTE: Values are automatically base64 encoded/decoded in the client library.
         # @return [String]
         attr_accessor :reference_payload
       
@@ -2745,15 +2807,32 @@ module Google
       class Product
         include Google::Apis::Core::Hashable
       
+        # The billed buyer corresponding to the buyer that created the offer. (readonly,
+        # except on create)
+        # Corresponds to the JSON property `billedBuyer`
+        # @return [Google::Apis::AdexchangebuyerV1_4::Buyer]
+        attr_accessor :billed_buyer
+      
+        # The buyer that created the offer if this is a buyer initiated offer (readonly,
+        # except on create)
+        # Corresponds to the JSON property `buyer`
+        # @return [Google::Apis::AdexchangebuyerV1_4::Buyer]
+        attr_accessor :buyer
+      
         # Creation time in ms. since epoch (readonly)
         # Corresponds to the JSON property `creationTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :creation_time_ms
       
         # Optional contact information for the creator of this product. (buyer-readonly)
         # Corresponds to the JSON property `creatorContacts`
         # @return [Array<Google::Apis::AdexchangebuyerV1_4::ContactInformation>]
         attr_accessor :creator_contacts
+      
+        # The role that created the offer. Set to BUYER for buyer initiated offers.
+        # Corresponds to the JSON property `creatorRole`
+        # @return [String]
+        attr_accessor :creator_role
       
         # The set of fields around delivery control that are interesting for a buyer to
         # see but are non-negotiable. These are set by the publisher. This message is
@@ -2765,13 +2844,13 @@ module Google
       
         # The proposed end time for the deal (ms since epoch) (buyer-readonly)
         # Corresponds to the JSON property `flightEndTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :flight_end_time_ms
       
         # Inventory availability dates. (times are in ms since epoch) The granularity is
         # generally in the order of seconds. (buyer-readonly)
         # Corresponds to the JSON property `flightStartTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :flight_start_time_ms
       
         # If the creator has already signed off on the product, then the buyer can
@@ -2801,13 +2880,21 @@ module Google
       
         # Time of last update in ms. since epoch (readonly)
         # Corresponds to the JSON property `lastUpdateTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :last_update_time_ms
       
         # Optional legacy offer id if this offer is a preferred deal offer.
         # Corresponds to the JSON property `legacyOfferId`
         # @return [String]
         attr_accessor :legacy_offer_id
+      
+        # Marketplace publisher profile Id. This Id differs from the regular
+        # publisher_profile_id in that 1. This is a new id, the old Id will be
+        # deprecated in 2017. 2. This id uniquely identifies a publisher profile by
+        # itself.
+        # Corresponds to the JSON property `marketplacePublisherProfileId`
+        # @return [String]
+        attr_accessor :marketplace_publisher_profile_id
       
         # The name for this product as set by the seller. (buyer-readonly)
         # Corresponds to the JSON property `name`
@@ -2839,7 +2926,7 @@ module Google
       
         # The revision number of the product. (readonly)
         # Corresponds to the JSON property `revisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :revision_number
       
         # Information about the seller that created this product (readonly, except on
@@ -2882,8 +2969,11 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @billed_buyer = args[:billed_buyer] if args.key?(:billed_buyer)
+          @buyer = args[:buyer] if args.key?(:buyer)
           @creation_time_ms = args[:creation_time_ms] if args.key?(:creation_time_ms)
           @creator_contacts = args[:creator_contacts] if args.key?(:creator_contacts)
+          @creator_role = args[:creator_role] if args.key?(:creator_role)
           @delivery_control = args[:delivery_control] if args.key?(:delivery_control)
           @flight_end_time_ms = args[:flight_end_time_ms] if args.key?(:flight_end_time_ms)
           @flight_start_time_ms = args[:flight_start_time_ms] if args.key?(:flight_start_time_ms)
@@ -2893,6 +2983,7 @@ module Google
           @labels = args[:labels] if args.key?(:labels)
           @last_update_time_ms = args[:last_update_time_ms] if args.key?(:last_update_time_ms)
           @legacy_offer_id = args[:legacy_offer_id] if args.key?(:legacy_offer_id)
+          @marketplace_publisher_profile_id = args[:marketplace_publisher_profile_id] if args.key?(:marketplace_publisher_profile_id)
           @name = args[:name] if args.key?(:name)
           @private_auction_id = args[:private_auction_id] if args.key?(:private_auction_id)
           @product_id = args[:product_id] if args.key?(:product_id)
@@ -2971,7 +3062,8 @@ module Google
         alias_method :is_renegotiating?, :is_renegotiating
       
         # True, if the buyside inventory setup is complete for this proposal. (readonly,
-        # except via OrderSetupCompleted action)
+        # except via OrderSetupCompleted action) Deprecated in favor of deal level setup
+        # complete flag.
         # Corresponds to the JSON property `isSetupComplete`
         # @return [Boolean]
         attr_accessor :is_setup_complete
@@ -3026,12 +3118,12 @@ module Google
       
         # The revision number for the proposal (readonly).
         # Corresponds to the JSON property `revisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :revision_number
       
         # The time (ms since epoch) when the proposal was last revised (readonly).
         # Corresponds to the JSON property `revisionTimeMs`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :revision_time_ms
       
         # Reference to the seller on the proposal. (readonly, except on create)
@@ -3080,7 +3172,7 @@ module Google
       class PublisherProfileApiProto
         include Google::Apis::Core::Hashable
       
-        # The account id of the seller.
+        # Deprecated: use the seller.account_id. The account id of the seller.
         # Corresponds to the JSON property `accountId`
         # @return [String]
         attr_accessor :account_id
@@ -3244,12 +3336,12 @@ module Google
       
         # Publisher provided weekly impressions.
         # Corresponds to the JSON property `weeklyImpressions`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :weekly_impressions
       
         # Publisher provided weekly uniques.
         # Corresponds to the JSON property `weeklyUniques`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :weekly_uniques
       
         def initialize(**args)
@@ -3326,7 +3418,7 @@ module Google
       class TargetingValue
         include Google::Apis::Core::Hashable
       
-        # The creative size value to exclude/include.
+        # Next Id: 7
         # Corresponds to the JSON property `creativeSizeValue`
         # @return [Google::Apis::AdexchangebuyerV1_4::TargetingValueCreativeSize]
         attr_accessor :creative_size_value
@@ -3337,9 +3429,19 @@ module Google
         # @return [Google::Apis::AdexchangebuyerV1_4::TargetingValueDayPartTargeting]
         attr_accessor :day_part_targeting_value
       
+        # 
+        # Corresponds to the JSON property `demogAgeCriteriaValue`
+        # @return [Google::Apis::AdexchangebuyerV1_4::TargetingValueDemogAgeCriteria]
+        attr_accessor :demog_age_criteria_value
+      
+        # 
+        # Corresponds to the JSON property `demogGenderCriteriaValue`
+        # @return [Google::Apis::AdexchangebuyerV1_4::TargetingValueDemogGenderCriteria]
+        attr_accessor :demog_gender_criteria_value
+      
         # The long value to exclude/include.
         # Corresponds to the JSON property `longValue`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :long_value
       
         # The string value to exclude/include.
@@ -3355,14 +3457,21 @@ module Google
         def update!(**args)
           @creative_size_value = args[:creative_size_value] if args.key?(:creative_size_value)
           @day_part_targeting_value = args[:day_part_targeting_value] if args.key?(:day_part_targeting_value)
+          @demog_age_criteria_value = args[:demog_age_criteria_value] if args.key?(:demog_age_criteria_value)
+          @demog_gender_criteria_value = args[:demog_gender_criteria_value] if args.key?(:demog_gender_criteria_value)
           @long_value = args[:long_value] if args.key?(:long_value)
           @string_value = args[:string_value] if args.key?(:string_value)
         end
       end
       
-      # 
+      # Next Id: 7
       class TargetingValueCreativeSize
         include Google::Apis::Core::Hashable
+      
+        # The formats allowed by the publisher.
+        # Corresponds to the JSON property `allowedFormats`
+        # @return [Array<String>]
+        attr_accessor :allowed_formats
       
         # For video size type, the list of companion sizes.
         # Corresponds to the JSON property `companionSizes`
@@ -3373,6 +3482,11 @@ module Google
         # Corresponds to the JSON property `creativeSizeType`
         # @return [String]
         attr_accessor :creative_size_type
+      
+        # The native template for native ad.
+        # Corresponds to the JSON property `nativeTemplate`
+        # @return [String]
+        attr_accessor :native_template
       
         # For regular or video creative size type, specifies the size of the creative.
         # Corresponds to the JSON property `size`
@@ -3390,8 +3504,10 @@ module Google
       
         # Update properties of this object
         def update!(**args)
+          @allowed_formats = args[:allowed_formats] if args.key?(:allowed_formats)
           @companion_sizes = args[:companion_sizes] if args.key?(:companion_sizes)
           @creative_size_type = args[:creative_size_type] if args.key?(:creative_size_type)
+          @native_template = args[:native_template] if args.key?(:native_template)
           @size = args[:size] if args.key?(:size)
           @skippable_ad_type = args[:skippable_ad_type] if args.key?(:skippable_ad_type)
         end
@@ -3466,6 +3582,44 @@ module Google
       end
       
       # 
+      class TargetingValueDemogAgeCriteria
+        include Google::Apis::Core::Hashable
+      
+        # 
+        # Corresponds to the JSON property `demogAgeCriteriaIds`
+        # @return [Array<String>]
+        attr_accessor :demog_age_criteria_ids
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @demog_age_criteria_ids = args[:demog_age_criteria_ids] if args.key?(:demog_age_criteria_ids)
+        end
+      end
+      
+      # 
+      class TargetingValueDemogGenderCriteria
+        include Google::Apis::Core::Hashable
+      
+        # 
+        # Corresponds to the JSON property `demogGenderCriteriaIds`
+        # @return [Array<String>]
+        attr_accessor :demog_gender_criteria_ids
+      
+        def initialize(**args)
+           update!(**args)
+        end
+      
+        # Update properties of this object
+        def update!(**args)
+          @demog_gender_criteria_ids = args[:demog_gender_criteria_ids] if args.key?(:demog_gender_criteria_ids)
+        end
+      end
+      
+      # 
       class TargetingValueSize
         include Google::Apis::Core::Hashable
       
@@ -3507,7 +3661,7 @@ module Google
       
         # The current revision number of the proposal to be updated.
         # Corresponds to the JSON property `proposalRevisionNumber`
-        # @return [String]
+        # @return [Fixnum]
         attr_accessor :proposal_revision_number
       
         # The proposed action on the private auction proposal.

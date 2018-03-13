@@ -51,6 +51,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'youtube/v3/')
+          @batch_path = 'batch/youtube/v3'
         end
         
         # Posts a bulletin for a specific channel. (The user submitting the request must
@@ -522,6 +523,15 @@ module Google
         # Set the brandingSettings.image.bannerExternalUrl property's value to the URL
         # obtained in step 2.
         # @param [Google::Apis::YoutubeV3::ChannelBannerResource] channel_banner_resource_object
+        # @param [String] channel_id
+        #   The channelId parameter identifies the YouTube channel to which the banner is
+        #   uploaded. The channelId parameter was introduced as a required parameter in
+        #   May 2017. As this was a backward-incompatible change, channelBanners.insert
+        #   requests that do not specify this parameter will not return an error until six
+        #   months have passed from the time that the parameter was introduced. Please see
+        #   the API Terms of Service for the official policy regarding backward
+        #   incompatible changes and the API revision history for the exact date that the
+        #   parameter was introduced.
         # @param [String] on_behalf_of_content_owner
         #   Note: This parameter is intended exclusively for YouTube content partners.
         #   The onBehalfOfContentOwner parameter indicates that the request's
@@ -557,7 +567,7 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def insert_channel_banner(channel_banner_resource_object = nil, on_behalf_of_content_owner: nil, fields: nil, quota_user: nil, user_ip: nil, upload_source: nil, content_type: nil, options: nil, &block)
+        def insert_channel_banner(channel_banner_resource_object = nil, channel_id: nil, on_behalf_of_content_owner: nil, fields: nil, quota_user: nil, user_ip: nil, upload_source: nil, content_type: nil, options: nil, &block)
           if upload_source.nil?
             command =  make_simple_command(:post, 'channelBanners/insert', options)
           else
@@ -569,6 +579,7 @@ module Google
           command.request_object = channel_banner_resource_object
           command.response_representation = Google::Apis::YoutubeV3::ChannelBannerResource::Representation
           command.response_class = Google::Apis::YoutubeV3::ChannelBannerResource
+          command.query['channelId'] = channel_id unless channel_id.nil?
           command.query['onBehalfOfContentOwner'] = on_behalf_of_content_owner unless on_behalf_of_content_owner.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
@@ -1680,7 +1691,7 @@ module Google
         # @param [Boolean] display_slate
         #   The displaySlate parameter specifies whether the slate is being enabled or
         #   disabled.
-        # @param [String] offset_time_ms
+        # @param [Fixnum] offset_time_ms
         #   The offsetTimeMs parameter specifies a positive time offset when the specified
         #   slate change will occur. The value is measured in milliseconds from the
         #   beginning of the broadcast's monitor stream, which is the time that the
@@ -3726,6 +3737,61 @@ module Google
           execute_or_queue_command(command, &block)
         end
         
+        # Lists Super Chat events for a channel.
+        # @param [String] part
+        #   The part parameter specifies the superChatEvent resource parts that the API
+        #   response will include. Supported values are id and snippet.
+        # @param [String] hl
+        #   The hl parameter instructs the API to retrieve localized resource metadata for
+        #   a specific application language that the YouTube website supports. The
+        #   parameter value must be a language code included in the list returned by the
+        #   i18nLanguages.list method.
+        #   If localized resource details are available in that language, the resource's
+        #   snippet.localized object will contain the localized values. However, if
+        #   localized details are not available, the snippet.localized object will contain
+        #   resource details in the resource's default language.
+        # @param [Fixnum] max_results
+        #   The maxResults parameter specifies the maximum number of items that should be
+        #   returned in the result set.
+        # @param [String] page_token
+        #   The pageToken parameter identifies a specific page in the result set that
+        #   should be returned. In an API response, the nextPageToken and prevPageToken
+        #   properties identify other pages that could be retrieved.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::YoutubeV3::SuperChatEventListResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::YoutubeV3::SuperChatEventListResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def list_super_chat_events(part, hl: nil, max_results: nil, page_token: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'superChatEvents', options)
+          command.response_representation = Google::Apis::YoutubeV3::SuperChatEventListResponse::Representation
+          command.response_class = Google::Apis::YoutubeV3::SuperChatEventListResponse
+          command.query['hl'] = hl unless hl.nil?
+          command.query['maxResults'] = max_results unless max_results.nil?
+          command.query['pageToken'] = page_token unless page_token.nil?
+          command.query['part'] = part unless part.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
         # Uploads a custom video thumbnail to YouTube and sets it for a video.
         # @param [String] video_id
         #   The videoId parameter specifies a YouTube video ID for which the custom video
@@ -4098,8 +4164,8 @@ module Google
         # @param [Fixnum] max_results
         #   The maxResults parameter specifies the maximum number of items that should be
         #   returned in the result set.
-        #   Note: This parameter is supported for use in conjunction with the myRating
-        #   parameter, but it is not supported for use in conjunction with the id
+        #   Note: This parameter is supported for use in conjunction with the myRating and
+        #   chart parameters, but it is not supported for use in conjunction with the id
         #   parameter.
         # @param [Fixnum] max_width
         #   The maxWidth parameter specifies a maximum width of the embedded player. If
@@ -4122,8 +4188,8 @@ module Google
         #   The pageToken parameter identifies a specific page in the result set that
         #   should be returned. In an API response, the nextPageToken and prevPageToken
         #   properties identify other pages that could be retrieved.
-        #   Note: This parameter is supported for use in conjunction with the myRating
-        #   parameter, but it is not supported for use in conjunction with the id
+        #   Note: This parameter is supported for use in conjunction with the myRating and
+        #   chart parameters, but it is not supported for use in conjunction with the id
         #   parameter.
         # @param [String] region_code
         #   The regionCode parameter instructs the API to select a video chart available

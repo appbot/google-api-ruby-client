@@ -343,7 +343,7 @@
 "/calendar:v3/EventReminder/method": reminder_method
 "/calendar:v3/calendar.events.instances": list_event_instances
 "/calendar:v3/calendar.events.quickAdd": quick_add_event
-/civicinfo:v2/DivisionSearchResponse": search_division_response
+"/civicinfo:v2/DivisionSearchResponse": search_division_response
 "/civicinfo:v2/ElectionsQueryResponse": query_elections_response
 "/civicinfo:v2/civicinfo.divisions.search": search_divisions
 "/civicinfo:v2/civicinfo.elections.electionQuery": query_election
@@ -621,6 +621,7 @@
 "/dataproc:v1/dataproc.projects.regions.operations.delete": delete_operation
 "/dataflow:v1b3/dataflow.projects.jobs.workItems.lease": lease_project_work_item
 "/dataflow:v1b3/dataflow.projects.locations.jobs.workItems.lease": lease_project_location_work_item
+"/dataflow:v1b3/dataflow.projects.locations.templates.create": create_job_from_template_with_location
 "/datastore:v1beta2/AllocateIdsRequest": allocate_ids_request
 "/datastore:v1beta2/AllocateIdsResponse": allocate_ids_response
 "/datastore:v1beta2/BeginTransactionRequest": begin_transaction_request
@@ -939,6 +940,7 @@
 "/resourceviews:v1beta2/ZoneViewsListResourcesResponse": list_resources_response
 "/resourceviews:v1beta2/ZoneViewsRemoveResourcesRequest": remove_resources_request
 "/resourceviews:v1beta2/ZoneViewsSetServiceRequest": set_service_request
+"/servicemanagement:v1/servicemanagement.services.getConfig": get_service_configuration
 "/siteVerification:v1/SiteVerificationWebResourceGettokenRequest": get_web_resource_token_request
 "/siteVerification:v1/SiteVerificationWebResourceGettokenResponse": get_web_resource_token_response
 "/siteVerification:v1/SiteVerificationWebResourceGettokenResponse/method": verification_method

@@ -50,6 +50,7 @@ module Google
 
         def initialize
           super('https://www.googleapis.com/', 'bigquery/v2/')
+          @batch_path = 'batch/bigquery/v2'
         end
         
         # Deletes the dataset specified by the datasetId value. Before you can delete a
@@ -316,6 +317,9 @@ module Google
         #   [Required] Project ID of the job to cancel
         # @param [String] job_id
         #   [Required] Job ID of the job to cancel
+        # @param [String] location
+        #   [Experimental] The geographic location of the job. Required except for US and
+        #   EU.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -337,12 +341,13 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def cancel_job(project_id, job_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def cancel_job(project_id, job_id, location: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:post, 'projects/{projectId}/jobs/{jobId}/cancel', options)
           command.response_representation = Google::Apis::BigqueryV2::CancelJobResponse::Representation
           command.response_class = Google::Apis::BigqueryV2::CancelJobResponse
           command.params['projectId'] = project_id unless project_id.nil?
           command.params['jobId'] = job_id unless job_id.nil?
+          command.query['location'] = location unless location.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -356,6 +361,9 @@ module Google
         #   [Required] Project ID of the requested job
         # @param [String] job_id
         #   [Required] Job ID of the requested job
+        # @param [String] location
+        #   [Experimental] The geographic location of the job. Required except for US and
+        #   EU.
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -377,12 +385,13 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_job(project_id, job_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def get_job(project_id, job_id, location: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'projects/{projectId}/jobs/{jobId}', options)
           command.response_representation = Google::Apis::BigqueryV2::Job::Representation
           command.response_class = Google::Apis::BigqueryV2::Job
           command.params['projectId'] = project_id unless project_id.nil?
           command.params['jobId'] = job_id unless job_id.nil?
+          command.query['location'] = location unless location.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
@@ -394,11 +403,14 @@ module Google
         #   [Required] Project ID of the query job
         # @param [String] job_id
         #   [Required] Job ID of the query job
+        # @param [String] location
+        #   [Experimental] The geographic location where the job should run. Required
+        #   except for US and EU.
         # @param [Fixnum] max_results
         #   Maximum number of results to read
         # @param [String] page_token
         #   Page token, returned by a previous call, to request the next page of results
-        # @param [String] start_index
+        # @param [Fixnum] start_index
         #   Zero-based index of the starting row
         # @param [Fixnum] timeout_ms
         #   How long to wait for the query to complete, in milliseconds, before returning.
@@ -425,12 +437,13 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_job_query_results(project_id, job_id, max_results: nil, page_token: nil, start_index: nil, timeout_ms: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def get_job_query_results(project_id, job_id, location: nil, max_results: nil, page_token: nil, start_index: nil, timeout_ms: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'projects/{projectId}/queries/{jobId}', options)
           command.response_representation = Google::Apis::BigqueryV2::GetQueryResultsResponse::Representation
           command.response_class = Google::Apis::BigqueryV2::GetQueryResultsResponse
           command.params['projectId'] = project_id unless project_id.nil?
           command.params['jobId'] = job_id unless job_id.nil?
+          command.query['location'] = location unless location.nil?
           command.query['maxResults'] = max_results unless max_results.nil?
           command.query['pageToken'] = page_token unless page_token.nil?
           command.query['startIndex'] = start_index unless start_index.nil?
@@ -497,8 +510,14 @@ module Google
         #   Project ID of the jobs to list
         # @param [Boolean] all_users
         #   Whether to display jobs owned by all users in the project. Default false
+        # @param [Fixnum] max_creation_time
+        #   Max value for job creation time, in milliseconds since the POSIX epoch. If set,
+        #   only jobs created before or at this timestamp are returned
         # @param [Fixnum] max_results
         #   Maximum number of results to return
+        # @param [Fixnum] min_creation_time
+        #   Min value for job creation time, in milliseconds since the POSIX epoch. If set,
+        #   only jobs created after or at this timestamp are returned
         # @param [String] page_token
         #   Page token, returned by a previous call, to request the next page of results
         # @param [String] projection
@@ -526,13 +545,15 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_jobs(project_id, all_users: nil, max_results: nil, page_token: nil, projection: nil, state_filter: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def list_jobs(project_id, all_users: nil, max_creation_time: nil, max_results: nil, min_creation_time: nil, page_token: nil, projection: nil, state_filter: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'projects/{projectId}/jobs', options)
           command.response_representation = Google::Apis::BigqueryV2::JobList::Representation
           command.response_class = Google::Apis::BigqueryV2::JobList
           command.params['projectId'] = project_id unless project_id.nil?
           command.query['allUsers'] = all_users unless all_users.nil?
+          command.query['maxCreationTime'] = max_creation_time unless max_creation_time.nil?
           command.query['maxResults'] = max_results unless max_results.nil?
+          command.query['minCreationTime'] = min_creation_time unless min_creation_time.nil?
           command.query['pageToken'] = page_token unless page_token.nil?
           command.query['projection'] = projection unless projection.nil?
           command.query['stateFilter'] = state_filter unless state_filter.nil?
@@ -574,6 +595,42 @@ module Google
           command.request_object = query_request_object
           command.response_representation = Google::Apis::BigqueryV2::QueryResponse::Representation
           command.response_class = Google::Apis::BigqueryV2::QueryResponse
+          command.params['projectId'] = project_id unless project_id.nil?
+          command.query['fields'] = fields unless fields.nil?
+          command.query['quotaUser'] = quota_user unless quota_user.nil?
+          command.query['userIp'] = user_ip unless user_ip.nil?
+          execute_or_queue_command(command, &block)
+        end
+        
+        # Returns the email address of the service account for your project used for
+        # interactions with Google Cloud KMS.
+        # @param [String] project_id
+        #   Project ID for which the service account is requested.
+        # @param [String] fields
+        #   Selector specifying which fields to include in a partial response.
+        # @param [String] quota_user
+        #   Available to use for quota purposes for server-side applications. Can be any
+        #   arbitrary string assigned to a user, but should not exceed 40 characters.
+        #   Overrides userIp if both are provided.
+        # @param [String] user_ip
+        #   IP address of the site where the request originates. Use this if you want to
+        #   enforce per-user limits.
+        # @param [Google::Apis::RequestOptions] options
+        #   Request-specific options
+        #
+        # @yield [result, err] Result & error if block supplied
+        # @yieldparam result [Google::Apis::BigqueryV2::GetServiceAccountResponse] parsed result object
+        # @yieldparam err [StandardError] error object if request failed
+        #
+        # @return [Google::Apis::BigqueryV2::GetServiceAccountResponse]
+        #
+        # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
+        # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
+        # @raise [Google::Apis::AuthorizationError] Authorization is required
+        def get_project_service_account(project_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+          command =  make_simple_command(:get, 'projects/{projectId}/serviceAccount', options)
+          command.response_representation = Google::Apis::BigqueryV2::GetServiceAccountResponse::Representation
+          command.response_class = Google::Apis::BigqueryV2::GetServiceAccountResponse
           command.params['projectId'] = project_id unless project_id.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
@@ -676,7 +733,10 @@ module Google
         #   Maximum number of results to return
         # @param [String] page_token
         #   Page token, returned by a previous call, identifying the result set
-        # @param [String] start_index
+        # @param [String] selected_fields
+        #   List of fields to return (comma-separated). If unspecified, all fields are
+        #   returned
+        # @param [Fixnum] start_index
         #   Zero-based index of the starting row to read
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
@@ -699,7 +759,7 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def list_table_data(project_id, dataset_id, table_id, max_results: nil, page_token: nil, start_index: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def list_table_data(project_id, dataset_id, table_id, max_results: nil, page_token: nil, selected_fields: nil, start_index: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'projects/{projectId}/datasets/{datasetId}/tables/{tableId}/data', options)
           command.response_representation = Google::Apis::BigqueryV2::TableDataList::Representation
           command.response_class = Google::Apis::BigqueryV2::TableDataList
@@ -708,6 +768,7 @@ module Google
           command.params['tableId'] = table_id unless table_id.nil?
           command.query['maxResults'] = max_results unless max_results.nil?
           command.query['pageToken'] = page_token unless page_token.nil?
+          command.query['selectedFields'] = selected_fields unless selected_fields.nil?
           command.query['startIndex'] = start_index unless start_index.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
@@ -764,6 +825,9 @@ module Google
         #   Dataset ID of the requested table
         # @param [String] table_id
         #   Table ID of the requested table
+        # @param [String] selected_fields
+        #   List of fields to return (comma-separated). If unspecified, all fields are
+        #   returned
         # @param [String] fields
         #   Selector specifying which fields to include in a partial response.
         # @param [String] quota_user
@@ -785,13 +849,14 @@ module Google
         # @raise [Google::Apis::ServerError] An error occurred on the server and the request can be retried
         # @raise [Google::Apis::ClientError] The request is invalid and should not be retried without modification
         # @raise [Google::Apis::AuthorizationError] Authorization is required
-        def get_table(project_id, dataset_id, table_id, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
+        def get_table(project_id, dataset_id, table_id, selected_fields: nil, fields: nil, quota_user: nil, user_ip: nil, options: nil, &block)
           command =  make_simple_command(:get, 'projects/{projectId}/datasets/{datasetId}/tables/{tableId}', options)
           command.response_representation = Google::Apis::BigqueryV2::Table::Representation
           command.response_class = Google::Apis::BigqueryV2::Table
           command.params['projectId'] = project_id unless project_id.nil?
           command.params['datasetId'] = dataset_id unless dataset_id.nil?
           command.params['tableId'] = table_id unless table_id.nil?
+          command.query['selectedFields'] = selected_fields unless selected_fields.nil?
           command.query['fields'] = fields unless fields.nil?
           command.query['quotaUser'] = quota_user unless quota_user.nil?
           command.query['userIp'] = user_ip unless user_ip.nil?
